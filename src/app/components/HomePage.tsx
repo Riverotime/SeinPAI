@@ -131,62 +131,21 @@ export default function HomePage() {
           </div>
         </section>
 
-        {/* Lifestyle Images Bento Grid */}
+        {/* Lifestyle Images Grid */}
         <section className="py-16">
-          <div className="grid grid-cols-4 gap-4 auto-rows-[120px]">
-
-            {/* 1. 大图 - 占2列3行 */}
-            <div className="col-span-2 row-span-3 relative rounded-2xl overflow-hidden cursor-pointer
-                          transition-all duration-300 hover:scale-[1.02] hover:shadow-xl">
-              <img src={lifestyleImages[0].src} alt={lifestyleImages[0].alt} className="w-full h-full object-cover" />
-            </div>
-
-            {/* 2. 小图 */}
-            <div className="rounded-2xl overflow-hidden cursor-pointer transition-all duration-300 hover:scale-[1.02] hover:shadow-lg">
-              <img src={lifestyleImages[1].src} alt={lifestyleImages[1].alt} className="w-full h-full object-cover" />
-            </div>
-
-            {/* 3. 小图 */}
-            <div className="rounded-2xl overflow-hidden cursor-pointer transition-all duration-300 hover:scale-[1.02] hover:shadow-lg">
-              <img src={lifestyleImages[2].src} alt={lifestyleImages[2].alt} className="w-full h-full object-cover" />
-            </div>
-
-            {/* 4. 宽图 - 占2列 */}
-            <div className="col-span-2 rounded-2xl overflow-hidden cursor-pointer transition-all duration-300 hover:scale-[1.02] hover:shadow-lg">
-              <img src={lifestyleImages[3].src} alt={lifestyleImages[3].alt} className="w-full h-full object-cover" />
-            </div>
-
-            {/* 5. 小图 */}
-            <div className="rounded-2xl overflow-hidden cursor-pointer transition-all duration-300 hover:scale-[1.02] hover:shadow-lg">
-              <img src={lifestyleImages[4].src} alt={lifestyleImages[4].alt} className="w-full h-full object-cover" />
-            </div>
-
-            {/* 6. 小图 */}
-            <div className="rounded-2xl overflow-hidden cursor-pointer transition-all duration-300 hover:scale-[1.02] hover:shadow-lg">
-              <img src={lifestyleImages[5].src} alt={lifestyleImages[5].alt} className="w-full h-full object-cover" />
-            </div>
-
-            {/* 7. 宽图 - 占2列 */}
-            <div className="col-span-2 rounded-2xl overflow-hidden cursor-pointer transition-all duration-300 hover:scale-[1.02] hover:shadow-lg">
-              <img src={lifestyleImages[6].src} alt={lifestyleImages[6].alt} className="w-full h-full object-cover" />
-            </div>
-
-            {/* 8. 小图 */}
-            <div className="rounded-2xl overflow-hidden cursor-pointer transition-all duration-300 hover:scale-[1.02] hover:shadow-lg">
-              <img src={lifestyleImages[7].src} alt={lifestyleImages[7].alt} className="w-full h-full object-cover" />
-            </div>
-
-            {/* 9. 小图 */}
-            <div className="rounded-2xl overflow-hidden cursor-pointer transition-all duration-300 hover:scale-[1.02] hover:shadow-lg">
-              <img src={lifestyleImages[8].src} alt={lifestyleImages[8].alt} className="w-full h-full object-cover" />
-            </div>
-
-            {/* 10. 大图 - 占2列2行 */}
-            <div className="col-span-2 row-span-2 relative rounded-2xl overflow-hidden cursor-pointer
-                          transition-all duration-300 hover:scale-[1.02] hover:shadow-xl">
-              <img src={lifestyleImages[9].src} alt={lifestyleImages[9].alt} className="w-full h-full object-cover" />
-            </div>
-
+          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
+            {lifestyleImages.map((image, index) => (
+              <div
+                key={index}
+                className="rounded-2xl overflow-hidden cursor-pointer transition-all duration-300 hover:scale-[1.02] hover:shadow-lg"
+              >
+                <img
+                  src={image.src}
+                  alt={image.alt}
+                  className="w-full h-auto object-contain"
+                />
+              </div>
+            ))}
           </div>
         </section>
 
