@@ -108,7 +108,7 @@ export default function HomePage() {
         {/* Hero Section */}
         <section className="pt-[80px] md:pt-20 pb-[0px] pr-[0px] pl-[0px]">
           <div className="max-w-4xl">
-            <div className="font-['Funnel_Sans',sans-serif] text-[#838383] text-xl md:text-2xl lg:text-3xl leading-relaxed space-y-4 bg-[rgba(0,0,0,0)] px-[0px] pt-[10px] pb-[80px]">
+            <div className="font-['Funnel_Sans',sans-serif] text-[#838383] text-lg md:text-xl lg:text-[28px] leading-relaxed space-y-4 bg-[rgba(0,0,0,0)] px-[0px] pt-[10px] pb-[80px]">
               <p>Do you remember the color of your first diary?</p>
               <p>When was the last time you opened an old journal—grateful you wrote it down, or sad for the moments you didn't?</p>
               <p className="text-[30px]">What if something could hold onto these moments for you—without discipline, without remembering to record?</p>
