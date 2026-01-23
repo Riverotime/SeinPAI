@@ -311,7 +311,7 @@ export default function HomePage() {
           >
             <span>Preorder</span>
             <span className="font-semibold">$249</span>
-            <span className="text-gray-400 line-through text-xs md:text-sm">$299</span>
+            <span className="text-gray-400 line-through text-xs md:text-sm"><span className="hidden md:inline">$299 MSRP</span><span className="md:hidden">$299</span></span>
           </a>
         </div>
       </div>
