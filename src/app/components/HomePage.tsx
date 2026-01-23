@@ -135,13 +135,13 @@ export default function HomePage() {
 
         {/* Lifestyle Images Grid */}
         <section className="py-16">
-          <div className="flex gap-4">
+          <div className="flex gap-4 items-start">
             {/* Large featured image - left side */}
             <div className="flex-1">
               <img
                 src={lifestyleImages[activeImage].src}
                 alt={lifestyleImages[activeImage].alt}
-                className="w-full h-full object-cover rounded-lg transition-all duration-300"
+                className="w-full h-auto object-contain rounded-lg transition-all duration-300"
               />
             </div>
 
@@ -161,7 +161,7 @@ export default function HomePage() {
                   <img
                     src={image.src}
                     alt={image.alt}
-                    className="w-full h-full object-cover"
+                    className="w-full h-auto object-contain"
                   />
                 </div>
               ))}
