@@ -48,12 +48,12 @@ export default function ReferPage() {
           <>
             {/* Title */}
             <h1 className="text-2xl font-['SF_Pro_Rounded',system-ui,sans-serif] font-semibold text-black mb-2">
-              Recipient Email
+              Share & Earn
             </h1>
 
             {/* Subtitle */}
             <p className="text-sm text-[rgba(0,0,0,0.6)] font-['SF_Pro_Rounded',system-ui,sans-serif] mb-8">
-              They get $15 off. You get $15 or 1 months Pro—your pick.
+              They get $15 off. You get $15 or 1 month Pro—your choice.
             </p>
 
             {!showConfirm ? (
