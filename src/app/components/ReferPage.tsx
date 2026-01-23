@@ -64,7 +64,7 @@ export default function ReferPage() {
                     htmlFor="email"
                     className="block text-sm font-['SF_Pro_Rounded',system-ui,sans-serif] text-[rgba(0,0,0,0.6)] mb-2"
                   >
-                    Recipient Email
+                    Enter email to invite
                   </label>
                   <input
                     type="email"
@@ -82,7 +82,7 @@ export default function ReferPage() {
                   type="submit"
                   className="w-full bg-black text-white py-4 rounded-full font-['SF_Pro_Rounded',system-ui,sans-serif] font-semibold text-base hover:bg-gray-800 transition-colors"
                 >
-                  Refer a friend
+                  Copy your link
                 </button>
 
                 {/* Terms */}
