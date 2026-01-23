@@ -213,8 +213,8 @@ export default function HomePage() {
               </div>
             </div>
 
-            {/* 右侧小图 - 其他4张 */}
-            <div className="w-full lg:flex-[1] grid grid-cols-4 lg:grid-cols-2 gap-2 lg:gap-3">
+            {/* 右侧小图 - 其他4张，单列 */}
+            <div className="w-full lg:flex-[1] grid grid-cols-4 lg:grid-cols-1 gap-2 lg:gap-3">
               {carouselImages.map((img, index) => (
                 index !== activeIndex && (
                   <div
