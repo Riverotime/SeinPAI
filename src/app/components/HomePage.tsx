@@ -25,7 +25,6 @@ import { ImageWithFallback } from "@/app/components/figma/ImageWithFallback";
 export default function HomePage() {
   const [activeIndex, setActiveIndex] = useState(0);
   const [openFaqIndex, setOpenFaqIndex] = useState<number | null>(null);
-  const [selectedLifestyleImage, setSelectedLifestyleImage] = useState(0); // Track selected lifestyle image for auto-carousel
   
   const carouselImages = [
     imgConver11,
@@ -44,9 +43,10 @@ export default function HomePage() {
     { src: img6NoAudio1, alt: "No Audio" },
     { src: img7Coffee1, alt: "Coffee" },
     { src: img8Walk1, alt: "Walk" },
-    { src: img9Work1, alt: "Work" },
-    { src: img10Journal1, alt: "Journal" }
+    { src: img9Work1, alt: "Work" }
   ];
+  const [hoveredImage, setHoveredImage] = useState<number | null>(null);
+  const activeImage = hoveredImage !== null ? hoveredImage : 0;
 
   const faqs = [
     {
@@ -92,14 +92,6 @@ export default function HomePage() {
     return () => clearInterval(interval);
   }, [carouselImages.length]);
 
-  // Auto-play lifestyle images
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setSelectedLifestyleImage((current) => (current + 1) % lifestyleImages.length);
-    }, 5000); // Change every 5 seconds
-
-    return () => clearInterval(interval);
-  }, [lifestyleImages.length]);
 
   return (
     <div className="min-h-screen bg-[#F5F3EE] relative pb-32">
@@ -140,46 +132,37 @@ export default function HomePage() {
           </div>
         </section>
 
-        {/* Lifestyle Images Grid 1 */}
+        {/* Lifestyle Images Grid */}
         <section className="py-16">
-          <div className="relative overflow-hidden">
-            {/* Horizontal scrolling container - 70% width with next image visible */}
-            <div
-              className="flex transition-transform duration-700 ease-in-out gap-4"
-              style={{ transform: `translateX(-${selectedLifestyleImage * 72}%)` }}
-            >
+          <div className="flex gap-4">
+            {/* Large featured image - left side */}
+            <div className="flex-1">
+              <img
+                src={lifestyleImages[activeImage].src}
+                alt={lifestyleImages[activeImage].alt}
+                className="w-full h-full object-cover rounded-lg transition-all duration-300"
+              />
+            </div>
+
+            {/* Thumbnails grid - right side */}
+            <div className="grid grid-cols-2 gap-2" style={{ width: '30%' }}>
               {lifestyleImages.map((image, index) => (
                 <div
                   key={index}
-                  className="flex-shrink-0 cursor-pointer"
-                  style={{ width: '70%' }}
-                  onClick={() => {
-                    if (index === selectedLifestyleImage + 1 || (selectedLifestyleImage === lifestyleImages.length - 1 && index === 0)) {
-                      setSelectedLifestyleImage(index);
-                    }
-                  }}
+                  className={`cursor-pointer rounded-lg overflow-hidden transition-all duration-300 ${
+                    index === activeImage
+                      ? 'ring-2 ring-black opacity-100'
+                      : 'opacity-70 hover:opacity-100'
+                  }`}
+                  onMouseEnter={() => setHoveredImage(index)}
+                  onMouseLeave={() => setHoveredImage(null)}
                 >
                   <img
                     src={image.src}
                     alt={image.alt}
-                    className="w-full h-auto rounded-lg"
+                    className="w-full h-full object-cover"
                   />
                 </div>
-              ))}
-            </div>
-
-            {/* Navigation Dots */}
-            <div className="flex justify-center gap-2 mt-6">
-              {lifestyleImages.map((_, index) => (
-                <button
-                  key={index}
-                  onClick={() => setSelectedLifestyleImage(index)}
-                  className={`h-2 rounded-full transition-all ${
-                    index === selectedLifestyleImage
-                      ? 'bg-black w-8'
-                      : 'bg-gray-400 w-2 hover:bg-gray-500'
-                  }`}
-                />
               ))}
             </div>
           </div>
