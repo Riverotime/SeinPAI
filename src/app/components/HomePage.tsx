@@ -169,7 +169,6 @@ export default function HomePage() {
               >
                 ✕
               </button>
-              {/* Previous/Next buttons */}
               <button
                 onClick={(e) => {
                   e.stopPropagation();
@@ -196,37 +195,64 @@ export default function HomePage() {
         <section className="py-16">
         </section>
 
-        {/* Journal Covers Section */}
+        {/* Journal Covers Section - Left Preview + Right Grid */}
         <section className="py-16">
-          <div className="flex gap-4 items-start">
-            {/* Large featured image - left side */}
-            <div className="flex-1">
-              <img
-                src={carouselImages[activeIndex]}
-                alt={`Cover design ${activeIndex + 1}`}
-                className="w-full h-auto object-contain rounded-lg transition-all duration-300"
-              />
+          <div className="flex flex-col lg:flex-row gap-6 lg:gap-8">
+
+            {/* 左侧大图预览 */}
+            <div className="w-full lg:flex-[3]">
+              <div className="rounded-2xl overflow-hidden">
+                <img
+                  src={carouselImages[activeIndex]}
+                  alt={`Cover design ${activeIndex + 1}`}
+                  className="w-full h-auto object-contain"
+                />
+              </div>
             </div>
 
-            {/* Thumbnails grid - right side */}
-            <div className="grid grid-cols-2 gap-2" style={{ width: '30%' }}>
-              {carouselImages.map((img, index) => (
-                <div
-                  key={index}
-                  onClick={() => setActiveIndex(index)}
-                  className={`cursor-pointer rounded-lg overflow-hidden transition-all duration-300 ${
-                    index === activeIndex
-                      ? 'ring-2 ring-black opacity-100'
-                      : 'opacity-70 hover:opacity-100'
-                  }`}
-                >
-                  <img
-                    src={img}
-                    alt={`Thumbnail ${index + 1}`}
-                    className="w-full h-auto object-contain"
-                  />
-                </div>
-              ))}
+            {/* 右侧卡片网格 */}
+            <div className="w-full lg:flex-[2] grid grid-cols-2 gap-3 lg:gap-4 auto-rows-[80px] lg:auto-rows-[90px]">
+
+              {/* 1. 大卡片 - 2行高 */}
+              <div
+                onClick={() => setActiveIndex(0)}
+                className={`row-span-2 rounded-2xl overflow-hidden cursor-pointer transition-all duration-300 hover:scale-[1.02] hover:shadow-lg ${activeIndex === 0 ? 'ring-2 ring-black' : ''}`}
+              >
+                <img src={carouselImages[0]} alt="Cover 1" className="w-full h-full object-cover" />
+              </div>
+
+              {/* 2. 小卡片 */}
+              <div
+                onClick={() => setActiveIndex(1)}
+                className={`rounded-2xl overflow-hidden cursor-pointer transition-all duration-300 hover:scale-[1.02] hover:shadow-lg ${activeIndex === 1 ? 'ring-2 ring-black' : ''}`}
+              >
+                <img src={carouselImages[1]} alt="Cover 2" className="w-full h-full object-cover" />
+              </div>
+
+              {/* 3. 小卡片 */}
+              <div
+                onClick={() => setActiveIndex(2)}
+                className={`rounded-2xl overflow-hidden cursor-pointer transition-all duration-300 hover:scale-[1.02] hover:shadow-lg ${activeIndex === 2 ? 'ring-2 ring-black' : ''}`}
+              >
+                <img src={carouselImages[2]} alt="Cover 3" className="w-full h-full object-cover" />
+              </div>
+
+              {/* 4. 宽卡片 - 2列宽 */}
+              <div
+                onClick={() => setActiveIndex(3)}
+                className={`col-span-2 rounded-2xl overflow-hidden cursor-pointer transition-all duration-300 hover:scale-[1.02] hover:shadow-lg ${activeIndex === 3 ? 'ring-2 ring-black' : ''}`}
+              >
+                <img src={carouselImages[3]} alt="Cover 4" className="w-full h-full object-cover" />
+              </div>
+
+              {/* 5. 宽卡片 - 2列宽 */}
+              <div
+                onClick={() => setActiveIndex(4)}
+                className={`col-span-2 rounded-2xl overflow-hidden cursor-pointer transition-all duration-300 hover:scale-[1.02] hover:shadow-lg ${activeIndex === 4 ? 'ring-2 ring-black' : ''}`}
+              >
+                <img src={carouselImages[4]} alt="Cover 5" className="w-full h-full object-cover" />
+              </div>
+
             </div>
           </div>
         </section>
