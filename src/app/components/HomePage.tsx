@@ -25,6 +25,7 @@ import { ImageWithFallback } from "@/app/components/figma/ImageWithFallback";
 export default function HomePage() {
   const [activeIndex, setActiveIndex] = useState(0);
   const [openFaqIndex, setOpenFaqIndex] = useState<number | null>(null);
+  const [lightboxImage, setLightboxImage] = useState<number | null>(null);
   
   const carouselImages = [
     imgConver11,
@@ -137,6 +138,7 @@ export default function HomePage() {
             {lifestyleImages.map((image, index) => (
               <div
                 key={index}
+                onClick={() => setLightboxImage(index)}
                 className="rounded-2xl overflow-hidden cursor-pointer transition-all duration-300 hover:scale-[1.02] hover:shadow-lg"
               >
                 <img
@@ -148,6 +150,47 @@ export default function HomePage() {
             ))}
           </div>
         </section>
+
+        {/* Lightbox Modal */}
+        {lightboxImage !== null && (
+          <div
+            className="fixed inset-0 bg-black/80 z-[100] flex items-center justify-center p-4"
+            onClick={() => setLightboxImage(null)}
+          >
+            <div className="relative max-w-[90vw] max-h-[90vh]">
+              <img
+                src={lifestyleImages[lightboxImage].src}
+                alt={lifestyleImages[lightboxImage].alt}
+                className="max-w-full max-h-[90vh] object-contain rounded-lg"
+              />
+              <button
+                onClick={() => setLightboxImage(null)}
+                className="absolute top-4 right-4 text-white bg-black/50 rounded-full w-10 h-10 flex items-center justify-center hover:bg-black/70 transition-colors"
+              >
+                ✕
+              </button>
+              {/* Previous/Next buttons */}
+              <button
+                onClick={(e) => {
+                  e.stopPropagation();
+                  setLightboxImage(lightboxImage > 0 ? lightboxImage - 1 : lifestyleImages.length - 1);
+                }}
+                className="absolute left-4 top-1/2 -translate-y-1/2 text-white bg-black/50 rounded-full w-10 h-10 flex items-center justify-center hover:bg-black/70 transition-colors"
+              >
+                ‹
+              </button>
+              <button
+                onClick={(e) => {
+                  e.stopPropagation();
+                  setLightboxImage(lightboxImage < lifestyleImages.length - 1 ? lightboxImage + 1 : 0);
+                }}
+                className="absolute right-4 top-1/2 -translate-y-1/2 text-white bg-black/50 rounded-full w-10 h-10 flex items-center justify-center hover:bg-black/70 transition-colors"
+              >
+                ›
+              </button>
+            </div>
+          </div>
+        )}
 
         {/* Feature Section - Empathy */}
         <section className="py-16">
