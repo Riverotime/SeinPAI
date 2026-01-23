@@ -195,13 +195,16 @@ export default function HomePage() {
         <section className="py-16">
         </section>
 
-        {/* Journal Covers Section - Left Preview + Right Grid */}
+        {/* Journal Covers Section - Click to Enlarge */}
         <section className="py-16">
-          <div className="flex flex-col lg:flex-row gap-6 lg:gap-8 items-start">
+          <div className="flex flex-col lg:flex-row gap-4 lg:gap-6 items-start">
 
-            {/* 左侧大图预览 */}
+            {/* 左侧大图 - 当前选中的 */}
             <div className="w-full lg:flex-[3]">
-              <div className="rounded-2xl overflow-hidden">
+              <div
+                className="rounded-2xl overflow-hidden cursor-pointer transition-all duration-300"
+                onClick={() => setActiveIndex((activeIndex + 1) % carouselImages.length)}
+              >
                 <img
                   src={carouselImages[activeIndex]}
                   alt={`Cover design ${activeIndex + 1}`}
@@ -210,20 +213,21 @@ export default function HomePage() {
               </div>
             </div>
 
-            {/* 右侧卡片网格 */}
-            <div className="w-full lg:flex-[2] grid grid-cols-2 gap-3 lg:gap-4">
-
+            {/* 右侧小图 - 其他4张 */}
+            <div className="w-full lg:flex-[1] grid grid-cols-4 lg:grid-cols-2 gap-2 lg:gap-3">
               {carouselImages.map((img, index) => (
-                <div
-                  key={index}
-                  onClick={() => setActiveIndex(index)}
-                  className={`rounded-2xl overflow-hidden cursor-pointer transition-all duration-300 hover:scale-[1.02] hover:shadow-lg ${activeIndex === index ? 'ring-2 ring-black' : ''}`}
-                >
-                  <img src={img} alt={`Cover ${index + 1}`} className="w-full h-auto object-contain" />
-                </div>
+                index !== activeIndex && (
+                  <div
+                    key={index}
+                    onClick={() => setActiveIndex(index)}
+                    className="rounded-xl overflow-hidden cursor-pointer transition-all duration-300 hover:scale-[1.05] hover:shadow-lg"
+                  >
+                    <img src={img} alt={`Cover ${index + 1}`} className="w-full h-auto object-contain" />
+                  </div>
+                )
               ))}
-
             </div>
+
           </div>
         </section>
 
