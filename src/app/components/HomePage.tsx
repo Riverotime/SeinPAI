@@ -108,7 +108,7 @@ export default function HomePage() {
         {/* Hero Section */}
         <section className="pt-[80px] md:pt-20 pb-[0px] pr-[0px] pl-[0px]">
           <div className="max-w-4xl">
-            <div className="font-['Funnel_Sans',sans-serif] text-[#838383] text-xl md:text-2xl lg:text-3xl leading-relaxed space-y-4 bg-[rgba(0,0,0,0)] px-[0px] pt-[50px] pb-[100px]">
+            <div className="font-['Funnel_Sans',sans-serif] text-[#838383] text-xl md:text-2xl lg:text-3xl leading-relaxed space-y-4 bg-[rgba(0,0,0,0)] px-[0px] pt-[10px] pb-[80px]">
               <p>Do you remember the color of your first diary?</p>
               <p>When was the last time you opened an old journal—grateful you wrote it down, or sad for the moments you didn't?</p>
               <p className="text-[30px]">What if something could hold onto these moments for you—without discipline, without remembering to record?</p>
@@ -143,22 +143,31 @@ export default function HomePage() {
         {/* Lifestyle Images Grid 1 */}
         <section className="py-16">
           <div className="relative overflow-hidden">
-            {/* Horizontal scrolling container */}
-            <div className="flex transition-transform duration-700 ease-in-out" style={{ transform: `translateX(-${selectedLifestyleImage * 100}%)` }}>
+            {/* Horizontal scrolling container - 70% width with next image visible */}
+            <div
+              className="flex transition-transform duration-700 ease-in-out gap-4"
+              style={{ transform: `translateX(-${selectedLifestyleImage * 72}%)` }}
+            >
               {lifestyleImages.map((image, index) => (
-                <div 
+                <div
                   key={index}
-                  className="w-full flex-shrink-0"
+                  className="flex-shrink-0 cursor-pointer"
+                  style={{ width: '70%' }}
+                  onClick={() => {
+                    if (index === selectedLifestyleImage + 1 || (selectedLifestyleImage === lifestyleImages.length - 1 && index === 0)) {
+                      setSelectedLifestyleImage(index);
+                    }
+                  }}
                 >
-                  <img 
-                    src={image.src} 
-                    alt={image.alt} 
-                    className="w-full h-auto" 
+                  <img
+                    src={image.src}
+                    alt={image.alt}
+                    className="w-full h-auto rounded-lg"
                   />
                 </div>
               ))}
             </div>
-            
+
             {/* Navigation Dots */}
             <div className="flex justify-center gap-2 mt-6">
               {lifestyleImages.map((_, index) => (
@@ -166,8 +175,8 @@ export default function HomePage() {
                   key={index}
                   onClick={() => setSelectedLifestyleImage(index)}
                   className={`h-2 rounded-full transition-all ${
-                    index === selectedLifestyleImage 
-                      ? 'bg-black w-8' 
+                    index === selectedLifestyleImage
+                      ? 'bg-black w-8'
                       : 'bg-gray-400 w-2 hover:bg-gray-500'
                   }`}
                 />
@@ -183,39 +192,39 @@ export default function HomePage() {
         {/* Journal Covers Section */}
         <section className="py-16">
           <div className="relative">
-            <div className="grid md:grid-cols-[1fr_auto] gap-8 items-center">
-              {/* Main Image - Left Side */}
-              <div className="rounded-lg overflow-hidden">
-                <img 
-                  src={carouselImages[activeIndex]} 
-                  alt={`Cover design ${activeIndex + 1}`} 
-                  className="w-full h-auto object-contain"
+            <div className="flex gap-8 items-stretch">
+              {/* Main Image - Left Side (90% size, aligned with thumbnails) */}
+              <div className="rounded-lg overflow-hidden flex-1" style={{ maxWidth: '90%' }}>
+                <img
+                  src={carouselImages[activeIndex]}
+                  alt={`Cover design ${activeIndex + 1}`}
+                  className="w-full h-full object-contain"
                 />
               </div>
-              
+
               {/* Thumbnails - Right Side */}
-              <div className="flex flex-col gap-4">
+              <div className="flex flex-col justify-between gap-2">
                 {carouselImages.map((img, index) => (
                   <div
                     key={index}
                     onClick={() => setActiveIndex(index)}
                     className={`cursor-pointer transition-all duration-300 rounded-lg overflow-hidden ${
-                      index === activeIndex 
-                        ? 'ring-2 ring-[#FA5C25]/42 opacity-100' 
+                      index === activeIndex
+                        ? 'ring-2 ring-[#FA5C25]/42 opacity-100'
                         : 'opacity-60 hover:opacity-80'
                     }`}
-                    style={{ width: '120px' }}
+                    style={{ width: '100px' }}
                   >
-                    <img 
-                      src={img} 
-                      alt={`Thumbnail ${index + 1}`} 
+                    <img
+                      src={img}
+                      alt={`Thumbnail ${index + 1}`}
                       className="w-full h-auto object-contain"
                     />
                   </div>
                 ))}
               </div>
             </div>
-            
+
             {/* Navigation Dots */}
             <div className="flex justify-center gap-2 mt-8">
               {carouselImages.map((_, index) => (
@@ -223,8 +232,8 @@ export default function HomePage() {
                   key={index}
                   onClick={() => setActiveIndex(index)}
                   className={`h-2 rounded-full transition-all ${
-                    index === activeIndex 
-                      ? 'bg-black w-8' 
+                    index === activeIndex
+                      ? 'bg-black w-8'
                       : 'bg-gray-400 w-2 hover:bg-gray-500'
                   }`}
                 />
