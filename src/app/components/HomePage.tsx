@@ -103,7 +103,7 @@ export default function HomePage() {
             <div className="font-['Funnel_Sans',sans-serif] text-[#838383] text-lg md:text-xl lg:text-[28px] leading-relaxed space-y-4 bg-[rgba(0,0,0,0)] px-[0px] pt-[10px] pb-[80px]">
               <p>Do you remember the color of your first diary?</p>
               <p>When was the last time you opened an old journal—grateful you wrote it down, or sad for the moments you didn't?</p>
-              <p className="text-[30px]">What if something could hold onto these moments for you—without discipline, without remembering to record?</p>
+              <p>What if something could hold onto these moments for you—without discipline, without remembering to record?</p>
               <p>For yourself. For the people you love. For the you who wants to look back, years from now.</p>
               <p className="mt-6 pt-4">Sein PAI. Worn on you. Auto-journaling, not recording. Writing down your every day—with the tone, the pauses, the emotion of that moment.</p>
             </div>
