@@ -43,7 +43,8 @@ export default function HomePage() {
     { src: img6NoAudio1, alt: "No Audio" },
     { src: img7Coffee1, alt: "Coffee" },
     { src: img8Walk1, alt: "Walk" },
-    { src: img9Work1, alt: "Work" }
+    { src: img9Work1, alt: "Work" },
+    { src: img10Journal1, alt: "Journal" }
   ];
   const [hoveredImage, setHoveredImage] = useState<number | null>(null);
   const activeImage = hoveredImage !== null ? hoveredImage : 0;
