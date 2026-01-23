@@ -197,9 +197,9 @@ export default function HomePage() {
 
         {/* Journal Covers Section - Click to Enlarge */}
         <section className="py-16">
-          <div className="flex flex-col lg:flex-row gap-4 lg:gap-3 items-stretch">
+          <div className="flex flex-col lg:flex-row gap-4 lg:gap-4 items-stretch">
 
-            {/* 左侧大图 - 当前选中的，高度与右侧小图对齐 */}
+            {/* 左侧大图 - 当前选中的 */}
             <div className="w-full lg:w-[65%]">
               <div
                 className="rounded-2xl overflow-hidden cursor-pointer transition-all duration-300 h-full flex items-center"
@@ -213,8 +213,8 @@ export default function HomePage() {
               </div>
             </div>
 
-            {/* 右侧小图 - 其他4张，单列，决定整体高度 */}
-            <div className="w-full lg:w-[15%] flex flex-row lg:flex-col gap-1">
+            {/* 右侧小图 - 其他4张，单列，顶底对齐 */}
+            <div className="w-full lg:w-[15%] flex flex-row lg:flex-col justify-between gap-2 lg:gap-0">
               {carouselImages.map((img, index) => (
                 index !== activeIndex && (
                   <div
