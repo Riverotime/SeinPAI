@@ -197,24 +197,24 @@ export default function HomePage() {
 
         {/* Journal Covers Section - Click to Enlarge */}
         <section className="py-16">
-          <div className="flex flex-col lg:flex-row gap-4 lg:gap-4 items-stretch">
+          <div className="flex flex-col lg:flex-row gap-4 lg:gap-3 items-start">
 
             {/* 左侧大图 - 当前选中的 */}
-            <div className="w-full lg:w-[85%]">
+            <div className="w-full lg:w-[75%]">
               <div
-                className="rounded-2xl overflow-hidden cursor-pointer transition-all duration-300 h-full"
+                className="rounded-2xl overflow-hidden cursor-pointer transition-all duration-300"
                 onClick={() => setActiveIndex((activeIndex + 1) % carouselImages.length)}
               >
                 <img
                   src={carouselImages[activeIndex]}
                   alt={`Cover design ${activeIndex + 1}`}
-                  className="w-full h-full object-contain"
+                  className="w-full h-auto object-contain"
                 />
               </div>
             </div>
 
-            {/* 右侧小图 - 其他4张，单列，与大图顶部底部对齐 */}
-            <div className="w-full lg:w-[15%] flex flex-row lg:flex-col justify-between gap-2">
+            {/* 右侧小图 - 其他4张，单列 */}
+            <div className="w-full lg:w-[15%] flex flex-row lg:flex-col gap-1">
               {carouselImages.map((img, index) => (
                 index !== activeIndex && (
                   <div
