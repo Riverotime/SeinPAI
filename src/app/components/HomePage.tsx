@@ -293,22 +293,25 @@ export default function HomePage() {
       </div>
 
       {/* Fixed Bottom Preorder Bar */}
-      <div className="fixed bottom-0 left-0 right-0 bg-[#F5F3EE] border-t border-gray-200 py-[42px] px-[24px] z-50">
-        <div className="max-w-[1440px] mx-auto px-6 md:px-12 lg:px-16 flex items-center justify-between">
-          <p className="text-sm text-[rgba(0,0,0,0.3)] font-['SF_Pro_Rounded',system-ui,sans-serif] max-w-2xl font-bold">
-            No subscription needed to start. 3 months Pro on us. 
+      <div className="fixed bottom-0 left-0 right-0 bg-[#F5F3EE] border-t border-gray-200 py-4 md:py-[42px] px-4 md:px-[24px] z-50">
+        <div className="max-w-[1440px] mx-auto px-2 md:px-6 lg:px-16 flex items-center justify-between gap-4">
+          <p className="hidden md:block text-sm text-[rgba(0,0,0,0.3)] font-['SF_Pro_Rounded',system-ui,sans-serif] max-w-2xl font-bold">
+            No subscription needed to start. 3 months Pro on us.
             <br />
             Ships spring '26—fully refundable.
           </p>
-          <a 
+          <p className="md:hidden text-xs text-[rgba(0,0,0,0.3)] font-['SF_Pro_Rounded',system-ui,sans-serif] font-bold flex-1">
+            3 months Pro free. Ships spring '26.
+          </p>
+          <a
             href="https://book.stripe.com/7sY9ATgvM7LZg2acvPbQY0b"
             target="_blank"
             rel="noopener noreferrer"
-            className="bg-black text-white px-8 py-3 rounded-full font-['SF_Pro_Rounded',system-ui,sans-serif] font-medium hover:bg-gray-800 transition-colors flex items-center gap-4 whitespace-nowrap"
+            className="bg-black text-white px-4 md:px-8 py-2 md:py-3 rounded-full font-['SF_Pro_Rounded',system-ui,sans-serif] font-medium hover:bg-gray-800 transition-colors flex items-center gap-2 md:gap-4 whitespace-nowrap text-sm md:text-base"
           >
             <span>Preorder</span>
             <span className="font-semibold">$249</span>
-            <span className="text-gray-400 line-through text-sm">$299 MSRP</span>
+            <span className="text-gray-400 line-through text-xs md:text-sm">$299</span>
           </a>
         </div>
       </div>
