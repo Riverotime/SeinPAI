@@ -200,7 +200,7 @@ export default function HomePage() {
           <div className="flex flex-col lg:flex-row gap-4 lg:gap-3 items-stretch">
 
             {/* 左侧大图 - 当前选中的，高度与右侧小图对齐 */}
-            <div className="w-full lg:flex-1">
+            <div className="w-full lg:w-[50%]">
               <div
                 className="rounded-2xl overflow-hidden cursor-pointer transition-all duration-300 h-full flex items-center"
                 onClick={() => setActiveIndex((activeIndex + 1) % carouselImages.length)}
