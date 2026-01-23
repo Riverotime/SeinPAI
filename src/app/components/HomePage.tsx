@@ -1,25 +1,24 @@
-import svgPaths from "@/imports/svg-nfqv41uxq";
-import img5971 from "figma:asset/0bcc29dce614ac686a033a0cb6fd6b6cb2c6b659.png";
-import imgImage110382 from "figma:asset/9292a0d764cafbd16b4d2ea8a6fc3c1e67a31ffe.png";
-import img60D924998A035F57F4449Bcff52Deec52 from "figma:asset/46ba4aeb2e54923f5b128714d60aaecdd7b4bcac.png";
+import img5971 from "@/assets/0bcc29dce614ac686a033a0cb6fd6b6cb2c6b659.png";
+import imgImage110382 from "@/assets/9292a0d764cafbd16b4d2ea8a6fc3c1e67a31ffe.png";
+import img60D924998A035F57F4449Bcff52Deec52 from "@/assets/46ba4aeb2e54923f5b128714d60aaecdd7b4bcac.png";
 // 10 lifestyle images from Frame2147229288
-import img1Expecting1 from "figma:asset/9d7e53572b328d4399f242954cd93336f071028d.png";
-import img2WithKids1 from "figma:asset/8a250fef6b7394ac221237cbc3275b1f3991b611.png";
-import img3Driving1 from "figma:asset/01143d992d42df511f3f1ee4b93a759f351ecd8c.png";
-import img4Capture1 from "figma:asset/e3e3598b1dabc5ab12f65981fc04d237bf3dbced.png";
-import img5Mood1 from "figma:asset/0f61705140081cd8233be3e9c40faf881edc1236.png";
-import img6NoAudio1 from "figma:asset/a1caec64e319fbd80b3b2a3059370a5e7fb1c833.png";
-import img7Coffee1 from "figma:asset/d705a77bdbb56d27bead2973827da1ff99167073.png";
-import img8Walk1 from "figma:asset/9cdb6686ea43b66a3051eb8d816e31a001b27d77.png";
-import img9Work1 from "figma:asset/979c9c445552d810fb1dceee7d75c334a662503c.png";
-import img10Journal1 from "figma:asset/69c58058d3083bb08ff0b13d397a90552d94896c.png";
+import img1Expecting1 from "@/assets/9d7e53572b328d4399f242954cd93336f071028d.png";
+import img2WithKids1 from "@/assets/8a250fef6b7394ac221237cbc3275b1f3991b611.png";
+import img3Driving1 from "@/assets/01143d992d42df511f3f1ee4b93a759f351ecd8c.png";
+import img4Capture1 from "@/assets/e3e3598b1dabc5ab12f65981fc04d237bf3dbced.png";
+import img5Mood1 from "@/assets/0f61705140081cd8233be3e9c40faf881edc1236.png";
+import img6NoAudio1 from "@/assets/a1caec64e319fbd80b3b2a3059370a5e7fb1c833.png";
+import img7Coffee1 from "@/assets/d705a77bdbb56d27bead2973827da1ff99167073.png";
+import img8Walk1 from "@/assets/9cdb6686ea43b66a3051eb8d816e31a001b27d77.png";
+import img9Work1 from "@/assets/979c9c445552d810fb1dceee7d75c334a662503c.png";
+import img10Journal1 from "@/assets/69c58058d3083bb08ff0b13d397a90552d94896c.png";
 // Journal cover images
-import imgConver11 from "figma:asset/9efb2186dfad184e2f4b7095cf5655b6c903f496.png";
-import imgCover41 from "figma:asset/0793d478be9da68aa4d78d077e2ae475ea88f0e7.png";
-import imgCover31 from "figma:asset/261897e2457e019fa9ba9386239f449868c68e3d.png";
-import imgCover21 from "figma:asset/b1ddf05f0fb29cf8d1d7b5640d40f7de97f95647.png";
-import imgFrame21472292871 from "figma:asset/a072c6bde4e4c8a07f0d46b3f63fc64439b0084e.png";
-import img5961 from "figma:asset/704137cd390520dec87e5d72e3f64e6258bfce35.png";
+import imgConver11 from "@/assets/9efb2186dfad184e2f4b7095cf5655b6c903f496.png";
+import imgCover41 from "@/assets/0793d478be9da68aa4d78d077e2ae475ea88f0e7.png";
+import imgCover31 from "@/assets/261897e2457e019fa9ba9386239f449868c68e3d.png";
+import imgCover21 from "@/assets/b1ddf05f0fb29cf8d1d7b5640d40f7de97f95647.png";
+import imgFrame21472292871 from "@/assets/a072c6bde4e4c8a07f0d46b3f63fc64439b0084e.png";
+import img5961 from "@/assets/704137cd390520dec87e5d72e3f64e6258bfce35.png";
 import { useState, useEffect } from "react";
 import { ImageWithFallback } from "@/app/components/figma/ImageWithFallback";
 
