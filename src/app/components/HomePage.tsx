@@ -175,52 +175,34 @@ export default function HomePage() {
 
         {/* Journal Covers Section */}
         <section className="py-16">
-          <div className="relative">
-            <div className="flex gap-8 items-stretch">
-              {/* Main Image - Left Side (90% size, aligned with thumbnails) */}
-              <div className="rounded-lg overflow-hidden flex-1" style={{ maxWidth: '90%' }}>
-                <img
-                  src={carouselImages[activeIndex]}
-                  alt={`Cover design ${activeIndex + 1}`}
-                  className="w-full h-full object-contain"
-                />
-              </div>
-
-              {/* Thumbnails - Right Side */}
-              <div className="flex flex-col justify-between gap-2">
-                {carouselImages.map((img, index) => (
-                  <div
-                    key={index}
-                    onClick={() => setActiveIndex(index)}
-                    className={`cursor-pointer transition-all duration-300 rounded-lg overflow-hidden ${
-                      index === activeIndex
-                        ? 'ring-2 ring-[#FA5C25]/42 opacity-100'
-                        : 'opacity-60 hover:opacity-80'
-                    }`}
-                    style={{ width: '100px' }}
-                  >
-                    <img
-                      src={img}
-                      alt={`Thumbnail ${index + 1}`}
-                      className="w-full h-auto object-contain"
-                    />
-                  </div>
-                ))}
-              </div>
+          <div className="flex gap-4 items-start">
+            {/* Large featured image - left side */}
+            <div className="flex-1">
+              <img
+                src={carouselImages[activeIndex]}
+                alt={`Cover design ${activeIndex + 1}`}
+                className="w-full h-auto object-contain rounded-lg transition-all duration-300"
+              />
             </div>
 
-            {/* Navigation Dots */}
-            <div className="flex justify-center gap-2 mt-8">
-              {carouselImages.map((_, index) => (
-                <button
+            {/* Thumbnails grid - right side */}
+            <div className="grid grid-cols-2 gap-2" style={{ width: '30%' }}>
+              {carouselImages.map((img, index) => (
+                <div
                   key={index}
                   onClick={() => setActiveIndex(index)}
-                  className={`h-2 rounded-full transition-all ${
+                  className={`cursor-pointer rounded-lg overflow-hidden transition-all duration-300 ${
                     index === activeIndex
-                      ? 'bg-black w-8'
-                      : 'bg-gray-400 w-2 hover:bg-gray-500'
+                      ? 'ring-2 ring-black opacity-100'
+                      : 'opacity-70 hover:opacity-100'
                   }`}
-                />
+                >
+                  <img
+                    src={img}
+                    alt={`Thumbnail ${index + 1}`}
+                    className="w-full h-auto object-contain"
+                  />
+                </div>
               ))}
             </div>
           </div>
