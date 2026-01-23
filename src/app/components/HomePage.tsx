@@ -220,7 +220,7 @@ export default function HomePage() {
                   <div
                     key={index}
                     onClick={() => setActiveIndex(index)}
-                    className="rounded-lg overflow-hidden cursor-pointer transition-all duration-300 hover:scale-[1.05] hover:shadow-lg"
+                    className="flex-1 lg:flex-none rounded-lg overflow-hidden cursor-pointer transition-all duration-300 hover:scale-[1.05] hover:shadow-lg"
                   >
                     <img src={img} alt={`Cover ${index + 1}`} className="w-full h-auto object-contain" />
                   </div>
