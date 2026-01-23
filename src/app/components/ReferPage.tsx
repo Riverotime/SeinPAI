@@ -44,21 +44,6 @@ export default function ReferPage() {
           </a>
         </div>
 
-        {/* Logo */}
-        <div className="mb-8 flex justify-center">
-          <svg
-            width="80"
-            height="80"
-            viewBox="0 0 80 80"
-            className="text-black"
-          >
-            <path
-              d="M40 10C23.4 10 10 23.4 10 40s13.4 30 30 30 30-13.4 30-30S56.6 10 40 10z"
-              fill="currentColor"
-            />
-          </svg>
-        </div>
-
         {!referralLink ? (
           <>
             {/* Title */}
