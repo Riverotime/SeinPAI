@@ -276,11 +276,11 @@ export default function HomePage() {
 
         {/* Footer */}
         <footer className="pt-16 pb-8">
-          <div className="flex items-center justify-between">
+          <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
             <p className="text-lg text-[rgba(0,0,0,0.6)] font-['SF_Pro_Rounded',system-ui,sans-serif] font-bold text-[16px]">
               © 2026 Persein
             </p>
-            <div className="flex flex-wrap gap-6 text-base text-[rgba(0,0,0,0.42)] font-['SF_Pro_Rounded',system-ui,sans-serif] text-[15px]">
+            <div className="flex flex-wrap gap-4 md:gap-6 text-base text-[rgba(0,0,0,0.42)] font-['SF_Pro_Rounded',system-ui,sans-serif] text-[15px]">
               <a href="#" className="hover:text-black transition-colors">About</a>
               <a href="#" className="hover:text-black transition-colors">Contact</a>
               <a href="#" className="hover:text-black transition-colors">X</a>
