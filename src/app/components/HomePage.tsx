@@ -197,30 +197,30 @@ export default function HomePage() {
 
         {/* Journal Covers Section - Click to Enlarge */}
         <section className="py-16">
-          <div className="flex flex-col lg:flex-row gap-4 lg:gap-6 items-start">
+          <div className="flex flex-col lg:flex-row gap-4 lg:gap-4 items-stretch">
 
             {/* 左侧大图 - 当前选中的 */}
-            <div className="w-full lg:flex-[3]">
+            <div className="w-full lg:w-[85%]">
               <div
-                className="rounded-2xl overflow-hidden cursor-pointer transition-all duration-300"
+                className="rounded-2xl overflow-hidden cursor-pointer transition-all duration-300 h-full"
                 onClick={() => setActiveIndex((activeIndex + 1) % carouselImages.length)}
               >
                 <img
                   src={carouselImages[activeIndex]}
                   alt={`Cover design ${activeIndex + 1}`}
-                  className="w-full h-auto object-contain"
+                  className="w-full h-full object-contain"
                 />
               </div>
             </div>
 
-            {/* 右侧小图 - 其他4张，单列 */}
-            <div className="w-full lg:flex-[1] grid grid-cols-4 lg:grid-cols-1 gap-2 lg:gap-3">
+            {/* 右侧小图 - 其他4张，单列，与大图顶部底部对齐 */}
+            <div className="w-full lg:w-[15%] flex flex-row lg:flex-col justify-between gap-2">
               {carouselImages.map((img, index) => (
                 index !== activeIndex && (
                   <div
                     key={index}
                     onClick={() => setActiveIndex(index)}
-                    className="rounded-xl overflow-hidden cursor-pointer transition-all duration-300 hover:scale-[1.05] hover:shadow-lg"
+                    className="rounded-lg overflow-hidden cursor-pointer transition-all duration-300 hover:scale-[1.05] hover:shadow-lg"
                   >
                     <img src={img} alt={`Cover ${index + 1}`} className="w-full h-auto object-contain" />
                   </div>
