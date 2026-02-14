@@ -1,7 +1,7 @@
-import img5971 from "@/assets/0bcc29dce614ac686a033a0cb6fd6b6cb2c6b659.png";
-import imgImage110382 from "@/assets/9292a0d764cafbd16b4d2ea8a6fc3c1e67a31ffe.png";
+import { useState, useEffect, useRef } from "react";
+import { motion, useInView, useScroll, useTransform } from "motion/react";
+import { Mic, Shield, PenLine, Sparkles, Clock, Heart, ChevronDown, Twitter, Instagram, Youtube } from "lucide-react";
 import img60D924998A035F57F4449Bcff52Deec52 from "@/assets/46ba4aeb2e54923f5b128714d60aaecdd7b4bcac.png";
-// 10 lifestyle images from Frame2147229288
 import img1Expecting1 from "@/assets/9d7e53572b328d4399f242954cd93336f071028d.png";
 import img2WithKids1 from "@/assets/8a250fef6b7394ac221237cbc3275b1f3991b611.png";
 import img3Driving1 from "@/assets/01143d992d42df511f3f1ee4b93a759f351ecd8c.png";
@@ -12,28 +12,45 @@ import img7Coffee1 from "@/assets/d705a77bdbb56d27bead2973827da1ff99167073.png";
 import img8Walk1 from "@/assets/9cdb6686ea43b66a3051eb8d816e31a001b27d77.png";
 import img9Work1 from "@/assets/979c9c445552d810fb1dceee7d75c334a662503c.png";
 import img10Journal1 from "@/assets/69c58058d3083bb08ff0b13d397a90552d94896c.png";
-// Journal cover images
 import imgConver11 from "@/assets/9efb2186dfad184e2f4b7095cf5655b6c903f496.png";
 import imgCover41 from "@/assets/0793d478be9da68aa4d78d077e2ae475ea88f0e7.png";
 import imgCover31 from "@/assets/261897e2457e019fa9ba9386239f449868c68e3d.png";
 import imgCover21 from "@/assets/b1ddf05f0fb29cf8d1d7b5640d40f7de97f95647.png";
 import imgFrame21472292871 from "@/assets/a072c6bde4e4c8a07f0d46b3f63fc64439b0084e.png";
-import img5961 from "@/assets/704137cd390520dec87e5d72e3f64e6258bfce35.png";
-import { useState, useEffect } from "react";
-import { ImageWithFallback } from "@/app/components/figma/ImageWithFallback";
+import Header from "./Header";
+
+// Animation wrapper component
+function AnimatedSection({ children, className = "" }: { children: React.ReactNode; className?: string }) {
+  const ref = useRef(null);
+  const isInView = useInView(ref, { once: true, margin: "-50px" });
+
+  return (
+    <motion.div
+      ref={ref}
+      initial={{ opacity: 0, y: 30 }}
+      animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
+      transition={{ duration: 0.8, ease: [0.25, 0.1, 0.25, 1] }}
+      className={className}
+    >
+      {children}
+    </motion.div>
+  );
+}
 
 export default function HomePage() {
   const [activeIndex, setActiveIndex] = useState(0);
   const [openFaqIndex, setOpenFaqIndex] = useState<number | null>(null);
   const [lightboxImage, setLightboxImage] = useState<number | null>(null);
-  
-  const carouselImages = [
-    imgConver11,
-    imgCover41,
-    imgCover31,
-    imgCover21,
-    imgFrame21472292871
-  ];
+
+  const heroRef = useRef(null);
+  const { scrollYProgress } = useScroll({
+    target: heroRef,
+    offset: ["start start", "end start"]
+  });
+  const heroOpacity = useTransform(scrollYProgress, [0, 0.5], [1, 0]);
+  const heroScale = useTransform(scrollYProgress, [0, 0.5], [1, 0.95]);
+
+  const carouselImages = [imgConver11, imgCover41, imgCover31, imgCover21, imgFrame21472292871];
 
   const lifestyleImages = [
     { src: img1Expecting1, alt: "Expecting" },
@@ -45,276 +62,621 @@ export default function HomePage() {
     { src: img7Coffee1, alt: "Coffee" },
     { src: img8Walk1, alt: "Walk" },
     { src: img9Work1, alt: "Work" },
-    { src: img10Journal1, alt: "Journal" }
+    { src: img10Journal1, alt: "Journal" },
+  ];
+
+  const features = [
+    { icon: Mic, title: "Auto-Journaling", description: "No tapping required. Captures through voice triggers and contextual awareness." },
+    { icon: Shield, title: "Privacy First", description: "No audio stored—ever. Processing happens locally. Encrypted and only yours." },
+    { icon: PenLine, title: "Emotional Capture", description: "Preserves tone, pauses, and emotion—not just words." },
+    { icon: Sparkles, title: "AI-Powered", description: "Smart transcription that understands context beautifully." },
+    { icon: Clock, title: "Always Ready", description: "Pendant, clip, or pin. Always with you, ready to capture." },
+    { icon: Heart, title: "For Those You Love", description: "Lasting memories for you, your family, and future you." },
   ];
 
   const faqs = [
-    {
-      question: "What's Sein PAI?",
-      answer: "Sein PAI is a personal AI journaling device that captures your daily moments through voice, automatically writing down your experiences with the tone, pace, and emotion of each moment—without any tapping or manual recording."
-    },
-    {
-      question: "Why a wearable device?",
-      answer: "A wearable makes auto-journaling seamless and always accessible. Wear it as a pendant, clip, or pin—whatever fits your style. It's designed to be with you throughout your day, capturing moments as they happen."
-    },
-    {
-      question: "Is Sein PAI always recording?",
-      answer: "No. Sein PAI uses voice triggers and contextual awareness to know when to capture moments. It's designed to journal your life, not record everything. Plus, no audio is stored—only the written journal entries."
-    },
-    {
-      question: "Does Sein PAI require a subscription?",
-      answer: "No subscription is needed to start. We're including 3 months of Sein Pro on us. After that, you can continue with the free version or upgrade to Pro for additional features."
-    },
-    {
-      question: "Do I need to press a button to record?",
-      answer: "No. Sein transcribes automatically and discards audio by default. Double-tap to record and save audio—LED indicates when recording."
-    },
-    {
-      question: "What about privacy?",
-      answer: "Privacy is our top priority. No audio is stored—ever. All processing happens locally on device first. Your journal entries are encrypted and only accessible to you. We never sell or share your personal data."
-    },
-    {
-      question: "When does it ship?",
-      answer: "Sein PAI is scheduled to ship in spring 2026. All preorders are fully refundable if you change your mind."
-    },
-    {
-      question: "What's the refund policy?",
-      answer: "We offer a fully refundable preorder. If you're not satisfied or change your mind before shipping, you can get a complete refund—no questions asked."
-    }
+    { question: "What's Sein PAI?", answer: "Sein PAI is a personal AI journaling device that captures your daily moments through voice, automatically writing down your experiences with the tone, pace, and emotion of each moment—without any tapping or manual recording." },
+    { question: "Why a wearable device?", answer: "A wearable makes auto-journaling seamless and always accessible. Wear it as a pendant, clip, or pin—whatever fits your style. It's designed to be with you throughout your day, capturing moments as they happen." },
+    { question: "Is Sein PAI always recording?", answer: "No. Sein PAI uses voice triggers and contextual awareness to know when to capture moments. It's designed to journal your life, not record everything. Plus, no audio is stored—only the written journal entries." },
+    { question: "Does it require a subscription?", answer: "No subscription is needed to start. We're including 3 months of Sein Pro on us. After that, you can continue with the free version or upgrade to Pro for additional features." },
+    { question: "Do I need to press a button?", answer: "No. Sein transcribes automatically and discards audio by default. Double-tap to record and save audio—LED indicates when recording." },
+    { question: "What about privacy?", answer: "Privacy is our top priority. No audio is stored—ever. All processing happens locally on device first. Your journal entries are encrypted and only accessible to you." },
+    { question: "When does it ship?", answer: "Sein PAI ships spring 2026. All preorders are fully refundable." },
+    { question: "Refund policy?", answer: "Fully refundable preorder. Change your mind before shipping? Complete refund—no questions asked." },
   ];
 
-  // Auto-play carousel
   useEffect(() => {
     const interval = setInterval(() => {
       setActiveIndex((current) => (current + 1) % carouselImages.length);
-    }, 3000); // Change every 3 seconds
-
+    }, 4000);
     return () => clearInterval(interval);
   }, [carouselImages.length]);
 
+  const scrollToContent = () => {
+    document.getElementById("intro")?.scrollIntoView({ behavior: "smooth" });
+  };
 
   return (
-    <div className="min-h-screen bg-[#F5F3EE] relative pb-32">
-      {/* Main Content */}
-      <div className="max-w-[1440px] mx-auto px-6 md:px-12 lg:px-16">
-        {/* Hero Section */}
-        <section className="pt-[80px] md:pt-20 pb-[0px] pr-[0px] pl-[0px]">
-          <div className="max-w-4xl">
-            <div className="font-['Funnel_Sans',sans-serif] text-[#838383] text-lg md:text-xl lg:text-[28px] leading-relaxed space-y-4 bg-[rgba(0,0,0,0)] px-[0px] pt-[10px] pb-[80px]">
+    <div className="min-h-screen bg-[#FAFAF8] relative">
+      <Header />
+
+      {/* HERO SECTION - Full viewport, centered */}
+      <motion.section
+        ref={heroRef}
+        style={{ opacity: heroOpacity, scale: heroScale }}
+        className="min-h-screen flex flex-col items-center justify-center px-6 relative"
+      >
+        <div className="text-center max-w-5xl mx-auto">
+          {/* Eyebrow */}
+          <motion.p
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.2 }}
+            className="text-sm md:text-base tracking-[0.2em] uppercase text-black/40 mb-6 font-medium"
+          >
+            The Wearable Personal AI
+          </motion.p>
+
+          {/* Main Headline */}
+          <motion.h1
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 0.3 }}
+            className="text-5xl md:text-7xl lg:text-8xl font-light text-black mb-8 tracking-tight leading-[0.9]"
+            style={{ fontFamily: "'Funnel Sans', sans-serif" }}
+          >
+            Your life,
+            <br />
+            <span className="font-normal">written down.</span>
+          </motion.h1>
+
+          {/* Subheadline */}
+          <motion.p
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.5 }}
+            className="text-lg md:text-xl text-black/50 mb-12 max-w-xl mx-auto leading-relaxed"
+            style={{ fontFamily: "'Funnel Sans', sans-serif" }}
+          >
+            Auto-journaling, not recording. Capturing your moments—the tone, the pauses, the emotion.
+          </motion.p>
+
+          {/* CTA */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.7 }}
+            className="flex flex-col sm:flex-row gap-4 justify-center items-center"
+          >
+            <span className="text-sm text-black/30">Ships Spring '26 · Fully Refundable</span>
+            <a
+              href="https://book.stripe.com/7sY9ATgvM7LZg2acvPbQY0b"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="bg-black text-white px-10 py-4 rounded-full text-base font-medium hover:bg-black/80 transition-all duration-300 inline-flex items-center gap-3"
+            >
+              Preorder
+              <span className="text-white/60">$249</span>
+            </a>
+          </motion.div>
+        </div>
+
+        {/* Scroll indicator */}
+        <motion.button
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.6, delay: 1.2 }}
+          onClick={scrollToContent}
+          className="absolute bottom-12 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 text-black/30 hover:text-black/50 transition-colors cursor-pointer"
+        >
+          <span className="text-xs tracking-widest uppercase">Scroll</span>
+          <motion.div
+            animate={{ y: [0, 6, 0] }}
+            transition={{ duration: 1.5, repeat: Infinity, ease: "easeInOut" }}
+          >
+            <ChevronDown size={20} />
+          </motion.div>
+        </motion.button>
+      </motion.section>
+
+      {/* INTRO SECTION */}
+      <section id="intro" className="py-32 md:py-40 px-6 bg-white">
+        <div className="max-w-3xl mx-auto">
+          <AnimatedSection>
+            <div className="space-y-8 text-xl md:text-2xl text-black/40 leading-relaxed" style={{ fontFamily: "'Funnel Sans', sans-serif" }}>
               <p>Do you remember the color of your first diary?</p>
               <p>When was the last time you opened an old journal—grateful you wrote it down, or sad for the moments you didn't?</p>
               <p>What if something could hold onto these moments for you—without discipline, without remembering to record?</p>
-              <p>For yourself. For the people you love. For the you who wants to look back, years from now.</p>
-              <p className="mt-6 pt-4">Sein PAI. Worn on you. Auto-journaling, not recording. Writing down your every day—with the tone, the pauses, the emotion of that moment.</p>
+              <p className="text-black/70 font-medium pt-4">
+                For yourself. For the people you love. For the you who wants to look back, years from now.
+              </p>
             </div>
-          </div>
-        </section>
+          </AnimatedSection>
+        </div>
+      </section>
 
-        {/* Product Image Section 1 */}
-        <section className="py-16 relative">
-          <div className="grid md:grid-cols-2 gap-8 items-center">
-            <div className="relative">
-              <img 
-                src={img60D924998A035F57F4449Bcff52Deec52} 
-                alt="Sein device" 
-                className="w-full h-auto rounded-lg"
-              />
-            </div>
-            <div>
-              <div className="font-['Funnel_Sans',sans-serif] font-bold text-2xl md:text-3xl leading-relaxed space-y-2 bg-[rgba(0,0,0,0)]">
-                <p className="text-[rgba(10,10,10,0.56)] font-bold">No Tap.</p>
-                <p className="text-[rgba(10,10,10,0.56)]">No audio stored.</p>
-                <p className="text-[rgba(10,10,10,0.56)]">Just your words—the pace, the tone, the feeling.</p>
-                <p className="mt-4 text-[rgba(10,10,10,0.56)]">Sometimes how you say it matters more than what you say.</p>
-                <p className="mt-4">Sein PAI: Pendant, clip, or pin—your call.</p>
+      {/* PRODUCT SHOWCASE */}
+      <section className="py-24 md:py-32 px-6 bg-[#FAFAF8]" id="features">
+        <div className="max-w-6xl mx-auto">
+          <AnimatedSection>
+            <div className="grid lg:grid-cols-2 gap-16 lg:gap-24 items-center">
+              {/* Product Image */}
+              <div className="relative order-2 lg:order-1">
+                <motion.div
+                  whileHover={{ scale: 1.02 }}
+                  transition={{ duration: 0.4 }}
+                  className="relative"
+                >
+                  <img
+                    src={img60D924998A035F57F4449Bcff52Deec52}
+                    alt="Sein PAI device"
+                    className="w-full h-auto"
+                  />
+                </motion.div>
+              </div>
+
+              {/* Text Content */}
+              <div className="order-1 lg:order-2 space-y-6" style={{ fontFamily: "'Funnel Sans', sans-serif" }}>
+                <h2 className="text-4xl md:text-5xl font-light text-black leading-tight">
+                  No tap.<br />
+                  No audio stored.<br />
+                  <span className="text-black/40">Just your words.</span>
+                </h2>
+                <p className="text-lg text-black/50 leading-relaxed max-w-md">
+                  The pace, the tone, the feeling. Sometimes how you say it matters more than what you say.
+                </p>
+                <p className="text-base text-black/80 font-medium">
+                  Sein PAI: Pendant, clip, or pin—your call.
+                </p>
               </div>
             </div>
-          </div>
-        </section>
+          </AnimatedSection>
+        </div>
+      </section>
 
-        {/* Lifestyle Images Grid */}
-        <section className="py-16">
-          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
-            {lifestyleImages.map((image, index) => (
-              <div
-                key={index}
-                onClick={() => setLightboxImage(index)}
-                className="rounded-2xl overflow-hidden cursor-pointer transition-all duration-300 hover:scale-[1.02] hover:shadow-lg"
-              >
-                <img
-                  src={image.src}
-                  alt={image.alt}
-                  className="w-full h-auto object-contain"
-                />
+      {/* FEATURES - Bento Grid */}
+      <section className="py-24 md:py-32 px-6 bg-white">
+        <div className="max-w-6xl mx-auto">
+          <AnimatedSection>
+            <div className="text-center mb-16">
+              <h2 className="text-3xl md:text-4xl font-light text-black mb-4" style={{ fontFamily: "'Funnel Sans', sans-serif" }}>
+                Why Sein PAI
+              </h2>
+            </div>
+          </AnimatedSection>
+
+          {/* Bento Grid Layout */}
+          <div className="grid grid-cols-1 md:grid-cols-6 gap-4">
+            {/* Large card - spans 4 cols */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.5 }}
+              className="md:col-span-4 bg-gradient-to-br from-[#1a1a1a] to-[#2d2d2d] rounded-3xl p-8 md:p-12 text-white relative overflow-hidden group"
+            >
+              <div className="relative z-10">
+                <Mic size={32} strokeWidth={1.5} className="mb-6 text-white/80" />
+                <h3 className="text-2xl md:text-3xl font-medium mb-4" style={{ fontFamily: "'Funnel Sans', sans-serif" }}>
+                  Auto-Journaling
+                </h3>
+                <p className="text-white/60 text-lg leading-relaxed max-w-md">
+                  No tapping. No remembering. Sein captures your moments through voice triggers and contextual awareness—automatically.
+                </p>
               </div>
-            ))}
-          </div>
-        </section>
+              <div className="absolute -right-20 -bottom-20 w-64 h-64 bg-white/5 rounded-full blur-3xl group-hover:bg-white/10 transition-all duration-500" />
+            </motion.div>
 
-        {/* Lightbox Modal */}
-        {lightboxImage !== null && (
-          <div
-            className="fixed inset-0 bg-black/80 z-[100] flex items-center justify-center p-4"
-            onClick={() => setLightboxImage(null)}
+            {/* Small card - spans 2 cols */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.5, delay: 0.1 }}
+              className="md:col-span-2 bg-[#FAFAF8] rounded-3xl p-8 group hover:bg-[#F5F5F0] transition-all duration-300"
+            >
+              <Shield size={28} strokeWidth={1.5} className="mb-6 text-black/60 group-hover:text-black transition-colors" />
+              <h3 className="text-xl font-medium mb-2 text-black" style={{ fontFamily: "'Funnel Sans', sans-serif" }}>
+                Privacy First
+              </h3>
+              <p className="text-black/50 text-sm leading-relaxed">
+                No audio stored—ever. Processing happens locally. Encrypted and only yours.
+              </p>
+            </motion.div>
+
+            {/* Small card */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.5, delay: 0.2 }}
+              className="md:col-span-2 bg-[#FAFAF8] rounded-3xl p-8 group hover:bg-[#F5F5F0] transition-all duration-300"
+            >
+              <PenLine size={28} strokeWidth={1.5} className="mb-6 text-black/60 group-hover:text-black transition-colors" />
+              <h3 className="text-xl font-medium mb-2 text-black" style={{ fontFamily: "'Funnel Sans', sans-serif" }}>
+                Emotional Capture
+              </h3>
+              <p className="text-black/50 text-sm leading-relaxed">
+                Preserves tone, pauses, and emotion—not just words.
+              </p>
+            </motion.div>
+
+            {/* Medium card - spans 2 cols */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.5, delay: 0.3 }}
+              className="md:col-span-2 bg-[#FAFAF8] rounded-3xl p-8 group hover:bg-[#F5F5F0] transition-all duration-300"
+            >
+              <Sparkles size={28} strokeWidth={1.5} className="mb-6 text-black/60 group-hover:text-black transition-colors" />
+              <h3 className="text-xl font-medium mb-2 text-black" style={{ fontFamily: "'Funnel Sans', sans-serif" }}>
+                AI-Powered
+              </h3>
+              <p className="text-black/50 text-sm leading-relaxed">
+                Smart transcription that understands context beautifully.
+              </p>
+            </motion.div>
+
+            {/* Small card */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.5, delay: 0.4 }}
+              className="md:col-span-2 bg-[#FAFAF8] rounded-3xl p-8 group hover:bg-[#F5F5F0] transition-all duration-300"
+            >
+              <Clock size={28} strokeWidth={1.5} className="mb-6 text-black/60 group-hover:text-black transition-colors" />
+              <h3 className="text-xl font-medium mb-2 text-black" style={{ fontFamily: "'Funnel Sans', sans-serif" }}>
+                Always Ready
+              </h3>
+              <p className="text-black/50 text-sm leading-relaxed">
+                Pendant, clip, or pin. Always with you.
+              </p>
+            </motion.div>
+
+            {/* Heart card with accent */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.5, delay: 0.5 }}
+              className="md:col-span-2 bg-gradient-to-br from-rose-50 to-orange-50 rounded-3xl p-8 group"
+            >
+              <Heart size={28} strokeWidth={1.5} className="mb-6 text-rose-400" />
+              <h3 className="text-xl font-medium mb-2 text-black" style={{ fontFamily: "'Funnel Sans', sans-serif" }}>
+                For Those You Love
+              </h3>
+              <p className="text-black/50 text-sm leading-relaxed">
+                Lasting memories for you, your family, and future you.
+              </p>
+            </motion.div>
+          </div>
+        </div>
+      </section>
+
+      {/* LIFESTYLE GALLERY */}
+      <section className="py-24 md:py-32 px-6 bg-[#FAFAF8]" id="gallery">
+        <div className="max-w-6xl mx-auto">
+          <AnimatedSection>
+            <div className="text-center mb-16">
+              <h2 className="text-3xl md:text-4xl font-light text-black mb-4" style={{ fontFamily: "'Funnel Sans', sans-serif" }}>
+                Moments worth remembering
+              </h2>
+              <p className="text-black/40 max-w-lg mx-auto">
+                From morning coffee to bedtime stories, capture what matters most.
+              </p>
+            </div>
+          </AnimatedSection>
+
+          {/* Two Row Layout - Natural Aspect Ratios */}
+          <div className="space-y-4">
+            {/* Row 1 - 5 images */}
+            <div className="flex gap-4 overflow-x-auto pb-2 scrollbar-hide">
+              {lifestyleImages.slice(0, 5).map((image, index) => (
+                <motion.div
+                  key={index}
+                  onClick={() => setLightboxImage(index)}
+                  className="flex-shrink-0 cursor-pointer relative group"
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.4, delay: index * 0.08 }}
+                  whileHover={{ y: -8 }}
+                >
+                  <div className="overflow-hidden rounded-2xl">
+                    <img
+                      src={image.src}
+                      alt={image.alt}
+                      className="h-[280px] md:h-[360px] w-auto object-contain transition-transform duration-500 group-hover:scale-[1.02]"
+                    />
+                  </div>
+                </motion.div>
+              ))}
+            </div>
+
+            {/* Row 2 - 5 images */}
+            <div className="flex gap-4 overflow-x-auto pb-2 scrollbar-hide">
+              {lifestyleImages.slice(5, 10).map((image, index) => (
+                <motion.div
+                  key={index + 5}
+                  onClick={() => setLightboxImage(index + 5)}
+                  className="flex-shrink-0 cursor-pointer relative group"
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.4, delay: index * 0.08 }}
+                  whileHover={{ y: -8 }}
+                >
+                  <div className="overflow-hidden rounded-2xl">
+                    <img
+                      src={image.src}
+                      alt={image.alt}
+                      className="h-[280px] md:h-[360px] w-auto object-contain transition-transform duration-500 group-hover:scale-[1.02]"
+                    />
+                  </div>
+                </motion.div>
+              ))}
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Lightbox */}
+      {lightboxImage !== null && (
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          className="fixed inset-0 bg-black/95 z-[100] flex items-center justify-center p-4"
+          onClick={() => setLightboxImage(null)}
+        >
+          <motion.div
+            initial={{ scale: 0.9, opacity: 0 }}
+            animate={{ scale: 1, opacity: 1 }}
+            className="relative max-w-4xl w-full"
           >
-            <div className="relative max-w-[90vw] max-h-[90vh]">
-              <img
-                src={lifestyleImages[lightboxImage].src}
-                alt={lifestyleImages[lightboxImage].alt}
-                className="max-w-full max-h-[90vh] object-contain rounded-lg"
-              />
+            <img
+              src={lifestyleImages[lightboxImage].src}
+              alt={lifestyleImages[lightboxImage].alt}
+              className="w-full h-auto max-h-[85vh] object-contain rounded-lg"
+            />
+            <button
+              onClick={() => setLightboxImage(null)}
+              className="absolute -top-12 right-0 text-white/60 hover:text-white text-sm tracking-widest uppercase"
+            >
+              Close
+            </button>
+            <div className="absolute top-1/2 -translate-y-1/2 left-0 right-0 flex justify-between px-4 pointer-events-none">
               <button
-                onClick={() => setLightboxImage(null)}
-                className="absolute top-4 right-4 text-white bg-black/50 rounded-full w-10 h-10 flex items-center justify-center hover:bg-black/70 transition-colors"
-              >
-                ✕
-              </button>
-              <button
-                onClick={(e) => {
-                  e.stopPropagation();
-                  setLightboxImage(lightboxImage > 0 ? lightboxImage - 1 : lifestyleImages.length - 1);
-                }}
-                className="absolute left-4 top-1/2 -translate-y-1/2 text-white bg-black/50 rounded-full w-10 h-10 flex items-center justify-center hover:bg-black/70 transition-colors"
+                onClick={(e) => { e.stopPropagation(); setLightboxImage(lightboxImage > 0 ? lightboxImage - 1 : lifestyleImages.length - 1); }}
+                className="w-12 h-12 rounded-full bg-white/10 flex items-center justify-center text-white hover:bg-white/20 transition-colors pointer-events-auto"
               >
                 ‹
               </button>
               <button
-                onClick={(e) => {
-                  e.stopPropagation();
-                  setLightboxImage(lightboxImage < lifestyleImages.length - 1 ? lightboxImage + 1 : 0);
-                }}
-                className="absolute right-4 top-1/2 -translate-y-1/2 text-white bg-black/50 rounded-full w-10 h-10 flex items-center justify-center hover:bg-black/70 transition-colors"
+                onClick={(e) => { e.stopPropagation(); setLightboxImage(lightboxImage < lifestyleImages.length - 1 ? lightboxImage + 1 : 0); }}
+                className="w-12 h-12 rounded-full bg-white/10 flex items-center justify-center text-white hover:bg-white/20 transition-colors pointer-events-auto"
               >
                 ›
               </button>
             </div>
-          </div>
-        )}
+          </motion.div>
+        </motion.div>
+      )}
 
-        {/* Feature Section - Empathy */}
-        <section className="py-16">
-        </section>
-
-        {/* Journal Covers Section - Click to Enlarge */}
-        <section className="py-16">
-          <div className="flex flex-col lg:flex-row gap-4 lg:gap-4 items-stretch">
-
-            {/* 左侧大图 - 当前选中的 */}
-            <div className="w-full lg:w-[65%]">
-              <div
-                className="rounded-2xl overflow-hidden cursor-pointer transition-all duration-300 h-full flex items-center"
-                onClick={() => setActiveIndex((activeIndex + 1) % carouselImages.length)}
-              >
-                <img
-                  src={carouselImages[activeIndex]}
-                  alt={`Cover design ${activeIndex + 1}`}
-                  className="w-full h-full object-contain"
-                />
-              </div>
+      {/* JOURNAL COVERS - Product Features */}
+      <section className="py-24 md:py-32 px-6 bg-white">
+        <div className="max-w-6xl mx-auto">
+          <AnimatedSection>
+            <div className="text-center mb-16">
+              <h2 className="text-3xl md:text-4xl font-light text-black mb-4" style={{ fontFamily: "'Funnel Sans', sans-serif" }}>
+                How Sein PAI works
+              </h2>
+              <p className="text-black/40">See how your daily moments become beautiful journal entries.</p>
             </div>
+          </AnimatedSection>
 
-            {/* 右侧小图 - 其他4张，单列，顶底对齐 */}
-            <div className="w-full lg:w-[15%] flex flex-row lg:flex-col justify-between gap-2 lg:gap-0">
+          <AnimatedSection>
+            {/* Horizontal Scroll Gallery */}
+            <div className="flex gap-6 overflow-x-auto pb-4 scrollbar-hide">
               {carouselImages.map((img, index) => (
-                index !== activeIndex && (
-                  <div
-                    key={index}
-                    onClick={() => setActiveIndex(index)}
-                    className="flex-1 lg:flex-none rounded-lg overflow-hidden cursor-pointer transition-all duration-300 hover:scale-[1.05] hover:shadow-lg"
-                  >
-                    <img src={img} alt={`Cover ${index + 1}`} className="w-full h-auto object-contain" />
-                  </div>
-                )
+                <motion.div
+                  key={index}
+                  onClick={() => setActiveIndex(index)}
+                  className={`flex-shrink-0 cursor-pointer rounded-2xl overflow-hidden transition-all duration-300 ${
+                    index === activeIndex
+                      ? "opacity-100"
+                      : "opacity-60 hover:opacity-90"
+                  }`}
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.4, delay: index * 0.1 }}
+                  whileHover={{ y: -8 }}
+                >
+                  <img
+                    src={img}
+                    alt={`Feature ${index + 1}`}
+                    className="h-[400px] md:h-[500px] w-auto object-contain"
+                  />
+                </motion.div>
               ))}
             </div>
 
-          </div>
-        </section>
+            {/* Dots indicator */}
+            <div className="flex justify-center gap-2 mt-8">
+              {carouselImages.map((_, index) => (
+                <button
+                  key={index}
+                  onClick={() => setActiveIndex(index)}
+                  className={`w-2 h-2 rounded-full transition-all duration-300 ${
+                    index === activeIndex ? "bg-black w-6" : "bg-black/20 hover:bg-black/40"
+                  }`}
+                />
+              ))}
+            </div>
+          </AnimatedSection>
+        </div>
+      </section>
 
-        {/* FAQ Section */}
-        <section className="py-16">
-          <div className="ml-0">
-            <h2 className="font-['Funnel_Sans',sans-serif] text-[#838383] text-xl md:text-2xl lg:text-3xl leading-relaxed mb-8">
-              FAQs
-            </h2>
+      {/* FAQ */}
+      <section className="py-24 md:py-32 px-6 bg-[#FAFAF8]" id="faq">
+        <div className="max-w-2xl mx-auto">
+          <AnimatedSection>
+            <div className="text-center mb-16">
+              <h2 className="text-3xl md:text-4xl font-light text-black mb-4" style={{ fontFamily: "'Funnel Sans', sans-serif" }}>
+                Questions
+              </h2>
+            </div>
+          </AnimatedSection>
+
+          <div className="space-y-3">
             {faqs.map((faq, index) => (
-              <div key={index} className="mb-4">
-                <div
-                  className="cursor-pointer flex items-center justify-between"
+              <motion.div
+                key={index}
+                initial={{ opacity: 0, y: 10 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.3, delay: index * 0.03 }}
+              >
+                <button
                   onClick={() => setOpenFaqIndex(openFaqIndex === index ? null : index)}
+                  className={`w-full text-left p-5 rounded-xl transition-all duration-300 ${
+                    openFaqIndex === index ? "bg-white shadow-sm" : "bg-white/50 hover:bg-white"
+                  }`}
                 >
-                  <p className="font-['Funnel_Sans',sans-serif] font-bold md:text-2xl leading-relaxed font-normal text-[rgba(10,10,10,0.42)] text-[20px]">
-                    {faq.question}
-                  </p>
-                  <svg
-                    className={`w-5 h-5 transition-transform flex-shrink-0 ml-4 ${
-                      openFaqIndex === index ? 'rotate-180' : 'rotate-0'
-                    }`}
-                    style={{ opacity: 0.42 }}
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                    xmlns="http://www.w3.org/2000/svg"
+                  <div className="flex items-center justify-between">
+                    <span className="font-medium text-black" style={{ fontFamily: "'Funnel Sans', sans-serif" }}>
+                      {faq.question}
+                    </span>
+                    <motion.span
+                      animate={{ rotate: openFaqIndex === index ? 45 : 0 }}
+                      transition={{ duration: 0.2 }}
+                      className="text-black/30 text-xl"
+                    >
+                      +
+                    </motion.span>
+                  </div>
+                  <motion.div
+                    initial={false}
+                    animate={{
+                      height: openFaqIndex === index ? "auto" : 0,
+                      opacity: openFaqIndex === index ? 1 : 0,
+                      marginTop: openFaqIndex === index ? 12 : 0,
+                    }}
+                    transition={{ duration: 0.3 }}
+                    className="overflow-hidden"
                   >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth="2"
-                      d="M19 9l-7 7-7-7"
-                    />
-                  </svg>
-                </div>
-                {openFaqIndex === index && (
-                  <p className="font-['Funnel_Sans',sans-serif] text-[#838383] md:text-base leading-relaxed mt-2 text-[15px]">
-                    {faq.answer}
-                  </p>
-                )}
-              </div>
+                    <p className="text-sm text-black/50 leading-relaxed pr-8">
+                      {faq.answer}
+                    </p>
+                  </motion.div>
+                </button>
+              </motion.div>
             ))}
           </div>
-        </section>
+        </div>
+      </section>
 
-        {/* Footer */}
-        <footer className="pt-16 pb-8">
-          <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
-            <p className="text-lg text-[rgba(0,0,0,0.6)] font-['SF_Pro_Rounded',system-ui,sans-serif] font-bold text-[16px]">
-              © 2026 Persein
-            </p>
-            <div className="flex flex-wrap gap-4 md:gap-6 text-base text-[rgba(0,0,0,0.42)] font-['SF_Pro_Rounded',system-ui,sans-serif] text-[15px]">
-              <a href="#" className="hover:text-black transition-colors">About</a>
-              <a href="#" className="hover:text-black transition-colors">Contact</a>
-              <a href="#" className="hover:text-black transition-colors">X</a>
-              <a href="#" className="hover:text-black transition-colors">IG</a>
-              <a href="#" className="hover:text-black transition-colors">YT</a>
-              <a href="#" className="hover:text-black transition-colors">Privacy</a>
+      {/* FOOTER */}
+      <footer className="py-16 px-6 bg-white border-t border-black/5">
+        <div className="max-w-6xl mx-auto">
+          <div className="grid md:grid-cols-4 gap-12 mb-16">
+            {/* Brand */}
+            <div className="md:col-span-2">
+              <h3 className="text-xl font-medium text-black mb-4" style={{ fontFamily: "'Funnel Sans', sans-serif" }}>
+                Sein<span className="text-black/40">PAI</span>
+              </h3>
+              <p className="text-sm text-black/40 leading-relaxed max-w-sm">
+                Auto-journaling for the moments that matter. Worn on you, always capturing—never recording.
+              </p>
+            </div>
+
+            {/* Links */}
+            <div>
+              <h4 className="text-sm font-medium text-black mb-4">Company</h4>
+              <div className="flex flex-col gap-3">
+                <a
+                  href="/about"
+                  onClick={(e) => { e.preventDefault(); (window as any).navigate('/about'); }}
+                  className="text-sm text-black/40 hover:text-black transition-colors"
+                >
+                  About
+                </a>
+                <a
+                  href="/contact"
+                  onClick={(e) => { e.preventDefault(); (window as any).navigate('/contact'); }}
+                  className="text-sm text-black/40 hover:text-black transition-colors"
+                >
+                  Contact
+                </a>
+                <a
+                  href="/privacy"
+                  onClick={(e) => { e.preventDefault(); (window as any).navigate('/privacy'); }}
+                  className="text-sm text-black/40 hover:text-black transition-colors"
+                >
+                  Privacy
+                </a>
+              </div>
+            </div>
+
+            {/* Social */}
+            <div>
+              <h4 className="text-sm font-medium text-black mb-4">Follow</h4>
+              <div className="flex gap-3">
+                <a href="https://x.com" target="_blank" rel="noopener noreferrer" className="w-9 h-9 rounded-full bg-black/5 flex items-center justify-center text-black/60 hover:bg-black hover:text-white transition-all">
+                  <Twitter size={16} />
+                </a>
+                <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" className="w-9 h-9 rounded-full bg-black/5 flex items-center justify-center text-black/60 hover:bg-black hover:text-white transition-all">
+                  <Instagram size={16} />
+                </a>
+                <a href="https://youtube.com" target="_blank" rel="noopener noreferrer" className="w-9 h-9 rounded-full bg-black/5 flex items-center justify-center text-black/60 hover:bg-black hover:text-white transition-all">
+                  <Youtube size={16} />
+                </a>
+              </div>
             </div>
           </div>
-        </footer>
-      </div>
 
-      {/* Fixed Bottom Preorder Bar */}
-      <div className="fixed bottom-0 left-0 right-0 bg-[#F5F3EE] border-t border-gray-200 py-4 md:py-[42px] px-4 md:px-[24px] z-50">
-        <div className="max-w-[1440px] mx-auto px-2 md:px-6 lg:px-16 flex items-center justify-between gap-4">
-          <p className="hidden md:block text-sm text-[rgba(0,0,0,0.3)] font-['SF_Pro_Rounded',system-ui,sans-serif] max-w-2xl font-bold">
-            No subscription needed to start. 3 months Pro on us.
-            <br />
-            Ships spring '26—fully refundable.
-          </p>
-          <p className="md:hidden text-xs text-[rgba(0,0,0,0.3)] font-['SF_Pro_Rounded',system-ui,sans-serif] font-bold flex-1">
-            3 months Pro free. Ships spring '26.
+          {/* Bottom */}
+          <div className="pt-8 border-t border-black/5 flex flex-col md:flex-row items-center justify-between gap-4">
+            <p className="text-xs text-black/30">© 2026 Persein. All rights reserved.</p>
+            <p className="text-xs text-black/30">Made with care for those who want to remember.</p>
+          </div>
+        </div>
+      </footer>
+
+      {/* FIXED PREORDER BAR */}
+      <motion.div
+        initial={{ y: 100 }}
+        animate={{ y: 0 }}
+        transition={{ delay: 1, duration: 0.5 }}
+        className="fixed bottom-0 left-0 right-0 bg-white/90 backdrop-blur-lg border-t border-black/5 py-4 px-6 z-50"
+      >
+        <div className="max-w-6xl mx-auto flex items-center justify-between gap-4">
+          <div className="hidden md:block">
+            <p className="text-sm text-black/70 font-medium">
+              3 months Pro included. <span className="text-black/40">Ships Spring '26 — fully refundable.</span>
+            </p>
+          </div>
+          <p className="md:hidden text-xs text-black/50 flex-1">
+            3 months Pro free. Ships Spring '26.
           </p>
           <a
             href="https://book.stripe.com/7sY9ATgvM7LZg2acvPbQY0b"
             target="_blank"
             rel="noopener noreferrer"
-            className="bg-black text-white px-4 md:px-8 py-2 md:py-3 rounded-full font-['SF_Pro_Rounded',system-ui,sans-serif] font-medium hover:bg-gray-800 transition-colors flex items-center gap-2 md:gap-4 whitespace-nowrap text-sm md:text-base"
+            className="bg-black text-white px-6 py-3 rounded-full text-sm font-medium hover:bg-black/80 transition-all duration-300 flex items-center gap-3 whitespace-nowrap"
           >
             <span>Preorder</span>
             <span className="font-semibold">$249</span>
-            <span className="text-gray-400 line-through text-xs md:text-sm"><span className="hidden md:inline">$299 MSRP</span><span className="md:hidden">$299</span></span>
+            <span className="text-white/50 line-through text-xs">$299</span>
           </a>
         </div>
-      </div>
+      </motion.div>
+
+      {/* Bottom padding for fixed bar */}
+      <div className="h-20" />
     </div>
   );
 }
