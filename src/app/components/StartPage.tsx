@@ -59,11 +59,15 @@ export default function StartPage() {
               <h3 className="text-xl font-medium text-black mb-2" style={{ fontFamily: "'Funnel Sans', sans-serif" }}>
                 Android
               </h3>
-              <p className="text-black/40 text-sm mb-6">Coming Soon</p>
-              <div className="bg-black/5 p-4 rounded-xl inline-flex items-center justify-center" style={{ width: '182px', height: '182px' }}>
-                <p className="text-black/30 text-sm">Coming Soon</p>
+              <p className="text-black/40 text-sm mb-6">Beta Preview</p>
+              <div className="bg-white p-4 rounded-xl inline-block border border-black/10">
+                <img
+                  src={`https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=${encodeURIComponent('https://github.com/Riverotime/SeinPAI/releases/latest/download/Sein-1.0.0-beta.apk')}`}
+                  alt="Android APK QR Code"
+                  className="w-[150px] h-[150px]"
+                />
               </div>
-              <p className="text-black/30 text-xs mt-4">Stay tuned</p>
+              <p className="text-black/30 text-xs mt-4">Scan to download</p>
             </div>
           </div>
         </div>
