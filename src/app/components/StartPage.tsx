@@ -62,7 +62,7 @@ export default function StartPage() {
               <p className="text-black/40 text-sm mb-6">Beta Preview</p>
               <div className="bg-white p-4 rounded-xl inline-block border border-black/10">
                 <img
-                  src={`https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=${encodeURIComponent('https://github.com/Riverotime/SeinPAI/releases/latest/download/Sein-1.0.1.apk')}`}
+                  src={`https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=${encodeURIComponent('http://image.voice.51biaotai.com/Sein-1.0.1.apk')}`}
                   alt="Android APK QR Code"
                   className="w-[150px] h-[150px]"
                 />
