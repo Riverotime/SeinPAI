@@ -65,12 +65,12 @@ export default function Header() {
               FAQ
             </button>
             <a
-              href="https://book.stripe.com/7sY9ATgvM7LZg2acvPbQY0b"
+              href="https://www.indiegogo.com/en/projects/sein-pai/sein"
               target="_blank"
               rel="noopener noreferrer"
               className="bg-black text-white px-5 py-2 rounded-full text-sm font-medium hover:bg-black/80 transition-colors"
             >
-              Preorder
+              Back on Indiegogo
             </a>
           </nav>
 
@@ -106,12 +106,12 @@ export default function Header() {
                 FAQ
               </button>
               <a
-                href="https://book.stripe.com/7sY9ATgvM7LZg2acvPbQY0b"
+                href="https://www.indiegogo.com/en/projects/sein-pai/sein"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="bg-black text-white px-5 py-3 rounded-full font-medium text-base hover:bg-black/80 transition-colors text-center mt-2"
               >
-                Preorder Now
+                Back on Indiegogo
               </a>
             </nav>
           </div>

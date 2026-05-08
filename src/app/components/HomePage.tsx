@@ -150,13 +150,12 @@ export default function HomePage() {
           >
             <span className="text-sm text-black/30">Ships Spring '26 · Fully Refundable</span>
             <a
-              href="https://book.stripe.com/7sY9ATgvM7LZg2acvPbQY0b"
+              href="https://www.indiegogo.com/en/projects/sein-pai/sein"
               target="_blank"
               rel="noopener noreferrer"
               className="bg-black text-white px-10 py-4 rounded-full text-base font-medium hover:bg-black/80 transition-all duration-300 inline-flex items-center gap-3"
             >
-              Preorder
-              <span className="text-white/60">$249</span>
+              Back on Indiegogo
             </a>
           </motion.div>
         </div>
@@ -663,14 +662,12 @@ export default function HomePage() {
             3 months Pro free. Ships Spring '26.
           </p>
           <a
-            href="https://book.stripe.com/7sY9ATgvM7LZg2acvPbQY0b"
+            href="https://www.indiegogo.com/en/projects/sein-pai/sein"
             target="_blank"
             rel="noopener noreferrer"
             className="bg-black text-white px-6 py-3 rounded-full text-sm font-medium hover:bg-black/80 transition-all duration-300 flex items-center gap-3 whitespace-nowrap"
           >
-            <span>Preorder</span>
-            <span className="font-semibold">$249</span>
-            <span className="text-white/50 line-through text-xs">$299</span>
+            <span>Back on Indiegogo</span>
           </a>
         </div>
       </motion.div>
