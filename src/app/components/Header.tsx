@@ -65,12 +65,12 @@ export default function Header() {
               FAQ
             </button>
             <a
-              href="https://www.indiegogo.com/en/projects/sein-pai/sein"
+              href="/waitlist"
               target="_blank"
               rel="noopener noreferrer"
               className="bg-black text-white px-5 py-2 rounded-full text-sm font-medium hover:bg-black/80 transition-colors"
             >
-              Back on Indiegogo
+              Join the waitlist
             </a>
           </nav>
 
@@ -106,12 +106,12 @@ export default function Header() {
                 FAQ
               </button>
               <a
-                href="https://www.indiegogo.com/en/projects/sein-pai/sein"
+                href="/waitlist"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="bg-black text-white px-5 py-3 rounded-full font-medium text-base hover:bg-black/80 transition-colors text-center mt-2"
               >
-                Back on Indiegogo
+                Join the waitlist
               </a>
             </nav>
           </div>

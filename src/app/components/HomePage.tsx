@@ -1,679 +1,99 @@
-import { useState, useEffect, useRef } from "react";
-import { motion, useInView, useScroll, useTransform } from "motion/react";
-import { Mic, Shield, PenLine, Sparkles, Clock, Heart, ChevronDown, Twitter, Instagram, Youtube } from "lucide-react";
-import img60D924998A035F57F4449Bcff52Deec52 from "@/assets/46ba4aeb2e54923f5b128714d60aaecdd7b4bcac.png";
-import img1Expecting1 from "@/assets/9d7e53572b328d4399f242954cd93336f071028d.png";
-import img2WithKids1 from "@/assets/8a250fef6b7394ac221237cbc3275b1f3991b611.png";
-import img3Driving1 from "@/assets/01143d992d42df511f3f1ee4b93a759f351ecd8c.png";
-import img4Capture1 from "@/assets/e3e3598b1dabc5ab12f65981fc04d237bf3dbced.png";
-import img5Mood1 from "@/assets/0f61705140081cd8233be3e9c40faf881edc1236.png";
-import img6NoAudio1 from "@/assets/a1caec64e319fbd80b3b2a3059370a5e7fb1c833.png";
-import img7Coffee1 from "@/assets/d705a77bdbb56d27bead2973827da1ff99167073.png";
-import img8Walk1 from "@/assets/9cdb6686ea43b66a3051eb8d816e31a001b27d77.png";
-import img9Work1 from "@/assets/979c9c445552d810fb1dceee7d75c334a662503c.png";
-import img10Journal1 from "@/assets/69c58058d3083bb08ff0b13d397a90552d94896c.png";
-import imgConver11 from "@/assets/9efb2186dfad184e2f4b7095cf5655b6c903f496.png";
-import imgCover41 from "@/assets/0793d478be9da68aa4d78d077e2ae475ea88f0e7.png";
-import imgCover31 from "@/assets/261897e2457e019fa9ba9386239f449868c68e3d.png";
-import imgCover21 from "@/assets/b1ddf05f0fb29cf8d1d7b5640d40f7de97f95647.png";
-import imgFrame21472292871 from "@/assets/a072c6bde4e4c8a07f0d46b3f63fc64439b0084e.png";
-import Header from "./Header";
+import { useRef, useState } from "react";
+import { ArrowRight, ChevronDown, ChevronLeft, ChevronRight, Menu, X } from "lucide-react";
+import device from "@/assets/46ba4aeb2e54923f5b128714d60aaecdd7b4bcac.png";
+import baby from "@/assets/8a250fef6b7394ac221237cbc3275b1f3991b611.png";
+import family from "@/assets/9d7e53572b328d4399f242954cd93336f071028d.png";
+import life from "@/assets/d705a77bdbb56d27bead2973827da1ff99167073.png";
+import work from "@/assets/979c9c445552d810fb1dceee7d75c334a662503c.png";
+import walk from "@/assets/9cdb6686ea43b66a3051eb8d816e31a001b27d77.png";
+import heroPhoto from "@/assets/sein/hero-documentary.png";
+import gardenPhoto from "@/assets/sein/garden-motion.png";
+import "./HomePage.css";
 
-// Animation wrapper component
-function AnimatedSection({ children, className = "" }: { children: React.ReactNode; className?: string }) {
-  const ref = useRef(null);
-  const isInView = useInView(ref, { once: true, margin: "-50px" });
+const waitlist = "/waitlist";
+const skills = [
+  { name: "婴儿照护", image: baby, scene: "刚哄睡宝宝，你终于能坐下来喝一口水。", ask: "这两天他怎么总是睡一小会儿就醒？", reply: "我留意到，宝宝这三天的小睡比平时平均短了约 40 分钟。要不要一起看看喂奶与入睡时间有没有变化？", finds: ["喂养、睡眠与情绪之间的变化", "容易被忙碌掩盖的照护规律", "值得带去咨询专业人士的问题"], author: "儿科与婴幼儿照护领域的专业人士" },
+  { name: "儿童教育", image: family, scene: "放学路上，孩子又说今天不想聊学校。", ask: "我是不是问得太多了？", reply: "最近你们聊到学校时，他常会先说“没什么”；聊到朋友时却会主动多说几句。今晚可以从那个朋友的话题开始。", finds: ["孩子愿意主动聊的话题", "亲子交流中的情绪转折", "适合继续追问或暂停的时刻"], author: "儿童发展与家庭教育领域的专业人士" },
+  { name: "亲密关系", image: family, scene: "一次小争执结束后，你们都安静了下来。", ask: "我们为什么总在这件事上吵？", reply: "你们最近几次谈到家务时，讨论都从安排变成了“谁更辛苦”。也许可以先说说各自最需要被理解的部分。", finds: ["反复出现的沟通模式", "没被说出口的需求", "更适合开启对话的时机"], author: "关系咨询与心理健康领域的专业人士" },
+  { name: "时间记录", image: work, scene: "一天结束了，你却想不起时间都去了哪里。", ask: "我今天到底忙了什么？", reply: "你上午的时间主要花在两次讨论和一段临时沟通上。原本想推进的方案，是在下午才真正开始的。", finds: ["时间实际流向了哪里", "反复打断专注的事情", "值得留下的决定与承诺"], author: "效率教练与工作方式研究者" },
+  { name: "自我成长", image: walk, scene: "散步时，你又想起那个迟迟没有开始的计划。", ask: "我怎么总是坚持不下来？", reply: "过去几周，你每次提起这个计划都很有热情，但总想一次做得很完整。我们先把第一步缩小到十分钟，好吗？", finds: ["不断重复的想法与阻力", "真正让你有能量的事", "可以今天开始的小行动"], author: "心理学与个人成长领域的专业人士" },
+  { name: "创业", image: work, scene: "刚和用户聊完，你脑中还有许多零散的反馈。", ask: "这次访谈有什么值得注意？", reply: "这是本周第 4 次有人提到“第一次上手太复杂”。他们用词不同，但卡住的位置相同。要不要把它列为下轮验证重点？", finds: ["用户反馈中的重复信号", "重要讨论里尚未落实的决定", "假设与真实观察之间的差距"], author: "创业者与产品实践者" },
+  { name: "生活规划", image: life, scene: "晚饭后，你想把家里那些悬着的事情理一理。", ask: "下周有什么需要提前安排？", reply: "你提到周三要带孩子复诊，周五有家庭聚会。周三的交通安排还没定，要不要现在留出时间处理？", finds: ["散落在对话里的待办", "彼此冲突的家庭安排", "重要事项之前的准备窗口"], author: "生活管理与家庭服务领域的专业人士" },
+];
+const moments = [
+  ["07:10", "婴儿照护", "比闹钟更早的早晨", "“这几天宝宝醒得更早了。也许可以先看昨晚的入睡时间。”"],
+  ["08:40", "生活规划", "出门前的一句提醒", "“周三复诊需要带上上次的检查记录。”"],
+  ["10:30", "创业", "听见重复出现的信号", "“这是本周第 4 次有人提到上手太复杂。”"],
+  ["13:20", "时间记录", "给忙碌一个轮廓", "“上午有两次讨论占用了原定的深度工作时间。”"],
+  ["17:50", "儿童教育", "放学路上的小线索", "“今天他主动提起了新朋友，可以从这里继续聊。”"],
+  ["20:15", "亲密关系", "一次更好的开口", "“先说感受，也许比先谈分工更容易听见彼此。”"],
+  ["23:00", "自我成长", "在一天结束前", "“那个想了很久的计划，明天先做十分钟。”"],
+];
+const faq = [
+  ["Sein 会一直保存我身边的声音吗？", "默认不会保存原始音频。Sein 优先在设备本地处理信息；当你主动双击保存录音时，LED 会亮起。"],
+  ["我需要一次安装全部技能吗？", "不用。你可以从眼下最需要的技能开始，再按生活的变化选择其他技能。"],
+  ["示例中的数字是真实用户数据吗？", "不是。页面中的时间、次数和数值仅用于演示 Sein 可能如何发现规律，不代表真实用户或实际效果。"],
+  ["如何加入 Waitlist？", "点击 Join the waitlist，在候补页面通过邮件申请。请在邮件应用中发送申请，打开草稿不代表已经加入。"],
+  ["加入候补名单需要付费吗？", "不需要。加入候补名单不涉及付款，也不构成购买承诺。"],
+  ["什么时候可以体验？", "开放体验和发售时间尚未公布。可加入候补名单，关注后续产品消息。"],
+];
+const roles = ["儿科与婴幼儿照护", "儿童发展与家庭教育", "关系咨询与心理健康", "效率教练与工作方式", "创业与产品实践", "生活管理与家庭服务"];
 
-  return (
-    <motion.div
-      ref={ref}
-      initial={{ opacity: 0, y: 30 }}
-      animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
-      transition={{ duration: 0.8, ease: [0.25, 0.1, 0.25, 1] }}
-      className={className}
-    >
-      {children}
-    </motion.div>
-  );
+function CTA({ children, light = false }: { children: React.ReactNode; light?: boolean }) {
+  return <a className={"sein-cta" + (light ? " sein-cta-light" : "")} href={waitlist}>{children}<ArrowRight size={17} aria-hidden="true" /></a>;
 }
 
 export default function HomePage() {
-  const [activeIndex, setActiveIndex] = useState(0);
-  const [openFaqIndex, setOpenFaqIndex] = useState<number | null>(null);
-  const [lightboxImage, setLightboxImage] = useState<number | null>(null);
-
-  const heroRef = useRef(null);
-  const { scrollYProgress } = useScroll({
-    target: heroRef,
-    offset: ["start start", "end start"]
-  });
-  const heroOpacity = useTransform(scrollYProgress, [0, 0.5], [1, 0]);
-  const heroScale = useTransform(scrollYProgress, [0, 0.5], [1, 0.95]);
-
-  const carouselImages = [imgConver11, imgCover41, imgCover31, imgCover21, imgFrame21472292871];
-
-  const lifestyleImages = [
-    { src: img1Expecting1, alt: "Expecting" },
-    { src: img2WithKids1, alt: "With Kids" },
-    { src: img3Driving1, alt: "Driving" },
-    { src: img4Capture1, alt: "Capture" },
-    { src: img5Mood1, alt: "Mood" },
-    { src: img6NoAudio1, alt: "No Audio" },
-    { src: img7Coffee1, alt: "Coffee" },
-    { src: img8Walk1, alt: "Walk" },
-    { src: img9Work1, alt: "Work" },
-    { src: img10Journal1, alt: "Journal" },
-  ];
-
-  const features = [
-    { icon: Mic, title: "Auto-Journaling", description: "No tapping required. Captures through voice triggers and contextual awareness." },
-    { icon: Shield, title: "Privacy First", description: "No audio stored—ever. Processing happens locally. Encrypted and only yours." },
-    { icon: PenLine, title: "Emotional Capture", description: "Preserves tone, pauses, and emotion—not just words." },
-    { icon: Sparkles, title: "AI-Powered", description: "Smart transcription that understands context beautifully." },
-    { icon: Clock, title: "Always Ready", description: "Pendant, clip, or pin. Always with you, ready to capture." },
-    { icon: Heart, title: "For Those You Love", description: "Lasting memories for you, your family, and future you." },
-  ];
-
-  const faqs = [
-    { question: "What's Sein PAI?", answer: "Sein PAI is a personal AI journaling device that captures your daily moments through voice, automatically writing down your experiences with the tone, pace, and emotion of each moment—without any tapping or manual recording." },
-    { question: "Why a wearable device?", answer: "A wearable makes auto-journaling seamless and always accessible. Wear it as a pendant, clip, or pin—whatever fits your style. It's designed to be with you throughout your day, capturing moments as they happen." },
-    { question: "Is Sein PAI always recording?", answer: "No. Sein PAI uses voice triggers and contextual awareness to know when to capture moments. It's designed to journal your life, not record everything. Plus, no audio is stored—only the written journal entries." },
-    { question: "Does it require a subscription?", answer: "No subscription is needed to start. We're including 3 months of Sein Pro on us. After that, you can continue with the free version or upgrade to Pro for additional features." },
-    { question: "Do I need to press a button?", answer: "No. Sein transcribes automatically and discards audio by default. Double-tap to record and save audio—LED indicates when recording." },
-    { question: "What about privacy?", answer: "Privacy is our top priority. No audio is stored—ever. All processing happens locally on device first. Your journal entries are encrypted and only accessible to you." },
-    { question: "When does it ship?", answer: "Sein PAI ships spring 2026. All preorders are fully refundable." },
-    { question: "Refund policy?", answer: "Fully refundable preorder. Change your mind before shipping? Complete refund—no questions asked." },
-  ];
-
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setActiveIndex((current) => (current + 1) % carouselImages.length);
-    }, 4000);
-    return () => clearInterval(interval);
-  }, [carouselImages.length]);
-
-  const scrollToContent = () => {
-    document.getElementById("intro")?.scrollIntoView({ behavior: "smooth" });
-  };
-
-  return (
-    <div className="min-h-screen bg-[#FAFAF8] relative">
-      <Header />
-
-      {/* HERO SECTION - Full viewport, centered */}
-      <motion.section
-        ref={heroRef}
-        style={{ opacity: heroOpacity, scale: heroScale }}
-        className="min-h-screen flex flex-col items-center justify-center px-6 relative"
-      >
-        <div className="text-center max-w-5xl mx-auto">
-          {/* Eyebrow */}
-          <motion.p
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.2 }}
-            className="text-sm md:text-base tracking-[0.2em] uppercase text-black/40 mb-6 font-medium"
-          >
-            The Wearable Personal AI
-          </motion.p>
-
-          {/* Main Headline */}
-          <motion.h1
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.3 }}
-            className="text-5xl md:text-7xl lg:text-8xl font-light text-black mb-8 tracking-tight leading-[0.9]"
-            style={{ fontFamily: "'Funnel Sans', sans-serif" }}
-          >
-            Your life,
-            <br />
-            <span className="font-normal">written down.</span>
-          </motion.h1>
-
-          {/* Subheadline */}
-          <motion.p
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.5 }}
-            className="text-lg md:text-xl text-black/50 mb-12 max-w-xl mx-auto leading-relaxed"
-            style={{ fontFamily: "'Funnel Sans', sans-serif" }}
-          >
-            Auto-journaling, not recording. Capturing your moments—the tone, the pauses, the emotion.
-          </motion.p>
-
-          {/* CTA */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.7 }}
-            className="flex flex-col sm:flex-row gap-4 justify-center items-center"
-          >
-            <span className="text-sm text-black/30">Ships Spring '26 · Fully Refundable</span>
-            <a
-              href="https://www.indiegogo.com/en/projects/sein-pai/sein"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="bg-black text-white px-10 py-4 rounded-full text-base font-medium hover:bg-black/80 transition-all duration-300 inline-flex items-center gap-3"
-            >
-              Back on Indiegogo
-            </a>
-          </motion.div>
-        </div>
-
-        {/* Scroll indicator */}
-        <motion.button
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 0.6, delay: 1.2 }}
-          onClick={scrollToContent}
-          className="absolute bottom-12 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 text-black/30 hover:text-black/50 transition-colors cursor-pointer"
-        >
-          <span className="text-xs tracking-widest uppercase">Scroll</span>
-          <motion.div
-            animate={{ y: [0, 6, 0] }}
-            transition={{ duration: 1.5, repeat: Infinity, ease: "easeInOut" }}
-          >
-            <ChevronDown size={20} />
-          </motion.div>
-        </motion.button>
-      </motion.section>
-
-      {/* INTRO SECTION */}
-      <section id="intro" className="py-32 md:py-40 px-6 bg-white">
-        <div className="max-w-3xl mx-auto">
-          <AnimatedSection>
-            <div className="space-y-8 text-xl md:text-2xl text-black/40 leading-relaxed" style={{ fontFamily: "'Funnel Sans', sans-serif" }}>
-              <p>Do you remember the color of your first diary?</p>
-              <p>When was the last time you opened an old journal—grateful you wrote it down, or sad for the moments you didn't?</p>
-              <p>What if something could hold onto these moments for you—without discipline, without remembering to record?</p>
-              <p className="text-black/70 font-medium pt-4">
-                For yourself. For the people you love. For the you who wants to look back, years from now.
-              </p>
-            </div>
-          </AnimatedSection>
-        </div>
+  const [active, setActive] = useState(0);
+  const [open, setOpen] = useState<number | null>(0);
+  const [menu, setMenu] = useState(false);
+  const timeline = useRef<HTMLDivElement>(null);
+  const skill = skills[active];
+  const go = (id: string) => { document.getElementById(id)?.scrollIntoView({ behavior: "smooth" }); setMenu(false); };
+  return <div className="sein-page">
+    <header className="sein-header"><div className="sein-header-inner">
+      <a className="sein-logo" href="/" aria-label="Sein 首页">Sein<span>PAI</span></a>
+      <nav className={"sein-nav" + (menu ? " is-open" : "")} aria-label="首页导航">
+        <button onClick={() => go("how")}>如何运作</button><button onClick={() => go("skills")}>顾问技能</button><button onClick={() => go("hardware")}>认识设备</button><button onClick={() => go("faq")}>常见问题</button><CTA>Join the waitlist</CTA>
+      </nav>
+      <button className="sein-menu-button" onClick={() => setMenu(!menu)} aria-label={menu ? "关闭菜单" : "打开菜单"} aria-expanded={menu}>{menu ? <X /> : <Menu />}</button>
+    </div></header>
+    <main>
+      <section className="sein-hero"><div className="sein-hero-copy">
+        <p className="sein-kicker">随身的个人 AI 顾问</p><h1>一位懂你的顾问，<br />一直在你身边。</h1>
+        <p className="sein-lede">戴上 Sein，让那些容易错过的细节，慢慢变成更懂你生活的提醒。</p>
+        <div className="sein-hero-actions"><CTA>Join the waitlist</CTA><button className="sein-text-link" onClick={() => go("skills")}>看看它能做什么 <ArrowRight size={17} /></button></div>
+        <p className="sein-hero-note">加入候补名单，获取开放体验与产品进展通知</p>
+      </div><div className="sein-hero-visual" aria-label="Sein 设备与主动发现提醒示意">
+        <div className="sein-hero-orbit" /><img className="sein-device" src={device} alt="手持白色 Sein PAI 设备" />
+        <div className="sein-insight insight-one"><span className="sein-pulse" />刚刚发现<p>宝宝这三天的小睡都短了约 40 分钟</p></div>
+        <div className="sein-insight insight-two"><span className="sein-pulse" />刚刚发现<p>你本周第 4 次提到这个产品问题</p></div>
+        <div className="sein-insight insight-three"><span className="sein-pulse" />温柔提醒<p>周三复诊，记得带上检查记录</p></div>
+      </div><p className="sein-demo-note">页面中的提示、时间与数字均为演示示例。</p></section>
+      <div className="sein-skill-strip" aria-label="Sein 的七种顾问技能"><div>{[...skills, ...skills].map((item, i) => <span key={i}>{item.name}<i /></span>)}</div></div>
+      <section className="sein-intro sein-container"><h2>生活里最重要的事，<br />往往没有说明书。</h2><div><span className="sein-small-rule" /><p>养育一个孩子，理解一个人，找回自己的节奏。那些问题不会总在你准备好的时候出现。Sein 从你已经在过的生活里，帮你看见线索。</p></div></section>
+      <section className="sein-how" id="how"><div className="sein-container"><div className="sein-section-heading"><p className="sein-kicker">如何运作</p><h2>三步，让理解发生在日常里。</h2></div><div className="sein-how-grid">
+        <article><span>01</span><div className="sein-step-icon">◌</div><h3>戴上它</h3><p>吊坠、夹子、别针，选一种适合今天的戴法。Sein 陪你进入真实的生活场景。</p></article>
+        <article><span>02</span><div className="sein-step-icon">✳</div><h3>装上技能</h3><p>从婴儿照护到创业，选择眼下最需要的顾问技能，给 Sein 一个理解你的方向。</p></article>
+        <article><span>03</span><div className="sein-step-icon">↗</div><h3>它会主动提醒你</h3><p>当重复的规律或重要的变化出现，Sein 会及时给你一个值得留意的提示。</p></article>
+      </div></div></section>
+      <section className="sein-skills sein-container" id="skills"><div className="sein-section-heading sein-skills-heading"><div><p className="sein-kicker">顾问技能</p><h2>你正在经历什么，<br />就从哪里开始。</h2></div><p>每一种技能，都为一种真实的生活问题而设计。点击查看 Sein 可能如何与你对话。</p></div>
+        <div className="sein-skill-tabs" role="tablist" aria-label="选择顾问技能">{skills.map((s, i) => <button key={s.name} role="tab" id={"skill-tab-" + i} aria-selected={i === active} aria-controls="skill-panel" className={i === active ? "is-active" : ""} onClick={() => setActive(i)}><span>{String(i + 1).padStart(2, "0")}</span>{s.name}</button>)}</div>
+        <div className="sein-skill-panel" id="skill-panel" role="tabpanel" aria-labelledby={"skill-tab-" + active} key={skill.name}>
+          <div className="sein-skill-story"><div className="sein-skill-image"><img src={skill.image} alt="日常生活场景" className={active === 6 ? "sein-crop-top" : ""} /></div><div className="sein-skill-image-caption"><span>一个真实场景</span><p>{skill.scene}</p></div></div>
+          <div className="sein-skill-detail"><p className="sein-skill-count">技能 {String(active + 1).padStart(2, "0")} / 07</p><h3>{skill.name}</h3><div className="sein-dialogue"><div><span>你说</span><p>“{skill.ask}”</p></div><div className="sein-reply"><span>Sein 回应</span><p>“{skill.reply}”</p></div></div><div className="sein-discover"><h4>它能帮你发现</h4><ul>{skill.finds.map((x) => <li key={x}>{x}</li>)}</ul></div><p className="sein-author">由{skill.author}参与设计</p></div>
+        </div><p className="sein-skills-note">对话为功能演示，具体建议因个人情况而异，不能替代专业诊断或咨询。</p>
       </section>
-
-      {/* PRODUCT SHOWCASE */}
-      <section className="py-24 md:py-32 px-6 bg-[#FAFAF8]" id="features">
-        <div className="max-w-6xl mx-auto">
-          <AnimatedSection>
-            <div className="grid lg:grid-cols-2 gap-16 lg:gap-24 items-center">
-              {/* Product Image */}
-              <div className="relative order-2 lg:order-1">
-                <motion.div
-                  whileHover={{ scale: 1.02 }}
-                  transition={{ duration: 0.4 }}
-                  className="relative"
-                >
-                  <img
-                    src={img60D924998A035F57F4449Bcff52Deec52}
-                    alt="Sein PAI device"
-                    className="w-full h-auto"
-                  />
-                </motion.div>
-              </div>
-
-              {/* Text Content */}
-              <div className="order-1 lg:order-2 space-y-6" style={{ fontFamily: "'Funnel Sans', sans-serif" }}>
-                <h2 className="text-4xl md:text-5xl font-light text-black leading-tight">
-                  No tap.<br />
-                  No audio stored.<br />
-                  <span className="text-black/40">Just your words.</span>
-                </h2>
-                <p className="text-lg text-black/50 leading-relaxed max-w-md">
-                  The pace, the tone, the feeling. Sometimes how you say it matters more than what you say.
-                </p>
-                <p className="text-base text-black/80 font-medium">
-                  Sein PAI: Pendant, clip, or pin—your call.
-                </p>
-              </div>
-            </div>
-          </AnimatedSection>
-        </div>
-      </section>
-
-      {/* FEATURES - Bento Grid */}
-      <section className="py-24 md:py-32 px-6 bg-white">
-        <div className="max-w-6xl mx-auto">
-          <AnimatedSection>
-            <div className="text-center mb-16">
-              <h2 className="text-3xl md:text-4xl font-light text-black mb-4" style={{ fontFamily: "'Funnel Sans', sans-serif" }}>
-                Why Sein PAI
-              </h2>
-            </div>
-          </AnimatedSection>
-
-          {/* Bento Grid Layout */}
-          <div className="grid grid-cols-1 md:grid-cols-6 gap-4">
-            {/* Large card - spans 4 cols */}
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.5 }}
-              className="md:col-span-4 bg-gradient-to-br from-[#1a1a1a] to-[#2d2d2d] rounded-3xl p-8 md:p-12 text-white relative overflow-hidden group"
-            >
-              <div className="relative z-10">
-                <Mic size={32} strokeWidth={1.5} className="mb-6 text-white/80" />
-                <h3 className="text-2xl md:text-3xl font-medium mb-4" style={{ fontFamily: "'Funnel Sans', sans-serif" }}>
-                  Auto-Journaling
-                </h3>
-                <p className="text-white/60 text-lg leading-relaxed max-w-md">
-                  No tapping. No remembering. Sein captures your moments through voice triggers and contextual awareness—automatically.
-                </p>
-              </div>
-              <div className="absolute -right-20 -bottom-20 w-64 h-64 bg-white/5 rounded-full blur-3xl group-hover:bg-white/10 transition-all duration-500" />
-            </motion.div>
-
-            {/* Small card - spans 2 cols */}
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.5, delay: 0.1 }}
-              className="md:col-span-2 bg-[#FAFAF8] rounded-3xl p-8 group hover:bg-[#F5F5F0] transition-all duration-300"
-            >
-              <Shield size={28} strokeWidth={1.5} className="mb-6 text-black/60 group-hover:text-black transition-colors" />
-              <h3 className="text-xl font-medium mb-2 text-black" style={{ fontFamily: "'Funnel Sans', sans-serif" }}>
-                Privacy First
-              </h3>
-              <p className="text-black/50 text-sm leading-relaxed">
-                No audio stored—ever. Processing happens locally. Encrypted and only yours.
-              </p>
-            </motion.div>
-
-            {/* Small card */}
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.5, delay: 0.2 }}
-              className="md:col-span-2 bg-[#FAFAF8] rounded-3xl p-8 group hover:bg-[#F5F5F0] transition-all duration-300"
-            >
-              <PenLine size={28} strokeWidth={1.5} className="mb-6 text-black/60 group-hover:text-black transition-colors" />
-              <h3 className="text-xl font-medium mb-2 text-black" style={{ fontFamily: "'Funnel Sans', sans-serif" }}>
-                Emotional Capture
-              </h3>
-              <p className="text-black/50 text-sm leading-relaxed">
-                Preserves tone, pauses, and emotion—not just words.
-              </p>
-            </motion.div>
-
-            {/* Medium card - spans 2 cols */}
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.5, delay: 0.3 }}
-              className="md:col-span-2 bg-[#FAFAF8] rounded-3xl p-8 group hover:bg-[#F5F5F0] transition-all duration-300"
-            >
-              <Sparkles size={28} strokeWidth={1.5} className="mb-6 text-black/60 group-hover:text-black transition-colors" />
-              <h3 className="text-xl font-medium mb-2 text-black" style={{ fontFamily: "'Funnel Sans', sans-serif" }}>
-                AI-Powered
-              </h3>
-              <p className="text-black/50 text-sm leading-relaxed">
-                Smart transcription that understands context beautifully.
-              </p>
-            </motion.div>
-
-            {/* Small card */}
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.5, delay: 0.4 }}
-              className="md:col-span-2 bg-[#FAFAF8] rounded-3xl p-8 group hover:bg-[#F5F5F0] transition-all duration-300"
-            >
-              <Clock size={28} strokeWidth={1.5} className="mb-6 text-black/60 group-hover:text-black transition-colors" />
-              <h3 className="text-xl font-medium mb-2 text-black" style={{ fontFamily: "'Funnel Sans', sans-serif" }}>
-                Always Ready
-              </h3>
-              <p className="text-black/50 text-sm leading-relaxed">
-                Pendant, clip, or pin. Always with you.
-              </p>
-            </motion.div>
-
-            {/* Heart card with accent */}
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.5, delay: 0.5 }}
-              className="md:col-span-2 bg-gradient-to-br from-rose-50 to-orange-50 rounded-3xl p-8 group"
-            >
-              <Heart size={28} strokeWidth={1.5} className="mb-6 text-rose-400" />
-              <h3 className="text-xl font-medium mb-2 text-black" style={{ fontFamily: "'Funnel Sans', sans-serif" }}>
-                For Those You Love
-              </h3>
-              <p className="text-black/50 text-sm leading-relaxed">
-                Lasting memories for you, your family, and future you.
-              </p>
-            </motion.div>
-          </div>
-        </div>
-      </section>
-
-      {/* LIFESTYLE GALLERY */}
-      <section className="py-24 md:py-32 px-6 bg-[#FAFAF8]" id="gallery">
-        <div className="max-w-6xl mx-auto">
-          <AnimatedSection>
-            <div className="text-center mb-16">
-              <h2 className="text-3xl md:text-4xl font-light text-black mb-4" style={{ fontFamily: "'Funnel Sans', sans-serif" }}>
-                Moments worth remembering
-              </h2>
-              <p className="text-black/40 max-w-lg mx-auto">
-                From morning coffee to bedtime stories, capture what matters most.
-              </p>
-            </div>
-          </AnimatedSection>
-
-          {/* Two Row Layout - Natural Aspect Ratios */}
-          <div className="space-y-4">
-            {/* Row 1 - 5 images */}
-            <div className="flex gap-4 overflow-x-auto pb-2 scrollbar-hide">
-              {lifestyleImages.slice(0, 5).map((image, index) => (
-                <motion.div
-                  key={index}
-                  onClick={() => setLightboxImage(index)}
-                  className="flex-shrink-0 cursor-pointer relative group"
-                  initial={{ opacity: 0, y: 20 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ duration: 0.4, delay: index * 0.08 }}
-                  whileHover={{ y: -8 }}
-                >
-                  <div className="overflow-hidden rounded-2xl">
-                    <img
-                      src={image.src}
-                      alt={image.alt}
-                      className="h-[280px] md:h-[360px] w-auto object-contain transition-transform duration-500 group-hover:scale-[1.02]"
-                    />
-                  </div>
-                </motion.div>
-              ))}
-            </div>
-
-            {/* Row 2 - 5 images */}
-            <div className="flex gap-4 overflow-x-auto pb-2 scrollbar-hide">
-              {lifestyleImages.slice(5, 10).map((image, index) => (
-                <motion.div
-                  key={index + 5}
-                  onClick={() => setLightboxImage(index + 5)}
-                  className="flex-shrink-0 cursor-pointer relative group"
-                  initial={{ opacity: 0, y: 20 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ duration: 0.4, delay: index * 0.08 }}
-                  whileHover={{ y: -8 }}
-                >
-                  <div className="overflow-hidden rounded-2xl">
-                    <img
-                      src={image.src}
-                      alt={image.alt}
-                      className="h-[280px] md:h-[360px] w-auto object-contain transition-transform duration-500 group-hover:scale-[1.02]"
-                    />
-                  </div>
-                </motion.div>
-              ))}
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Lightbox */}
-      {lightboxImage !== null && (
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          exit={{ opacity: 0 }}
-          className="fixed inset-0 bg-black/95 z-[100] flex items-center justify-center p-4"
-          onClick={() => setLightboxImage(null)}
-        >
-          <motion.div
-            initial={{ scale: 0.9, opacity: 0 }}
-            animate={{ scale: 1, opacity: 1 }}
-            className="relative max-w-4xl w-full"
-          >
-            <img
-              src={lifestyleImages[lightboxImage].src}
-              alt={lifestyleImages[lightboxImage].alt}
-              className="w-full h-auto max-h-[85vh] object-contain rounded-lg"
-            />
-            <button
-              onClick={() => setLightboxImage(null)}
-              className="absolute -top-12 right-0 text-white/60 hover:text-white text-sm tracking-widest uppercase"
-            >
-              Close
-            </button>
-            <div className="absolute top-1/2 -translate-y-1/2 left-0 right-0 flex justify-between px-4 pointer-events-none">
-              <button
-                onClick={(e) => { e.stopPropagation(); setLightboxImage(lightboxImage > 0 ? lightboxImage - 1 : lifestyleImages.length - 1); }}
-                className="w-12 h-12 rounded-full bg-white/10 flex items-center justify-center text-white hover:bg-white/20 transition-colors pointer-events-auto"
-              >
-                ‹
-              </button>
-              <button
-                onClick={(e) => { e.stopPropagation(); setLightboxImage(lightboxImage < lifestyleImages.length - 1 ? lightboxImage + 1 : 0); }}
-                className="w-12 h-12 rounded-full bg-white/10 flex items-center justify-center text-white hover:bg-white/20 transition-colors pointer-events-auto"
-              >
-                ›
-              </button>
-            </div>
-          </motion.div>
-        </motion.div>
-      )}
-
-      {/* JOURNAL COVERS - Product Features */}
-      <section className="py-24 md:py-32 px-6 bg-white">
-        <div className="max-w-6xl mx-auto">
-          <AnimatedSection>
-            <div className="text-center mb-16">
-              <h2 className="text-3xl md:text-4xl font-light text-black mb-4" style={{ fontFamily: "'Funnel Sans', sans-serif" }}>
-                How Sein PAI works
-              </h2>
-              <p className="text-black/40">See how your daily moments become beautiful journal entries.</p>
-            </div>
-          </AnimatedSection>
-
-          <AnimatedSection>
-            {/* Horizontal Scroll Gallery */}
-            <div className="flex gap-6 overflow-x-auto pb-4 scrollbar-hide">
-              {carouselImages.map((img, index) => (
-                <motion.div
-                  key={index}
-                  onClick={() => setActiveIndex(index)}
-                  className={`flex-shrink-0 cursor-pointer rounded-2xl overflow-hidden transition-all duration-300 ${
-                    index === activeIndex
-                      ? "opacity-100"
-                      : "opacity-60 hover:opacity-90"
-                  }`}
-                  initial={{ opacity: 0, y: 20 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ duration: 0.4, delay: index * 0.1 }}
-                  whileHover={{ y: -8 }}
-                >
-                  <img
-                    src={img}
-                    alt={`Feature ${index + 1}`}
-                    className="h-[400px] md:h-[500px] w-auto object-contain"
-                  />
-                </motion.div>
-              ))}
-            </div>
-
-            {/* Dots indicator */}
-            <div className="flex justify-center gap-2 mt-8">
-              {carouselImages.map((_, index) => (
-                <button
-                  key={index}
-                  onClick={() => setActiveIndex(index)}
-                  className={`w-2 h-2 rounded-full transition-all duration-300 ${
-                    index === activeIndex ? "bg-black w-6" : "bg-black/20 hover:bg-black/40"
-                  }`}
-                />
-              ))}
-            </div>
-          </AnimatedSection>
-        </div>
-      </section>
-
-      {/* FAQ */}
-      <section className="py-24 md:py-32 px-6 bg-[#FAFAF8]" id="faq">
-        <div className="max-w-2xl mx-auto">
-          <AnimatedSection>
-            <div className="text-center mb-16">
-              <h2 className="text-3xl md:text-4xl font-light text-black mb-4" style={{ fontFamily: "'Funnel Sans', sans-serif" }}>
-                Questions
-              </h2>
-            </div>
-          </AnimatedSection>
-
-          <div className="space-y-3">
-            {faqs.map((faq, index) => (
-              <motion.div
-                key={index}
-                initial={{ opacity: 0, y: 10 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.3, delay: index * 0.03 }}
-              >
-                <button
-                  onClick={() => setOpenFaqIndex(openFaqIndex === index ? null : index)}
-                  className={`w-full text-left p-5 rounded-xl transition-all duration-300 ${
-                    openFaqIndex === index ? "bg-white shadow-sm" : "bg-white/50 hover:bg-white"
-                  }`}
-                >
-                  <div className="flex items-center justify-between">
-                    <span className="font-medium text-black" style={{ fontFamily: "'Funnel Sans', sans-serif" }}>
-                      {faq.question}
-                    </span>
-                    <motion.span
-                      animate={{ rotate: openFaqIndex === index ? 45 : 0 }}
-                      transition={{ duration: 0.2 }}
-                      className="text-black/30 text-xl"
-                    >
-                      +
-                    </motion.span>
-                  </div>
-                  <motion.div
-                    initial={false}
-                    animate={{
-                      height: openFaqIndex === index ? "auto" : 0,
-                      opacity: openFaqIndex === index ? 1 : 0,
-                      marginTop: openFaqIndex === index ? 12 : 0,
-                    }}
-                    transition={{ duration: 0.3 }}
-                    className="overflow-hidden"
-                  >
-                    <p className="text-sm text-black/50 leading-relaxed pr-8">
-                      {faq.answer}
-                    </p>
-                  </motion.div>
-                </button>
-              </motion.div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* FOOTER */}
-      <footer className="py-16 px-6 bg-white border-t border-black/5">
-        <div className="max-w-6xl mx-auto">
-          <div className="grid md:grid-cols-4 gap-12 mb-16">
-            {/* Brand */}
-            <div className="md:col-span-2">
-              <h3 className="text-xl font-medium text-black mb-4" style={{ fontFamily: "'Funnel Sans', sans-serif" }}>
-                Sein<span className="text-black/40">PAI</span>
-              </h3>
-              <p className="text-sm text-black/40 leading-relaxed max-w-sm">
-                Auto-journaling for the moments that matter. Worn on you, always capturing—never recording.
-              </p>
-            </div>
-
-            {/* Links */}
-            <div>
-              <h4 className="text-sm font-medium text-black mb-4">Company</h4>
-              <div className="flex flex-col gap-3">
-                <a
-                  href="/about"
-                  onClick={(e) => { e.preventDefault(); (window as any).navigate('/about'); }}
-                  className="text-sm text-black/40 hover:text-black transition-colors"
-                >
-                  About
-                </a>
-                <a
-                  href="/contact"
-                  onClick={(e) => { e.preventDefault(); (window as any).navigate('/contact'); }}
-                  className="text-sm text-black/40 hover:text-black transition-colors"
-                >
-                  Contact
-                </a>
-                <a
-                  href="/privacy"
-                  onClick={(e) => { e.preventDefault(); (window as any).navigate('/privacy'); }}
-                  className="text-sm text-black/40 hover:text-black transition-colors"
-                >
-                  Privacy
-                </a>
-              </div>
-            </div>
-
-            {/* Social */}
-            <div>
-              <h4 className="text-sm font-medium text-black mb-4">Follow</h4>
-              <div className="flex gap-3">
-                <a href="https://x.com" target="_blank" rel="noopener noreferrer" className="w-9 h-9 rounded-full bg-black/5 flex items-center justify-center text-black/60 hover:bg-black hover:text-white transition-all">
-                  <Twitter size={16} />
-                </a>
-                <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" className="w-9 h-9 rounded-full bg-black/5 flex items-center justify-center text-black/60 hover:bg-black hover:text-white transition-all">
-                  <Instagram size={16} />
-                </a>
-                <a href="https://youtube.com" target="_blank" rel="noopener noreferrer" className="w-9 h-9 rounded-full bg-black/5 flex items-center justify-center text-black/60 hover:bg-black hover:text-white transition-all">
-                  <Youtube size={16} />
-                </a>
-              </div>
-            </div>
-          </div>
-
-          {/* Bottom */}
-          <div className="pt-8 border-t border-black/5 flex flex-col md:flex-row items-center justify-between gap-4">
-            <p className="text-xs text-black/30">© 2026 Persein. All rights reserved.</p>
-            <p className="text-xs text-black/30">Made with care for those who want to remember.</p>
-          </div>
-        </div>
-      </footer>
-
-      {/* FIXED PREORDER BAR */}
-      <motion.div
-        initial={{ y: 100 }}
-        animate={{ y: 0 }}
-        transition={{ delay: 1, duration: 0.5 }}
-        className="fixed bottom-0 left-0 right-0 bg-white/90 backdrop-blur-lg border-t border-black/5 py-4 px-6 z-50"
-      >
-        <div className="max-w-6xl mx-auto flex items-center justify-between gap-4">
-          <div className="hidden md:block">
-            <p className="text-sm text-black/70 font-medium">
-              3 months Pro included. <span className="text-black/40">Ships Spring '26 — fully refundable.</span>
-            </p>
-          </div>
-          <p className="md:hidden text-xs text-black/50 flex-1">
-            3 months Pro free. Ships Spring '26.
-          </p>
-          <a
-            href="https://www.indiegogo.com/en/projects/sein-pai/sein"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="bg-black text-white px-6 py-3 rounded-full text-sm font-medium hover:bg-black/80 transition-all duration-300 flex items-center gap-3 whitespace-nowrap"
-          >
-            <span>Back on Indiegogo</span>
-          </a>
-        </div>
-      </motion.div>
-
-      {/* Bottom padding for fixed bar */}
-      <div className="h-20" />
-    </div>
-  );
+      <section className="sein-proactive"><div className="sein-container sein-proactive-inner"><div><p className="sein-kicker">主动发现</p><h2>最重要的问题，<br />往往是你没问出口的那个。</h2><p>你不需要知道该问什么。Sein 会留意那些多次出现、悄悄变化、值得重新看一眼的事，再把提醒交还给你。</p></div><div className="sein-dark-card"><span className="sein-pulse" />刚刚发现<p>你最近三次提到“没时间休息”，都发生在同一种忙碌的下午。</p><small>要不要一起看看，那段时间里发生了什么？</small></div></div></section>
+      <section className="sein-day sein-container"><div className="sein-section-heading sein-day-heading"><div><p className="sein-kicker">和 Sein 一起的一天</p><h2>一天很长，<br />重要的细节很轻。</h2></div><div className="sein-carousel-controls"><button onClick={() => timeline.current?.scrollBy({ left: -330, behavior: "smooth" })} aria-label="查看前一个时刻"><ChevronLeft /></button><button onClick={() => timeline.current?.scrollBy({ left: 330, behavior: "smooth" })} aria-label="查看后一个时刻"><ChevronRight /></button></div></div><div className="sein-timeline" ref={timeline} tabIndex={0} aria-label="横向滚动查看一天中的提醒">{moments.map((m) => <article key={m[0]}><div className="sein-timeline-time">{m[0]}</div><div className="sein-timeline-dot" /><span>{m[1]}</span><h3>{m[2]}</h3><p>{m[3]}</p></article>)}</div><p className="sein-day-hint">左右滑动，看看 Sein 如何陪你走过一天 <ArrowRight size={16} /></p></section>
+      <section className="sein-authors"><div className="sein-container sein-authors-inner"><div><p className="sein-kicker">技能作者</p><h2>好的建议，<br />来自真正懂这一领域的人。</h2><p>我们希望每一种技能，都有专业知识作为起点，再在真实的日常里变得有用。</p><a href="/contact" className="sein-outline-link">成为技能作者 <ArrowRight size={17} /></a></div><div className="sein-author-list">{roles.map((role, i) => <div key={role}><span>{String(i + 1).padStart(2, "0")}</span><p>{role}</p><ArrowRight size={17} /></div>)}</div></div></section>
+      <section className="sein-hardware sein-container" id="hardware"><div className="sein-hardware-visual"><div className="sein-hardware-glow" /><img src={device} alt="Sein PAI 白色可穿戴设备" /></div><div className="sein-hardware-copy"><p className="sein-kicker">认识设备</p><h2>放在身上，<br />把注意力还给生活。</h2><p>Sein 是一枚轻巧的随身设备。你可以把它佩在胸前、夹在衣服上，或用别针固定，让它自然地融入每天。</p><dl>
+        <div><dt>佩戴方式</dt><dd>吊坠 / 夹子 / 别针</dd></div><div><dt>音频</dt><dd>默认不保存；主动保存录音时 LED 亮起</dd></div><div><dt>信息处理</dt><dd>优先在设备本地处理</dd></div><div><dt>隐私保护</dt><dd>记录内容加密</dd></div><div><dt>影像</dt><dd>支持拍照与录像；具体功能以最终产品说明为准</dd></div>
+      </dl><p className="sein-spec-note">加入候补名单，关注后续产品进展。</p></div></section>
+      <section className="sein-privacy"><div className="sein-container sein-privacy-inner"><div><p className="sein-kicker">隐私</p><h2>你的生活，<br />由你决定留下什么。</h2></div><div><p>Sein 默认不保存原始音频，先在设备本地处理信息。只有你主动保存录音时，LED 才会亮起。记录内容会加密保护。</p><a href="/privacy" className="sein-text-link">查看隐私说明 <ArrowRight size={17} /></a></div></div></section>
+      <section className="sein-faq sein-container" id="faq"><div className="sein-section-heading"><p className="sein-kicker">常见问题</p><h2>你可能还想知道。</h2></div><div className="sein-faq-list">{faq.map((item, i) => <div className="sein-faq-item" key={item[0]}><button onClick={() => setOpen(open === i ? null : i)} aria-expanded={open === i}><span>{item[0]}</span><ChevronDown size={19} className={open === i ? "is-open" : ""} /></button>{open === i && <p>{item[1]}</p>}</div>)}</div></section>
+      <section className="sein-final"><div className="sein-container"><p className="sein-kicker">让理解，从今天开始</p><h2>有人陪你看见，<br />生活就多了一种可能。</h2><CTA light>Join the waitlist</CTA><p>加入候补名单，获取开放体验与产品进展通知</p></div></section>
+    </main>
+    <footer className="sein-footer"><div className="sein-container"><div className="sein-footer-top"><a className="sein-logo" href="/">Sein<span>PAI</span></a><p>一位懂你的顾问，一直在你身边。</p></div><div className="sein-footer-bottom"><span>© 2026 Persein</span><nav aria-label="页脚导航"><a href="/about">关于我们</a><a href="/contact">联系我们</a><a href="/privacy">隐私政策</a><a href={waitlist}>Waitlist</a></nav></div></div></footer>
+  </div>;
 }

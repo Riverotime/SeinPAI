@@ -1,60 +1,18 @@
-import { ArrowLeft } from "lucide-react";
-
+import { useLocale } from "../i18n/LocaleProvider";
+import PageShell from "./PageShell";
+import device from "@/assets/46ba4aeb2e54923f5b128714d60aaecdd7b4bcac.png";
+import family from "@/assets/sein/photos/family-at-home.jpg";
 export default function AboutPage() {
-  return (
-    <div className="min-h-screen bg-[#FAFAF8]">
-      {/* Header */}
-      <header className="fixed top-0 left-0 right-0 z-50 bg-white/80 backdrop-blur-xl border-b border-black/5">
-        <div className="max-w-3xl mx-auto px-6 h-16 flex items-center">
-          <a
-            href="/"
-            onClick={(e) => { e.preventDefault(); (window as any).navigate('/'); }}
-            className="flex items-center gap-2 text-black/60 hover:text-black transition-colors"
-          >
-            <ArrowLeft size={18} />
-            <span className="text-sm">Back</span>
-          </a>
-        </div>
-      </header>
-
-      {/* Content */}
-      <main className="pt-32 pb-24 px-6">
-        <div className="max-w-3xl mx-auto">
-          <h1 className="text-4xl md:text-5xl font-light text-black mb-8" style={{ fontFamily: "'Funnel Sans', sans-serif" }}>
-            About Sein PAI
-          </h1>
-
-          <div className="space-y-8 text-lg text-black/60 leading-relaxed" style={{ fontFamily: "'Funnel Sans', sans-serif" }}>
-            <p>
-              Sein PAI was born from a simple question: What if you could capture life's moments without the friction of remembering to record them?
-            </p>
-
-            <p>
-              We believe that journaling is one of the most valuable practices for self-reflection, memory preservation, and personal growth. But in our busy lives, it's often the first thing we forget to do.
-            </p>
-
-            <p>
-              That's why we created Sein PAI—a wearable AI that automatically journals your day. No buttons to press, no apps to open. Just wear it, and let your story write itself.
-            </p>
-
-            <h2 className="text-2xl font-medium text-black pt-8">Our Mission</h2>
-            <p>
-              To help people preserve their most precious memories effortlessly, creating a legacy of moments for themselves and the people they love.
-            </p>
-
-            <h2 className="text-2xl font-medium text-black pt-8">Our Philosophy</h2>
-            <p>
-              We're committed to building AI that truly belongs to individuals—not to any company. Your memories, your data, your AI. We believe technology should serve people, not the other way around.
-            </p>
-
-            <h2 className="text-2xl font-medium text-black pt-8">Contact Us</h2>
-            <p>
-              Have questions? We'd love to hear from you.<br />
-              Email us at <a href="mailto:hi@seinpai.com" className="text-black underline">hi@seinpai.com</a>
-            </p>
-          </div>
-        </div>
-      </main>
-    </div>
-  );
+  const {
+    t
+  } = useLocale();
+  return <PageShell current="about"><main>
+ <section className="site-about-hero"><div><p className="site-eyebrow">{t("JUST Sein / ABOUT US")}</p><h1>{t("Good support starts")}<br />{t("with being there.")}</h1><p className="site-lead">{t("We’re building Sein to bring professional knowledge closer to everyday life. A wearable companion that starts with your context, so support can feel more timely and personal.")}</p><a className="site-text-link" href="/#skills">{t("Discover what Sein can do ↗")}</a></div><div className="site-product-art"><img src={device} alt={t("A hand holding the Sein wearable")} /></div></section>
+ <section className="site-editorial"><p className="site-eyebrow">{t("01 / WHY SEIN")}</p><div><h2>{t("Life comes first.")}<br />{t("The question comes later.")}</h2><p>{t("The moments when we need support rarely arrive as a clear question. They show up as a change in a baby's habits, a tired conversation at the end of the day, or a thought we haven't quite put into words.")}</p><p>{t("Finding useful guidance takes more than an answer. It takes context: what happened, what was said, and what matters to you.")}</p><p>{t("That's where Sein begins. With the ambition to be present in everyday life, notice relevant connections, and help you decide what to explore next.")}</p></div></section>
+ <section className="site-photo-story"><img src={family} alt={t("A mother and her children spending time together at home")} /><div><p className="site-eyebrow">{t("02 / WHAT PRESENCE MEANS")}</p><h2>{t("Small moments.")}<br />{t("A fuller picture.")}</h2><p>{t("Being there means paying attention to context. The goal is to help you understand the moments you might otherwise pass over, while staying engaged with the people around you.")}</p></div></section>
+ <section className="site-editorial"><p className="site-eyebrow">{t("03 / PROFESSIONAL SKILLS, REAL LIFE")}</p><div><h2>{t("Expertise, connected")}<br />{t("to your day.")}</h2><p>{t("Sein brings together skills created by professionals across parenting, relationships, work, and personal growth. Choose the areas that matter to you, and let the support grow with your life.")}</p><div className="site-about-example"><span>{t("亲子沟通")}</span><p>{t("advisor.example.1.1")}</p></div><div className="site-about-example"><span>{t("SUPPORTING YOUR PARTNER")}</span><p>{t("A wife in late pregnancy shares that she slept badly and feels worried. Sein can help her partner start with empathy: listen, ask what would help, and offer to take care of something concrete.")}</p></div><small className="site-form-note">{t("Illustrative scenarios, not accounts of the people pictured or a substitute for professional care.")}</small></div></section>
+ <section className="site-editorial site-belief"><p className="site-eyebrow">{t("04 / WHAT WE BELIEVE")}</p><div><h2>{t("AI can know more.")}<br />{t("You decide where to stand.")}</h2><p>{t("belief.p1")}</p><p>{t("belief.p2")}</p><p>{t("belief.p3")}</p></div></section>
+ <section className="site-values"><article><span>{t("OUR PRINCIPLES / 01")}</span><h3>{t("Make room for life.")}</h3><p>{t("Technology should help you return to the people and moments that matter. Every interaction should earn its place in your day.")}</p></article><article><span>{t("OUR PRINCIPLES / 02")}</span><h3>{t("Be thoughtful about certainty.")}</h3><p>{t("A possible connection is a starting point, not a conclusion. Good guidance makes room for uncertainty, questions, and professional judgment.")}</p></article><article><span>{t("OUR PRINCIPLES / 03")}</span><h3>{t("Keep the choice with you.")}</h3><p>{t("Your life is yours to interpret. Sein should offer perspective and practical support, while leaving decisions with you.")}</p></article></section>
+ <section className="site-invitation"><p className="site-eyebrow">{t("05 / WHAT COMES NEXT")}</p><h2>{t("Help shape a more")}<br />{t("thoughtful companion.")}</h2><a className="site-button" href="/waitlist">{t("Join the waitlist ↗")}</a><a className="site-text-link" href="/contact">{t("Build a skill with us")}</a></section>
+ </main></PageShell>;
 }

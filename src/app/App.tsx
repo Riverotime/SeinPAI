@@ -1,14 +1,29 @@
-import { useState } from "react";
-import HomePage from "@/app/components/HomePage.tsx";
+import { useEffect, useState } from "react";
+import SuixinpeiPage from "@/app/components/SuixinpeiPage";
+import HomePage from "@/app/components/HomePageLassie.tsx";
 import ReferPage from "@/app/components/ReferPage.tsx";
 import AboutPage from "@/app/components/AboutPage.tsx";
 import ContactPage from "@/app/components/ContactPage.tsx";
 import PrivacyPage from "@/app/components/PrivacyPage.tsx";
 import StartPage from "@/app/components/StartPage.tsx";
 
-export default function App() {
+import WaitlistPage from "@/app/components/WaitlistPage";
+
+import { LocaleProvider, useLocale } from "./i18n/LocaleProvider";
+
+export default function App() { return <LocaleProvider><AppContent /></LocaleProvider>; }
+
+function AppContent() {
+  const { locale, t } = useLocale();
   const normalizePath = (path: string) => path.replace(/\/+$/, '') || '/';
   const [currentPath, setCurrentPath] = useState(normalizePath(window.location.pathname));
+
+  useEffect(() => {
+    const pages: Record<string, string> = { "/": "Expert guidance, everyday presence", "/about": "About", "/waitlist": "Waitlist", "/contact": "Contact", "/privacy": "Privacy", "/start": "Get the app", "/refer": "Share" };
+    document.title = currentPath === "/suixinpei" ? "随心佩 · 你的随身 AI 顾问 | Sein" : `Sein | ${t(pages[currentPath] ?? pages["/"])}`;
+    const description = document.querySelector('meta[name="description"]');
+    description?.setAttribute("content", currentPath === "/suixinpei" ? "随心佩，一枚常伴左右的赛博挂件。轻轻一戴，记录生活、整理思绪、发现自己。" : t("Skills created by professionals, connected to your everyday life. Explore Sein and join the waitlist."));
+  }, [currentPath, locale, t]);
 
   // Listen to browser navigation
   window.onpopstate = () => {
@@ -28,6 +43,10 @@ export default function App() {
   // Render page based on current path
   const renderPage = () => {
     switch (currentPath) {
+      case "/suixinpei":
+        return <SuixinpeiPage />;
+      case "/waitlist":
+        return <WaitlistPage />;
       case "/refer":
         return <ReferPage />;
       case "/about":

@@ -1,77 +1,66 @@
-import { ArrowLeft } from "lucide-react";
+import { useState } from "react";
+import { Monitor, Smartphone } from "lucide-react";
+import { useLocale } from "../i18n/LocaleProvider";
+import PageShell from "./PageShell";
+import iosQR from "@/assets/sein/ios-download.svg";
+import androidQR from "@/assets/sein/android-download.svg";
+
+const downloads = [
+  { name: "iOS", status: "Available on TestFlight", action: "Open TestFlight", url: "https://testflight.apple.com/join/n6uzBvye", qr: iosQR, alt: "iOS App QR Code" },
+  { name: "Android", status: "Beta Preview", action: "Download Android APK", url: "http://image.voice.51biaotai.com/Sein-1.0.1.apk", qr: androidQR, alt: "Android APK QR Code" },
+];
+
+function PlatformIcon({ platform }: { platform: string }) {
+  return <span className="site-platform-icon" aria-hidden="true">
+    <svg viewBox="0 0 32 32" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+      {platform === "iOS" ? <>
+        <rect x="8.5" y="3.5" width="15" height="25" rx="4" />
+        <path d="M14 6.5h4" strokeWidth="2.5" />
+        <path d="M13 25.5h6" />
+      </> : <>
+        <path d="m9 8-2-3m16 3 2-3M5 18a11 11 0 0 1 22 0v5a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2Z" />
+        <circle cx="11" cy="16" r="1.2" fill="currentColor" stroke="none" />
+        <circle cx="21" cy="16" r="1.2" fill="currentColor" stroke="none" />
+      </>}
+    </svg>
+  </span>;
+}
 
 export default function StartPage() {
-  return (
-    <div className="min-h-screen bg-[#FAFAF8]">
-      {/* Header */}
-      <header className="fixed top-0 left-0 right-0 z-50 bg-white/80 backdrop-blur-xl border-b border-black/5">
-        <div className="max-w-3xl mx-auto px-6 h-16 flex items-center">
-          <a
-            href="/"
-            onClick={(e) => { e.preventDefault(); (window as any).navigate('/'); }}
-            className="flex items-center gap-2 text-black/60 hover:text-black transition-colors"
-          >
-            <ArrowLeft size={18} />
-            <span className="text-sm">Back</span>
-          </a>
-        </div>
-      </header>
-
-      {/* Content */}
-      <main className="pt-32 pb-24 px-6">
-        <div className="max-w-4xl mx-auto">
-          <div className="text-center mb-16">
-            <h1 className="text-4xl md:text-5xl font-light text-black mb-4" style={{ fontFamily: "'Funnel Sans', sans-serif" }}>
-              Start
-            </h1>
-            <p className="text-black/40">Download the Sein PAI app to get started.</p>
+  const { t } = useLocale();
+  const [qrPlatform, setQrPlatform] = useState<string | null>(null);
+  const [isMobile] = useState(() => /Android|iPhone|iPad|iPod/i.test(navigator.userAgent) || (navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1));
+  const toggleQR = (platform: string) => setQrPlatform(current => current === platform ? null : platform);
+  return <PageShell current="start">
+    <main className="site-download-page">
+      <section className="site-download-hero" aria-labelledby="download-title">
+        <p className="site-eyebrow">{t("Expert guidance. Everyday presence.")}</p>
+        <h1 id="download-title">{t("Download Sein.")}</h1>
+        <p className="site-download-lead">{t("On your phone today. On your computer, soon.")}</p>
+        <a className="site-button" href="#platforms">{t("Choose your platform")}</a>
+      </section>
+      <div className="site-platforms" id="platforms">
+        <section className="site-platform-card site-platform-desktop" aria-labelledby="desktop-title">
+          <Monitor className="site-category-icon" size={28} strokeWidth={1.3} aria-hidden="true" />
+          <h2 id="desktop-title">{t("Desktop")}</h2>
+          <p className="site-platform-description">{t("A little more presence, wherever you work.")}</p>
+          <div className="site-platform-rows">
+            {["macOS", "Windows"].map(name => <div className="site-platform-row" key={name}><span>{name}</span><span className="site-coming-soon">Coming soon</span></div>)}
           </div>
-
-          <div className="grid md:grid-cols-2 gap-8 max-w-2xl mx-auto">
-            {/* iOS */}
-            <div className="bg-white rounded-2xl p-8 text-center">
-              <div className="w-16 h-16 bg-black rounded-2xl flex items-center justify-center mx-auto mb-6">
-                <svg viewBox="0 0 24 24" className="w-8 h-8 text-white" fill="currentColor">
-                  <path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.81-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/>
-                </svg>
-              </div>
-              <h3 className="text-xl font-medium text-black mb-2" style={{ fontFamily: "'Funnel Sans', sans-serif" }}>
-                iOS
-              </h3>
-              <p className="text-black/40 text-sm mb-6">Available on TestFlight</p>
-              <div className="bg-white p-4 rounded-xl inline-block border border-black/10">
-                <img
-                  src={`https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=${encodeURIComponent('https://testflight.apple.com/join/n6uzBvye')}`}
-                  alt="iOS App QR Code"
-                  className="w-[150px] h-[150px]"
-                />
-              </div>
-              <p className="text-black/30 text-xs mt-4">Scan to download</p>
-            </div>
-
-            {/* Android */}
-            <div className="bg-white rounded-2xl p-8 text-center">
-              <div className="w-16 h-16 bg-[#3DDC84] rounded-2xl flex items-center justify-center mx-auto mb-6">
-                <svg viewBox="0 0 24 24" className="w-8 h-8 text-white" fill="currentColor">
-                  <path d="M17.523 15.341c-.5 0-.906-.406-.906-.906s.406-.906.906-.906.906.406.906.906-.406.906-.906.906zm-11.046 0c-.5 0-.906-.406-.906-.906s.406-.906.906-.906.906.406.906.906-.406.906-.906.906zm11.4-6.025l1.997-3.458a.416.416 0 00-.152-.567.416.416 0 00-.567.152l-2.023 3.503a12.216 12.216 0 00-5.132-1.126c-1.88 0-3.615.406-5.132 1.126L4.845 5.443a.416.416 0 00-.567-.152.416.416 0 00-.152.567l1.997 3.458C2.688 11.27.406 14.954.406 19.125h23.188c0-4.171-2.282-7.855-5.717-9.809z"/>
-                </svg>
-              </div>
-              <h3 className="text-xl font-medium text-black mb-2" style={{ fontFamily: "'Funnel Sans', sans-serif" }}>
-                Android
-              </h3>
-              <p className="text-black/40 text-sm mb-6">Beta Preview</p>
-              <div className="bg-white p-4 rounded-xl inline-block border border-black/10">
-                <img
-                  src={`https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=${encodeURIComponent('http://image.voice.51biaotai.com/Sein-1.0.1.apk')}`}
-                  alt="Android APK QR Code"
-                  className="w-[150px] h-[150px]"
-                />
-              </div>
-              <p className="text-black/30 text-xs mt-4">Scan to download</p>
-            </div>
+        </section>
+        <section className="site-platform-card site-platform-mobile" aria-labelledby="mobile-title">
+          <Smartphone className="site-category-icon" size={28} strokeWidth={1.3} aria-hidden="true" />
+          <h2 id="mobile-title">{t("Mobile")}</h2>
+          <p className="site-platform-description">{t("Keep Sein close, wherever life takes you.")}</p>
+          <div className="site-platform-rows">
+            {downloads.map(item => <div className="site-mobile-platform" key={item.name}>
+              <div className="site-platform-row"><div className="site-platform-label"><PlatformIcon platform={item.name} /><div><span>{item.name}</span><small>{t(item.status)}</small></div></div>{isMobile ? <a className="site-platform-download" href={item.url} target="_blank" rel="noopener noreferrer" aria-label={t(item.action)}>{t("Download")}</a> : <button type="button" className="site-platform-download" aria-label={`${item.name} · ${t("Scan to download")}`} aria-expanded={qrPlatform === item.name} aria-controls={`download-qr-${item.name}`} onClick={() => toggleQR(item.name)}>{t("Download")}</button>}</div>
+              {!isMobile && <div className="site-platform-qr-panel" id={`download-qr-${item.name}`} hidden={qrPlatform !== item.name}><img src={item.qr} width="144" height="144" alt={t(item.alt)} /><p>{t("Scan to download")}</p></div>}
+            </div>)}
           </div>
-        </div>
-      </main>
-    </div>
-  );
+        </section>
+      </div>
+      <div className="site-download-invitation"><p>{t("Be part of what comes next.")}</p><a className="site-text-link" href="/waitlist">{t("Join the waitlist")}</a></div>
+    </main>
+  </PageShell>;
 }
