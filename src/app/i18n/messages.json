@@ -4561,5 +4561,68 @@
     "fr": "Notez le retour précis, votre pensée et votre émotion, puis les éléments pour et contre. Sans positivité forcée : « Cette proposition doit être retravaillée » est plus précis que « Je suis mauvais en tout ».",
     "de": "Konkrete Rückmeldung, Gedanken und Gefühl notieren. Belege dafür und dagegen prüfen. Kein erzwungener Optimismus: „Dieser Vorschlag braucht Arbeit“ ist genauer als „Ich kann nichts“.",
     "es": "Anota la crítica concreta, tu pensamiento y emoción, y las pruebas a favor y en contra. Sin positividad forzada: «Esta propuesta necesita cambios» es más preciso que «Todo lo hago mal»."
+  },
+  "Buy now": {
+    "en": "Buy now",
+    "zh": "立即购买",
+    "ja": "今すぐ購入",
+    "ko": "지금 구매",
+    "fr": "Acheter",
+    "de": "Jetzt kaufen",
+    "es": "Comprar ahora"
+  },
+  "Buy now ↗": {
+    "en": "Buy now ↗",
+    "zh": "立即购买 ↗",
+    "ja": "今すぐ購入 ↗",
+    "ko": "지금 구매 ↗",
+    "fr": "Acheter ↗",
+    "de": "Jetzt kaufen ↗",
+    "es": "Comprar ahora ↗"
+  },
+  "Buy": {
+    "en": "Buy",
+    "zh": "购买",
+    "ja": "購入",
+    "ko": "구매",
+    "fr": "Acheter",
+    "de": "Kaufen",
+    "es": "Comprar"
+  },
+  "通过 Stripe 安全支付": {
+    "en": "Secure checkout with Stripe",
+    "zh": "通过 Stripe 安全支付",
+    "ja": "Stripe で安全にお支払い",
+    "ko": "Stripe로 안전하게 결제",
+    "fr": "Paiement sécurisé via Stripe",
+    "de": "Sicher bezahlen mit Stripe",
+    "es": "Pago seguro con Stripe"
+  },
+  "如何购买 Sein？": {
+    "en": "How do I buy Sein?",
+    "zh": "如何购买 Sein？",
+    "ja": "Sein の購入方法は？",
+    "ko": "Sein은 어떻게 구매하나요?",
+    "fr": "Comment acheter Sein ?",
+    "de": "Wie kaufe ich Sein?",
+    "es": "¿Cómo compro Sein?"
+  },
+  "点击「立即购买」，在 Stripe 支付页面完成付款。": {
+    "en": "Select Buy now and complete payment on the Stripe checkout page.",
+    "zh": "点击「立即购买」，在 Stripe 支付页面完成付款。",
+    "ja": "「今すぐ購入」を選び、Stripe の決済ページでお支払いを完了してください。",
+    "ko": "‘지금 구매’를 눌러 Stripe 결제 페이지에서 결제를 완료하세요.",
+    "fr": "Sélectionnez Acheter, puis finalisez le paiement sur la page Stripe.",
+    "de": "Wähle „Jetzt kaufen“ und schließe die Zahlung auf der Stripe-Seite ab.",
+    "es": "Selecciona Comprar ahora y completa el pago en la página de Stripe."
+  },
+  "Skills created by professionals, connected to your everyday life. Explore Sein.": {
+    "en": "Skills created by professionals, connected to your everyday life. Explore Sein.",
+    "zh": "来自各领域专业人士的技能，连接你的日常生活。了解 Sein。",
+    "ja": "各分野の専門家がつくったスキルを、あなたの日常へ。Sein を知る。",
+    "ko": "전문가가 만든 스킬을 당신의 일상에 연결합니다. Sein을 만나보세요.",
+    "fr": "Des compétences créées par des professionnels, reliées à votre quotidien. Découvrez Sein.",
+    "de": "Von Fachleuten entwickelte Skills, verbunden mit deinem Alltag. Entdecke Sein.",
+    "es": "Habilidades creadas por profesionales, conectadas con tu día a día. Descubre Sein."
   }
 }

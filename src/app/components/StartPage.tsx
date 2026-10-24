@@ -1,3 +1,4 @@
+import { buyLink } from "@/app/links";
 import { useState } from "react";
 import { Monitor, Smartphone } from "lucide-react";
 import { useLocale } from "../i18n/LocaleProvider";
@@ -60,7 +61,7 @@ export default function StartPage() {
           </div>
         </section>
       </div>
-      <div className="site-download-invitation"><p>{t("Be part of what comes next.")}</p><a className="site-text-link" href="/waitlist">{t("Join the waitlist")}</a></div>
+      <div className="site-download-invitation"><p>{t("Be part of what comes next.")}</p><a className="site-text-link" href={buyLink}>{t("Buy now")}</a></div>
     </main>
   </PageShell>;
 }

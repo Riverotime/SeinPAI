@@ -1,3 +1,4 @@
+import { buyLink } from "@/app/links";
 import { useState } from 'react';
 import { ArrowUpRight, ArrowDown, AudioLines, BatteryFull, Check, ChevronDown, Feather, LockKeyhole, Menu, Mic, Sparkles, Usb, X } from 'lucide-react';
 import { Button } from './ui/button';
@@ -32,7 +33,7 @@ export default function SuixinpeiPage() {
         <nav id="sxp-mobile-nav" className={menuOpen ? 'sxp-nav is-open' : 'sxp-nav'} aria-label="页面导航">
           <a href="#sxp-story" onClick={closeMenu}>认识随心佩</a><a href="#sxp-features" onClick={closeMenu}>随身魔法</a><a href="#sxp-details" onClick={closeMenu}>产品细节</a><a href="#sxp-faq" onClick={closeMenu}>常见问题</a>
         </nav>
-        <Button asChild className="sxp-cta sxp-header-cta"><a href="/waitlist">期待相遇 <ArrowUpRight size={15} /></a></Button>
+        <Button asChild className="sxp-cta sxp-header-cta"><a href={buyLink}>立即购买 <ArrowUpRight size={15} /></a></Button>
         <Button variant="ghost" size="icon" className="sxp-menu" aria-label={menuOpen ? '关闭导航' : '打开导航'} aria-expanded={menuOpen} aria-controls="sxp-mobile-nav" onClick={() => setMenuOpen(!menuOpen)}>{menuOpen ? <X /> : <Menu />}</Button>
       </header>
       <main id="sxp-main">
@@ -75,7 +76,7 @@ export default function SuixinpeiPage() {
 
         <section className="sxp-faq sxp-section" id="sxp-faq"><div><p className="sxp-eyebrow">A FEW THINGS TO KNOW</p><h2>你或许还想知道。</h2></div><div className="sxp-faq-list">{questions.map(([question,answer],i)=><details key={question}><summary><span className="sxp-faq-index">0{i+1}</span>{question}<ChevronDown size={18} /></summary><p>{answer}</p></details>)}</div></section>
 
-        <section className="sxp-ending"><p className="sxp-eyebrow">YOUR LIFE, BEAUTIFULLY REMEMBERED.</p><h2>赛博贴身玉佩。</h2><p className="sxp-ending-lines">不是记录仪。不是转写工具。<br />是第一个真正属于你的个人 AI。</p><div className="sxp-ending-mark"><img src={asset('ca78a.svg')} alt="随心佩品牌标志" width="144.491" height="144.491" loading="lazy" data-node-id="2319:14195" /></div><h3>随心佩</h3><p className="sxp-ending-description">一枚常伴左右的赛博挂件。轻轻一戴，无感连接，<br />替你默默记录生活、整理思绪、追踪情绪、发现自己。</p><Button asChild className="sxp-cta sxp-ending-cta"><a href="/waitlist">期待与你相遇 <ArrowUpRight size={17} /></a></Button><span className="sxp-expecting">Expecting</span></section>
+        <section className="sxp-ending"><p className="sxp-eyebrow">YOUR LIFE, BEAUTIFULLY REMEMBERED.</p><h2>赛博贴身玉佩。</h2><p className="sxp-ending-lines">不是记录仪。不是转写工具。<br />是第一个真正属于你的个人 AI。</p><div className="sxp-ending-mark"><img src={asset('ca78a.svg')} alt="随心佩品牌标志" width="144.491" height="144.491" loading="lazy" data-node-id="2319:14195" /></div><h3>随心佩</h3><p className="sxp-ending-description">一枚常伴左右的赛博挂件。轻轻一戴，无感连接，<br />替你默默记录生活、整理思绪、追踪情绪、发现自己。</p><Button asChild className="sxp-cta sxp-ending-cta"><a href={buyLink}>立即购买 <ArrowUpRight size={17} /></a></Button><span className="sxp-expecting">Expecting</span></section>
       </main>
       <footer className="sxp-footer"><a className="sxp-brand" href="#sxp-top"><span className="sxp-brand-symbol">s.</span>随心佩</a><span>随心而行，记你所想。</span><div><a href="/privacy">隐私政策</a><a href="/contact">联系我们</a><span>© {new Date().getFullYear()} Sein</span></div></footer>
     </div>

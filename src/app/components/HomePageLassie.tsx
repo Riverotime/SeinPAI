@@ -1,3 +1,4 @@
+import { buyLink } from "@/app/links";
 import { advisorExamples } from "./advisorExamples";
 import dayComic from "@/assets/sein/photos/day-comic.png";
 import emotionalScene from "@/assets/sein/photos/emotional-support.jpg";
@@ -30,7 +31,7 @@ const heroScenesData = [{
   ending: "into everyday life.",
   copy: "专业人士的经验帮助确定关注什么、如何判断；AI 联系你的背景与日常细节，让知识变成此刻用得上的支持。"
 }];
-const waitlist = "/waitlist";
+const waitlist = buyLink;
 const skillsData = [{
   name: "婴儿照护",
   image: babyScene,
@@ -121,7 +122,7 @@ const skillsData = [{
   finds: []
 }];
 const momentsData = [["07:10", "婴儿照护", "听见成长的一刻", "你们聊到宝宝开始叫妈妈了，这一刻值得留下。"], ["10:30", "创业", "听见重复的信号", "这是本周第 4 次有人提到上手太复杂。"], ["17:50", "儿童教育", "练习表达自己", "不喜欢时，可以说“不”。陪孩子练习一句温和而清楚的表达。"], ["20:15", "亲密关系", "听见孕晚期的辛苦", "她说昨晚没睡好，也担心生产。先听她说说，再问她现在需要什么。"], ["23:00", "自我成长", "在一天结束前", "那个想了很久的计划，明天先做十分钟。"]];
-const faqData = [["Sein 只有这些技能吗？", "不是。这里展示的是部分生活场景示例。Sein 有来自各领域专业人士的各种技能，你可以按自己的需要选择。"], ["Sein 会一直保存我身边的声音吗？", "默认不会保存原始音频。Sein 优先在设备本地处理信息；主动双击保存录音时，LED 会亮起。"], ["我需要一次安装全部技能吗？", "不用。你可以先选择眼下最需要的技能，再按生活的变化添加其他技能。"], ["示例里的数字是真实数据吗？", "不是。页面中的时间、次数与数值均为功能演示，不代表真实用户数据或实际效果。"], ["如何加入 Waitlist？", "点击 Join the waitlist，在候补页面通过邮件申请。请在邮件应用中发送申请，打开草稿不代表已经加入。"], ["加入候补名单需要付费吗？", "不需要。加入候补名单不涉及付款，也不构成购买承诺。"], ["什么时候可以体验？", "开放体验和发售时间尚未公布。可加入候补名单，关注后续产品消息。"]];
+const faqData = [["Sein 只有这些技能吗？", "不是。这里展示的是部分生活场景示例。Sein 有来自各领域专业人士的各种技能，你可以按自己的需要选择。"], ["Sein 会一直保存我身边的声音吗？", "默认不会保存原始音频。Sein 优先在设备本地处理信息；主动双击保存录音时，LED 会亮起。"], ["我需要一次安装全部技能吗？", "不用。你可以先选择眼下最需要的技能，再按生活的变化添加其他技能。"], ["示例里的数字是真实数据吗？", "不是。页面中的时间、次数与数值均为功能演示，不代表真实用户数据或实际效果。"], ["如何购买 Sein？", "点击「立即购买」，在 Stripe 支付页面完成付款。"]];
 const rolesData = ["儿科与婴幼儿照护", "儿童发展与家庭教育", "关系咨询与心理健康", "效率教练与工作方式", "创业与产品实践", "生活管理与家庭服务"];
 function SeinMark({
   className = ""
@@ -140,7 +141,7 @@ function CTA({
   const {
     t
   } = useLocale();
-  return <a className={"rep-cta" + (dark ? " rep-cta-dark" : "")} href={waitlist}>{typeof children === "string" ? t(children) : children ?? t("Join the waitlist")}</a>;
+  return <a className={"rep-cta" + (dark ? " rep-cta-dark" : "")} href={waitlist}>{typeof children === "string" ? t(children) : children ?? t("Buy now")}</a>;
 }
 export default function HomePageLassie() {
   const {
@@ -268,15 +269,15 @@ export default function HomePageLassie() {
         <button className="rep-desktop-nav" onClick={() => go("skills")}>{t("Features")}</button>
         <a className="rep-desktop-nav" href="/about">{t("About")}</a>
         <button className="rep-menu" aria-expanded={menu} aria-controls="rep-mobile-menu" onClick={() => setMenu(!menu)}>{menu ? t("关闭") : t("菜单")}</button>
-        {menu && <div className="rep-mobile-menu" id="rep-mobile-menu"><button onClick={() => go("skills")}>{t("Features")}</button><button onClick={() => go("how")}>{t("如何运作")}</button><button onClick={() => go("hardware")}>{t("随身设备")}</button><a href="/about">{t("About")}</a><CTA>{t("Join the waitlist")}</CTA></div>}
+        {menu && <div className="rep-mobile-menu" id="rep-mobile-menu"><button onClick={() => go("skills")}>{t("Features")}</button><button onClick={() => go("how")}>{t("如何运作")}</button><button onClick={() => go("hardware")}>{t("随身设备")}</button><a href="/about">{t("About")}</a><CTA>{t("Buy now")}</CTA></div>}
       </nav>
-      <div className="rep-header-cta"><button onClick={() => go("how")}>{t("如何运作")}</button><CTA>{t("Waitlist")}</CTA></div>
+      <div className="rep-header-cta"><button onClick={() => go("how")}>{t("如何运作")}</button><CTA>{t("Buy now")}</CTA></div>
     <div className="rep-language-control"><LanguageSwitcher /></div></header>
 
     <main>
       <section className="rep-hero rep-hero-stage rep-home-cover" id="sein-home" data-scene="device" aria-label={t("Sein 首页")}>
         <div className="rep-hero-media"><img src={heroScene.image} alt={heroScene.alt} loading="eager" /><div className="rep-hero-shade" /></div>
-        <div className="rep-hero-stage-main"><div className="rep-hero-content"><span className="rep-hero-eyebrow">JUST Sein / {heroScene.label}</span><h1>{heroScene.title}<br /><em>{heroScene.ending}</em></h1><p>{heroScene.copy}</p><div className="rep-stage-actions"><CTA>{t("Join waitlist")}</CTA></div></div></div>
+        <div className="rep-hero-stage-main"><div className="rep-hero-content"><span className="rep-hero-eyebrow">JUST Sein / {heroScene.label}</span><h1>{heroScene.title}<br /><em>{heroScene.ending}</em></h1><p>{heroScene.copy}</p><div className="rep-stage-actions"><CTA>{t("Buy now")}</CTA></div></div></div>
         <button className="rep-life-next" onClick={() => go("skills")}><span>{t("Sein 在生活中")}</span><ChevronDown size={20} aria-hidden="true" /></button>
       </section>
 
@@ -290,7 +291,7 @@ export default function HomePageLassie() {
           {skillsData[active].name === "随身漫画师" && comicOpen && <figure className="rep-day-comic" id="rep-day-comic"><img src={dayComic} alt={t("一日四格漫画：一起做早餐、在公园捡树叶、牵手追月亮、回家向月亮道晚安。")} /><figcaption><strong>{t("今天，值得画下来。")}</strong><span>{t("早餐的香气 · 午后的树叶 · 跟来的月亮 · 门口的晚安")}</span><small>{t("AI 生成的创作示例")}</small></figcaption></figure>}
             {!skills[active].more && skillsData[active].name !== "随身漫画师" && <details className="rep-scene-conversation" key={active}><summary>{t(active < advisorExamples.length ? "看看判断依据与建议" : "看看创作示例")}<Plus size={15} /></summary><div className="rep-advisor-explanation">{active < advisorExamples.length ? <><small>{t("示例设定与对话概括")}</small>{([['背景与观察','context'],['为什么这样判断','reason'],['现在可以做什么','action']] as const).map(([label,field]) => <section key={field}><h3>{t(label)}</h3><p>{t(advisorExamples[active][field])}</p></section>)}<nav aria-label={t("知识参考")}><span>{t("知识参考")}</span>{advisorExamples[active].sources.map(source => <a key={source.url} href={source.url} target="_blank" rel="noopener noreferrer">{source.label} ↗</a>)}</nav></> : <><p>{skills[active].ask}</p><blockquote>{skills[active].reply}</blockquote><small>{t("创作示例，由你选择记录与分享的内容。")}</small></>}</div></details>}
             {skills[active].more && <div className="rep-more-experts"><p>{t("你希望下一位专业伙伴，在哪个时刻陪着你？")}</p><a href="/contact">{t("告诉我们你期待的方向")}<ArrowRight size={16} /></a></div>}
-            <div className="rep-stage-actions"><CTA>{t("Join waitlist")}</CTA></div>
+            <div className="rep-stage-actions"><CTA>{t("Buy now")}</CTA></div>
           </div>
 
         </div>
@@ -350,9 +351,9 @@ export default function HomePageLassie() {
 
       <section className="rep-faq" id="faq"><h2>{t("常见问题")}</h2><div className="rep-faq-list">{faq.map((item, i) => <article key={item[0]} className={open === i ? "is-open" : ""}><button id={"rep-faq-trigger-" + i} onClick={() => setOpen(open === i ? null : i)} aria-expanded={open === i} aria-controls={"rep-faq-answer-" + i}>{item[0]}<span><ChevronDown size={17} /></span></button><div id={"rep-faq-answer-" + i} role="region" aria-labelledby={"rep-faq-trigger-" + i} hidden={open !== i}><p>{item[1]}</p></div></article>)}</div></section>
 
-      <section className="rep-final"><div className="rep-final-frame"><img src={hero} alt={t("一家人牵手走在户外小径上")} loading="lazy" /><div className="rep-final-content"><SeinMark /><h2>{t("从今天开始，")}<br />{t("看见更多。")}</h2><div className="rep-hero-bottom"><span>{t("在场，才更懂你")}</span><CTA>{t("Join the waitlist")}</CTA></div><small>{t("加入候补名单，获取开放体验与产品进展通知")}</small></div></div></section>
+      <section className="rep-final"><div className="rep-final-frame"><img src={hero} alt={t("一家人牵手走在户外小径上")} loading="lazy" /><div className="rep-final-content"><SeinMark /><h2>{t("从今天开始，")}<br />{t("看见更多。")}</h2><div className="rep-hero-bottom"><span>{t("在场，才更懂你")}</span><CTA>{t("Buy now")}</CTA></div><small>{t("通过 Stripe 安全支付")}</small></div></div></section>
     </main>
 
-    <footer className="rep-footer"><div className="rep-footer-panel"><div className="rep-footer-heading"><h2>{t("生活发生的地方，")}<br /><em>{t("Sein 就在场。")}</em></h2><CTA dark /></div><div className="rep-footer-links"><div><span>{t("关于 Sein")}</span><a href="/about">{t("关于我们")}</a><a href="/contact">{t("联系我们")}</a></div><div><span>{t("探索")}</span><button onClick={() => go("skills")}>{t("生活技能")}</button><button onClick={() => go("hardware")}>{t("随身设备")}</button><a href={waitlist}>{t("Waitlist")}</a></div><div><span>{t("更多")}</span><a href="/privacy">{t("隐私政策")}</a><a href="/contact">{t("成为技能作者")}</a></div></div><div className="rep-footer-copyright"><SeinMark /><p>{t("© 2026 Persein. 保留所有权利。")}</p></div></div><div className="rep-footer-wordmark" aria-hidden="true">Sein</div></footer>
+    <footer className="rep-footer"><div className="rep-footer-panel"><div className="rep-footer-heading"><h2>{t("生活发生的地方，")}<br /><em>{t("Sein 就在场。")}</em></h2><CTA dark /></div><div className="rep-footer-links"><div><span>{t("关于 Sein")}</span><a href="/about">{t("关于我们")}</a><a href="/contact">{t("联系我们")}</a></div><div><span>{t("探索")}</span><button onClick={() => go("skills")}>{t("生活技能")}</button><button onClick={() => go("hardware")}>{t("随身设备")}</button><a href={waitlist}>{t("Buy")}</a></div><div><span>{t("更多")}</span><a href="/privacy">{t("隐私政策")}</a><a href="/contact">{t("成为技能作者")}</a></div></div><div className="rep-footer-copyright"><SeinMark /><p>{t("© 2026 Persein. 保留所有权利。")}</p></div></div><div className="rep-footer-wordmark" aria-hidden="true">Sein</div></footer>
   </div>;
 }

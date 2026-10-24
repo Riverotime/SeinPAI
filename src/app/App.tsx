@@ -7,7 +7,7 @@ import ContactPage from "@/app/components/ContactPage.tsx";
 import PrivacyPage from "@/app/components/PrivacyPage.tsx";
 import StartPage from "@/app/components/StartPage.tsx";
 
-import WaitlistPage from "@/app/components/WaitlistPage";
+import { buyLink } from "@/app/links";
 
 import { LocaleProvider, useLocale } from "./i18n/LocaleProvider";
 
@@ -19,10 +19,10 @@ function AppContent() {
   const [currentPath, setCurrentPath] = useState(normalizePath(window.location.pathname));
 
   useEffect(() => {
-    const pages: Record<string, string> = { "/": "Expert guidance, everyday presence", "/about": "About", "/waitlist": "Waitlist", "/contact": "Contact", "/privacy": "Privacy", "/start": "Get the app", "/refer": "Share" };
+    const pages: Record<string, string> = { "/": "Expert guidance, everyday presence", "/about": "About", "/contact": "Contact", "/privacy": "Privacy", "/start": "Get the app", "/refer": "Share" };
     document.title = currentPath === "/suixinpei" ? "随心佩 · 你的随身 AI 顾问 | Sein" : `Sein | ${t(pages[currentPath] ?? pages["/"])}`;
     const description = document.querySelector('meta[name="description"]');
-    description?.setAttribute("content", currentPath === "/suixinpei" ? "随心佩，一枚常伴左右的赛博挂件。轻轻一戴，记录生活、整理思绪、发现自己。" : t("Skills created by professionals, connected to your everyday life. Explore Sein and join the waitlist."));
+    description?.setAttribute("content", currentPath === "/suixinpei" ? "随心佩，一枚常伴左右的赛博挂件。轻轻一戴，记录生活、整理思绪、发现自己。" : t("Skills created by professionals, connected to your everyday life. Explore Sein."));
   }, [currentPath, locale, t]);
 
   // Listen to browser navigation
@@ -46,7 +46,8 @@ function AppContent() {
       case "/suixinpei":
         return <SuixinpeiPage />;
       case "/waitlist":
-        return <WaitlistPage />;
+        window.location.replace(buyLink);
+        return null;
       case "/refer":
         return <ReferPage />;
       case "/about":
