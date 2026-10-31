@@ -62,3 +62,12 @@
 ## 发布与验证
 
 本轮仅修改官网帮助内容和辅助展示，不更改 iOS 页面、设置或固件。`npm run build`、`git diff --check` 与 5 项隐私路由回归通过。Chrome 本地验证：23 篇文章、17 条可见操作路径、版本号、路径文字搜索、空态、三种语言及浏览器返回、同步问题深链接、390px 展开固件步骤不溢出均通过，无 pageerror。桌面与手机截图已目检（`/tmp/sein-help-audit-desktop.png`、`/tmp/sein-help-audit-mobile.png`），保留既有配色和布局。线上回归复现了 URL 已返回繁体、语言选择框却仍显示英文的问题；历史同步改为在 popstate 后下一轮事件中执行，并在卸载时清理待执行任务，避免浏览器恢复表单值覆盖控件。修正后本地完整检查通过，另连续三轮语言切换 → 返回 → 前进检查通过。生产发布后另记部署及复测结果。
+
+### 最终线上结果
+
+- 内容核对提交 `44a7659`；返回选择器修正 `6112a0f`。
+- 正式网址：https://seinpai.com/help?lang=zh-Hans
+- 最终部署 `dpl_Ds3iExDRZrLkpZL3Z5e8BEsTLKA8`，READY，绑定 seinpai.com；构建地址 https://sein-635d1sho7-riverotimes-projects.vercel.app 。
+- 线上 HTTP 200，bundle `/assets/index-BfQ_KEPH.js`。
+- 生产 Chrome 回归通过：23 篇、17 条路径、核对 build 202610311440、路径搜索/无结果、三语切换和返回、同步问题直达、手机展开固件步骤不溢出；无 pageerror。使用实际渲染状态等待。
+- 没有更改或安装 App，没有发固件，没有清理设备或用户数据；本轮修的是公开帮助文案、可见路径和网站返回语言显示。
