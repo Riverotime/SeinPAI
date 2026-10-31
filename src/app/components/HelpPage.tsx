@@ -36,10 +36,16 @@ export default function HelpPage() {
   document.documentElement.lang = reading.language;
  },[reading,locale,setLocale]);
  useEffect(()=>{
-  const sync=()=>{setReading(resolve(window.location.search,locale)); setQuery('');setCategory('all');setActive(window.location.hash.slice(1));};
+  let pending: number | undefined;
+  // Browsers restore persisted form values after popstate. Read the URL and
+  // render the controlled language selector after that restoration finishes.
+  const sync=()=>{
+   window.clearTimeout(pending);
+   pending=window.setTimeout(()=>{setReading(resolve(window.location.search,locale));setQuery('');setCategory('all');setActive(window.location.hash.slice(1));},0);
+  };
   const hash=()=>{setQuery('');setCategory('all');setActive(window.location.hash.slice(1));};
   window.addEventListener('popstate',sync);window.addEventListener('hashchange',hash);
-  return ()=>{window.removeEventListener('popstate',sync);window.removeEventListener('hashchange',hash);};
+  return ()=>{window.clearTimeout(pending);window.removeEventListener('popstate',sync);window.removeEventListener('hashchange',hash);};
  },[locale]);
  useEffect(()=>{
   if(active) requestAnimationFrame(()=>document.getElementById(active)?.scrollIntoView({block:'start'}));
