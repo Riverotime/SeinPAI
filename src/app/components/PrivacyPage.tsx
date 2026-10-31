@@ -84,7 +84,7 @@ export default function PrivacyPage() {
     <main className="site-document privacy-page" lang={selection.language}>
       <div className="privacy-container">
         <header className="privacy-intro">
-          <span className="site-eyebrow">SEIN / {ui.preview}</span>
+          <span className="site-eyebrow">SEIN</span>
           <h1>{ui.title}</h1>
           <section className="privacy-scope" aria-labelledby="privacy-scope-title">
             <h2 id="privacy-scope-title">{scope.title}</h2>
