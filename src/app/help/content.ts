@@ -1,5 +1,5 @@
 export type HelpArticle = { id: string; category: string; title: string; path?: string; paragraphs: string[]; steps?: string[]; links?: { label: string; href: string }[] };
-export const helpAppVersion = 'iOS v0.87 · build 202610311440';
+export const helpAppVersion = 'iOS v0.87 · 2026-10-31';
 export const zhArticles: HelpArticle[] = [
  {id:'install',category:'start',title:'在哪里下载和更新 Sein App？',path:'首页左上角菜单 → 侧边栏右下角你的头像 → 设置 → 检查更新',paragraphs:['首次下载请打开官网「获取 App」。iPhone 通过 TestFlight 安装；Android 下载入口也在该页面，本页的 App 操作步骤按 iOS 编写。','检查更新在设置页下方的「关于」分组；也可直接在 TestFlight 查看已加入的 Sein 测试版本。若两处版本不一致，请将 App 版本和 build 号发给支持核对。'],links:[{label:'获取 App',href:'/start'}]},
  {id:'first-use',category:'start',title:'第一次使用，从哪里开始？',paragraphs:['打开 App，按首次使用引导完成设置。有 Sein PAI 时，在 App 内配对并按提示允许蓝牙访问；还没有设备时，可以先使用首页文字输入和「＋」里的手机录音。','已完成引导的用户无需重新开始：设备连接从首页底部 Sein 小头像进入；声纹可稍后到「Sein」标签里的「你的声音和数据」补录。'],steps:['有设备时先充电、打开手机蓝牙，并在 App 内完成配对。','在首页底部输入消息并发送，查看回复。','需要录入自己的声音时，打开设备页面 → Sein → 声纹。']},
