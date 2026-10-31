@@ -31,7 +31,7 @@
 | 正式固件信息 | https://api.seinpai.com/v1/firmware/sein-pai/latest | HTTP 200；0.5.24；released_at 2026-09-03 |
 | 公测固件信息 | https://api.seinpai.com/v1/firmware/sein-pai-beta/latest | HTTP 200；0.6.0；released_at 2026-10-27 |
 | 正式电脑升级 | https://api.seinpai.com/update | HTTP 200；网页入口，不是供模型调用的 API |
-| 公测电脑升级 | https://api.seinpai.com/updateBate | 源码确认为公测页，大小写需保留；附完整恢复选项 |
+| 公测电脑升级 | https://api.seinpai.com/updateBate | HTTP 200；源码确认为公测页，大小写需保留；附完整恢复选项 |
 
 固定 `.bin` 文件地址不作为用户主入口；版本随服务端变更。电脑升级从页面获取，App 内升级从对应渠道的 latest 获取。
 
@@ -45,4 +45,14 @@
 
 ## 验证与发布
 
-本地 `npm run build`、5 项隐私路由测试通过。Chrome 浏览器验证了 24 篇文章、三种全文语言、ja/ko/fr 明确回退、搜索与空结果、主题筛选、深链接、切换语言后返回及刷新、390px 无横向溢出，以及隐私页显式 service 参数保留；无页面脚本异常。桌面与手机截图已目检，路径 `/tmp/sein-help-desktop.png`、`/tmp/sein-help-mobile.png`。iOS generic 无签名完整构建成功。生产发布信息稍后补记。App 仅更改现有帮助链接的语言参数，不新增界面，不覆盖用户当前安装的开发版本。
+本地 `npm run build`、5 项隐私路由测试通过。Chrome 浏览器验证了 24 篇文章、三种全文语言、ja/ko/fr 明确回退、搜索与空结果、主题筛选、深链接、切换语言后返回及刷新、390px 无横向溢出，以及隐私页显式 service 参数保留；无页面脚本异常。桌面与手机截图已目检，路径 `/tmp/sein-help-desktop.png`、`/tmp/sein-help-mobile.png`。iOS generic 无签名完整构建成功。生产复测同样通过，使用页面渲染就绪条件核对功能，外部资源的 networkidle 等待曾超时，不作为产品功能失败或通过的依据。线上截图 `/tmp/sein-help-live-desktop.png`、`/tmp/sein-help-live-mobile.png`。App 仅更改现有帮助链接的语言参数，不新增界面，不覆盖用户当前安装的开发版本。
+
+### 生产发布记录
+
+- 网址：https://seinpai.com/help?lang=zh-Hans
+- 代码提交：`0c0e673`；网站主分支合并：`645fd10`。
+- Vercel：`dpl_HRYN3UwwWokqGvp228svqNe7tymi`，READY，已绑定 `seinpai.com`。
+- 构建地址：https://sein-mnefqaush-riverotimes-projects.vercel.app
+- 线上 bundle：`/assets/index-CpthjlQd.js`。帮助页、带语言 / 问题链接、隐私页返回 HTTP 200。
+- 生产浏览器检查：24 篇文章、搜索/空态、分类、锚点、语言/返回/刷新、手机无横向溢出、隐私参数回归全部通过，无 pageerror。
+- iOS 入口提交 `7156af6f`，已合入既有主干 `6beb175e`。未安装、未上传应用商店；现有 App 的原 `/help` 入口已能打开新网页，语言参数随下次 App 发版生效。
