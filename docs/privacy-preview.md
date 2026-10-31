@@ -1,6 +1,6 @@
 # Multilingual privacy policy preview
 
-The website keeps its existing PageShell and site styles. `/privacy` requires an explicit service choice; `/privacy?service=mainland&lang=zh-Hans` and `/privacy?service=persein&lang=en` open a specific variant. Reading language never changes the selected operator. Five languages are available for both operators. Unsupported website languages display English with a visible notice.
+The website keeps its existing PageShell and site styles. `/privacy` opens the full policy without an operator picker or IP lookup. Simplified Chinese defaults to the Mainland document; Traditional Chinese, English, Japanese and Korean default to the Persein document. These are document-display defaults only: they do not assign an account operator or migrate data. `/privacy?service=mainland&lang=en` and other valid explicit App/account links pin that service while the reading language changes. Language-only URLs retain automatic document display. Both providers and the precedence rule are disclosed above the policy. Five languages are available for both operators. Unsupported website languages display English with a visible notice.
 
 Agreed policy source snapshots are in `content/privacy/`. Run `npm run generate:privacy` after editing them; this produces the ten versioned HTML/JSON variants in `public/legal/privacy/v1.0/`. Do not rewrite an already-published legal version; publish a new version for substantive updates. The JSON body is generated from the escaped, repository-owned Markdown, not user content.
 

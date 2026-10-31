@@ -11,6 +11,13 @@ const labels = {
   ja: { title: "プライバシーポリシー", preview: "ウェブサイトプレビュー", choose: "ご利用のサービスを選択", intro: "サービス提供者を選択して、適用されるポリシーをご確認ください。表示言語を変更しても提供者は変わりません。", mainland: "中国本土のサービス", global: "Persein Inc. のサービス", language: "表示言語", contents: "目次", expand: "目次を表示", print: "印刷／PDF に保存", standalone: "独立ページ", loading: "ポリシー全文を読み込み中…", error: "読み込めませんでした。再試行するか、独立ページを開いてください。", retry: "再試行", fallback: "指定言語の全文はまだありません。英語版を表示しています。", updated: "更新日", version: "バージョン" },
   ko: { title: "개인정보 처리방침", preview: "웹사이트 미리보기", choose: "이용 중인 서비스 선택", intro: "서비스 제공자를 선택하여 적용되는 방침을 확인하세요. 표시 언어를 바꿔도 제공자는 변경되지 않습니다.", mainland: "중국 본토 서비스", global: "Persein Inc. 서비스", language: "표시 언어", contents: "목차", expand: "목차 보기", print: "인쇄 / PDF 저장", standalone: "독립 페이지", loading: "방침 전문을 불러오는 중…", error: "방침을 불러오지 못했습니다. 다시 시도하거나 독립 페이지를 열어 주세요.", retry: "다시 시도", fallback: "요청한 언어의 전문이 아직 없어 영어판을 표시합니다.", updated: "업데이트", version: "버전" },
 } as const;
+const scopeCopy = {
+  "zh-Hans": { title: "服务主体与适用范围", intro: "中国内地服务由珀森文化（杭州）有限公司提供；Persein Inc. 服务由 Persein Inc. 提供。本页按阅读语言默认展示政策版本；App 或账号链接指定服务地区时，以该链接为准。更换阅读语言不会变更账号服务主体或迁移数据。", current: "当前阅读版本" },
+  "zh-Hant": { title: "服務主體與適用範圍", intro: "中國內地服務由珀森文化（杭州）有限公司提供；Persein Inc. 服務由 Persein Inc. 提供。本頁依閱讀語言預設顯示政策版本；App 或帳號連結指定服務地區時，以該連結為準。切換閱讀語言不會變更帳號服務主體或遷移資料。", current: "目前閱讀版本" },
+  en: { title: "Service provider and scope", intro: "The Mainland China service is provided by 珀森文化（杭州）有限公司. The Persein Inc. service is provided by Persein Inc. This page defaults to a policy version based on the reading language; a service specified by an App or account link takes precedence. Changing the reading language does not change your account's provider or move your data.", current: "Policy version displayed" },
+  ja: { title: "サービス提供者と適用範囲", intro: "中国本土のサービスは珀森文化（杭州）有限公司が、Persein Inc. のサービスは Persein Inc. が提供します。このページでは表示言語に応じたポリシーを初期表示し、App やアカウントのリンクにサービスの指定がある場合はそちらを優先します。言語の変更によってアカウントの提供者が変わったり、データが移転したりすることはありません。", current: "表示中のポリシー" },
+  ko: { title: "서비스 제공자 및 적용 범위", intro: "중국 본토 서비스는 珀森文化（杭州）有限公司가, Persein Inc. 서비스는 Persein Inc.가 제공합니다. 이 페이지는 읽기 언어에 따라 방침을 기본 표시하며, App 또는 계정 링크에 지정된 서비스가 우선합니다. 읽기 언어를 변경해도 계정의 서비스 제공자가 바뀌거나 데이터가 이전되지 않습니다.", current: "현재 표시된 방침" },
+} as const;
 const languages: [PrivacyLanguage, string][] = [["zh-Hans", "简体中文"], ["zh-Hant", "繁體中文"], ["en", "English"], ["ja", "日本語"], ["ko", "한국어"]];
 type PolicyDocument = { service: PrivacyService; language: PrivacyLanguage; controller: string; title: string; version: string; updated: string; html: string; sections: {id: string; title: string}[] };
 
@@ -21,14 +28,31 @@ export default function PrivacyPage() {
   const [failed, setFailed] = useState(false);
   const [attempt, setAttempt] = useState(0);
   const ui = labels[selection.language];
+  const scope = scopeCopy[selection.language];
   const visible = document?.service === selection.service && document?.language === selection.language ? document : null;
   const asset = selection.service ? privacyAssetPath(selection.service, selection.language, "html") : null;
+
+  useEffect(() => {
+    const siteLanguage = selection.language === "zh-Hans" || selection.language === "zh-Hant" ? "zh" : selection.language;
+    if (locale !== siteLanguage) {
+      const currentUrl = window.location.href;
+      setLocale(siteLanguage);
+      // Keep the policy's script and any pinned service while localizing the site shell.
+      window.history.replaceState(window.history.state, "", currentUrl);
+    }
+  }, [selection.language, locale, setLocale]);
 
   useEffect(() => {
     const sync = () => setSelection(resolvePrivacyLocation(window.location.search, locale));
     window.addEventListener("popstate", sync);
     return () => window.removeEventListener("popstate", sync);
   }, [locale]);
+
+  useEffect(() => {
+    if (!new URLSearchParams(window.location.search).has("lang")) {
+      window.history.replaceState(window.history.state, "", privacyPageUrl(selection.explicitService ? selection.service : null, selection.language));
+    }
+  }, [selection.explicitService, selection.service, selection.language]);
 
   useEffect(() => {
     if (!selection.service) { setDocument(null); return; }
@@ -44,14 +68,17 @@ export default function PrivacyPage() {
     return () => controller.abort();
   }, [selection.service, selection.language, attempt]);
 
-  function choose(service: PrivacyService | null, language: PrivacyLanguage) {
-    const next = service ? privacyPageUrl(service, language) : `/privacy?lang=${language}`;
-    window.history.pushState({}, "", next);
-    setSelection({ service, language, usedFallback: false });
+  function chooseLanguage(language: PrivacyLanguage) {
+    const next = privacyPageUrl(selection.explicitService ? selection.service : null, language);
+    const previous = window.location.href;
     setLocale(language === "zh-Hans" || language === "zh-Hant" ? "zh" : language);
+    // LocaleProvider updates ?lang; preserve this history entry before adding the next one.
+    window.history.replaceState(window.history.state, "", previous);
+    window.history.pushState({}, "", next);
+    setSelection(resolvePrivacyLocation(next, language));
   }
 
-  const languageControl = <label className="privacy-language">{ui.language}<select aria-label={ui.language} value={selection.language} onChange={event => choose(selection.service, event.target.value as PrivacyLanguage)}>{languages.map(([value, title]) => <option key={value} value={value} lang={value}>{title}</option>)}</select></label>;
+  const languageControl = <label className="privacy-language">{ui.language}<select aria-label={ui.language} value={selection.language} onChange={event => chooseLanguage(event.target.value as PrivacyLanguage)}>{languages.map(([value, title]) => <option key={value} value={value} lang={value}>{title}</option>)}</select></label>;
   const contents = visible?.sections.map(section => <a key={section.id} href={`#${section.id}`}>{section.title}</a>);
 
   return <PageShell languageControl={languageControl}>
@@ -60,10 +87,11 @@ export default function PrivacyPage() {
         <header className="privacy-intro">
           <span className="site-eyebrow">SEIN / {ui.preview}</span>
           <h1>{ui.title}</h1>
-          <fieldset className="privacy-services"><legend>{ui.choose}</legend><p>{ui.intro}</p><div>
-            <button type="button" data-service="mainland" aria-pressed={selection.service === "mainland"} onClick={() => choose("mainland", selection.language)}><span>{ui.mainland}</span><small>珀森文化（杭州）有限公司</small></button>
-            <button type="button" data-service="persein" aria-pressed={selection.service === "persein"} onClick={() => choose("persein", selection.language)}><span>{ui.global}</span><small>Persein Inc.</small></button>
-          </div></fieldset>
+          <section className="privacy-scope" aria-labelledby="privacy-scope-title">
+            <h2 id="privacy-scope-title">{scope.title}</h2>
+            <p>{scope.intro}</p>
+            <p className="privacy-current"><span>{scope.current}</span><strong>{selection.service === "mainland" ? ui.mainland : ui.global}</strong><small>{selection.service === "mainland" ? "珀森文化（杭州）有限公司" : "Persein Inc."}</small></p>
+          </section>
           {selection.usedFallback && <p role="status" className="privacy-notice">{ui.fallback}</p>}
           {selection.service && <div className="privacy-tools"><span>{ui.version} 1.0 · {ui.updated} 2026-10-31</span><button type="button" onClick={() => window.print()} disabled={!visible}>{ui.print}</button><a href={asset!}>{ui.standalone} ↗</a></div>}
         </header>
