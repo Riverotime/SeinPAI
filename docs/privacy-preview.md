@@ -1,0 +1,9 @@
+# Multilingual privacy policy preview
+
+The website keeps its existing PageShell and site styles. `/privacy` opens the full policy without an operator picker or IP lookup. Simplified Chinese defaults to the Mainland document; Traditional Chinese, English, Japanese and Korean default to the Persein document. These are document-display defaults only: they do not assign an account operator or migrate data. `/privacy?service=mainland&lang=en` and other valid explicit App/account links pin that service while the reading language changes. Language-only URLs retain automatic document display. Both providers and the precedence rule are disclosed above the policy. Five languages are available for both operators. Unsupported website languages display English with a visible notice.
+
+Agreed policy source snapshots are in `content/privacy/`. Run `npm run generate:privacy` after editing them; this produces the ten versioned HTML/JSON variants in `public/legal/privacy/v1.0/`. Do not rewrite an already-published legal version; publish a new version for substantive updates. The JSON body is generated from the escaped, repository-owned Markdown, not user content.
+
+`npm run test:privacy` checks routing, operator preservation and language fallback (Node 22.18+ / 24). `npm run build` builds the site. Browser QA additionally covers all ten variants, standalone paths, both viewport sizes, browser Back, retry after a failed request, unsupported-language disclosure, and unchanged home/about appearance.
+
+The user authorized production deployment on 2026-10-31 after reviewing the preview and removing the current-version and utility rows. This website change does not modify App consent records, account-deletion implementation or cloud privacy boundaries. The supplied text retains feature-activation prerequisites; publication does not assert that gated cloud features have been enabled or verified. The existing /terms route remains outside this privacy-page-only change.

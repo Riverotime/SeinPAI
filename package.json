@@ -5,7 +5,9 @@
   "type": "module",
   "scripts": {
     "build": "vite build",
-    "dev": "vite"
+    "dev": "vite",
+    "test:privacy": "node --test tests/privacy-routing.test.mjs",
+    "generate:privacy": "python3 scripts/generate-privacy.py"
   },
   "dependencies": {
     "@emotion/react": "11.14.0",
