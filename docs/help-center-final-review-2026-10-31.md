@@ -48,4 +48,14 @@ NHS 的原引用已重新打开核对，仅用于症状日记记录建议，不�
 
 Skill HTML 浏览器检查通过：36 项目录、52 屏索引、14 项修订、12 个开发包、无重复 ID 或失效内部锚点，搜索/筛选/展开、打印状态恢复和手机布局均通过；桌面和手机截图已目视检查。
 
-完整 App 真机验收不在通过项内。线上部署验证完成后另记部署记录。
+完整 App 真机验收不在通过项内。
+
+## 生产部署
+
+- 代码提交：`4a0fb4f`。
+- 部署：`dpl_87xfeGn7G5Ns9asXwF1tz7d2Fxrz`，READY，别名 `https://seinpai.com`。
+- 部署地址：`https://sein-6ofbb7kwn-riverotimes-projects.vercel.app`。
+- 本地生成的 bundle：`/assets/index-DhZBHgoR.js`。
+- 线上 HTTP 200，实际返回 `/assets/index-DhZBHgoR.js`，与本次构建一致。
+- `python3 scripts/verify-help-center.py --base-url https://seinpai.com` 通过：23 篇、9 轮快速语言返回/前进、深链、回退语言、搜索、分类、路由卸载/重挂、手机无溢出、无脚本异常。
+- 帮助页桌面/手机截图目视检查通过；本轮未改色彩、布局与动画样式。

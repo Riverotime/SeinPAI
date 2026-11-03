@@ -20,7 +20,7 @@ function AppContent() {
   const [currentPath, setCurrentPath] = useState(normalizePath(window.location.pathname));
 
   useEffect(() => {
-    const pages: Record<string, string> = { "/": "Expert guidance, everyday presence", "/about": "About", "/contact": "Contact", "/privacy": "Privacy", "/help": "Help Center", "/start": "Get the app", "/refer": "Share" };
+    const pages: Record<string, string> = { "/": "Expert guidance, everyday presence", "/about": "About", "/contact": "Contact", "/privacy": "Privacy", "/help": "Help Center", "/start": "Get the app", "/download": "Get the app", "/refer": "Share" };
     if (currentPath !== "/help") document.title = currentPath === "/suixinpei" ? "随心佩 · 你的随身 AI 顾问 | Sein" : `Sein | ${t(pages[currentPath] ?? pages["/"])}`;
     const description = document.querySelector('meta[name="description"]');
     description?.setAttribute("content", currentPath === "/suixinpei" ? "随心佩，一枚常伴左右的赛博挂件。轻轻一戴，记录生活、整理思绪、发现自己。" : t("Skills created by professionals, connected to your everyday life. Explore Sein."));
@@ -60,6 +60,7 @@ function AppContent() {
       case "/privacy":
         return <PrivacyPage />;
       case "/start":
+      case "/download":
         return <StartPage />;
       default:
         return <HomePage />;
