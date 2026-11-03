@@ -8,7 +8,7 @@ import androidQR from "@/assets/sein/android-download.svg";
 
 const downloads = [
   { name: "iOS", status: "Available on TestFlight", action: "Open TestFlight", url: "https://testflight.apple.com/join/n6uzBvye", qr: iosQR, alt: "iOS App QR Code" },
-  { name: "Android", status: "Beta Preview", action: "Download Android APK", url: "http://image.voice.51biaotai.com/Sein-1.0.1.apk", qr: androidQR, alt: "Android APK QR Code" },
+  { name: "Android", status: "Beta Preview", action: "Download Android APK", url: "http://image.voice.51biaotai.com/Sein-0.87-202611031602.apk", qr: androidQR, alt: "Android APK QR Code" },
 ];
 
 function PlatformIcon({ platform }: { platform: string }) {
