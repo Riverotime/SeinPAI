@@ -268,8 +268,9 @@ export default function HomePageLassie() {
         <a href="/" className="rep-brand" aria-label={t("Sein 首页")}><SeinMark /><span>Sein</span></a>
         <button className="rep-desktop-nav" onClick={() => go("skills")}>{t("Features")}</button>
         <a className="rep-desktop-nav" href="/about">{t("About")}</a>
+        <a className="rep-desktop-nav" href="/download">{t("Get the app")}</a>
         <button className="rep-menu" aria-expanded={menu} aria-controls="rep-mobile-menu" onClick={() => setMenu(!menu)}>{menu ? t("关闭") : t("菜单")}</button>
-        {menu && <div className="rep-mobile-menu" id="rep-mobile-menu"><button onClick={() => go("skills")}>{t("Features")}</button><button onClick={() => go("how")}>{t("如何运作")}</button><button onClick={() => go("hardware")}>{t("随身设备")}</button><a href="/about">{t("About")}</a><CTA>{t("Buy now")}</CTA></div>}
+        {menu && <div className="rep-mobile-menu" id="rep-mobile-menu"><button onClick={() => go("skills")}>{t("Features")}</button><button onClick={() => go("how")}>{t("如何运作")}</button><button onClick={() => go("hardware")}>{t("随身设备")}</button><a href="/about">{t("About")}</a><a href="/download">{t("Get the app")}</a><CTA>{t("Buy now")}</CTA></div>}
       </nav>
       <div className="rep-header-cta"><button onClick={() => go("how")}>{t("如何运作")}</button><CTA>{t("Buy now")}</CTA></div>
     <div className="rep-language-control"><LanguageSwitcher /></div></header>
@@ -277,7 +278,7 @@ export default function HomePageLassie() {
     <main>
       <section className="rep-hero rep-hero-stage rep-home-cover" id="sein-home" data-scene="device" aria-label={t("Sein 首页")}>
         <div className="rep-hero-media"><img src={heroScene.image} alt={heroScene.alt} loading="eager" /><div className="rep-hero-shade" /></div>
-        <div className="rep-hero-stage-main"><div className="rep-hero-content"><span className="rep-hero-eyebrow">JUST Sein / {heroScene.label}</span><h1>{heroScene.title}<br /><em>{heroScene.ending}</em></h1><p>{heroScene.copy}</p><div className="rep-stage-actions"><CTA>{t("Buy now")}</CTA></div></div></div>
+        <div className="rep-hero-stage-main"><div className="rep-hero-content"><span className="rep-hero-eyebrow">JUST Sein / {heroScene.label}</span><h1>{heroScene.title}<br /><em>{heroScene.ending}</em></h1><p>{heroScene.copy}</p><div className="rep-stage-actions"><CTA>{t("Buy now")}</CTA><a className="rep-stage-enter" href="/download">{t("Get the app")}</a></div></div></div>
         <button className="rep-life-next" onClick={() => go("skills")}><span>{t("Sein 在生活中")}</span><ChevronDown size={20} aria-hidden="true" /></button>
       </section>
 
